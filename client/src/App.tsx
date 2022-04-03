@@ -1,10 +1,9 @@
 import React from "react";
 import { Link, Outlet } from "react-router-dom";
-// import logo from "./logo.svg";
 
 import TwitterTimeline from "./containers/twitterTimeline/twitterTimeline";
 import TwitterLogger from "./containers/twitterLogger";
-
+import NavBar from "./containers/NavBar/NavBar";
 /**
  * Entry point for the app
  * Initialize app-wide systems (request service)
@@ -16,7 +15,8 @@ function App() {
   return (
     
     <div className="App">
-
+      <NavBar></NavBar>
+      
       <TwitterLogger></TwitterLogger>
 
       <TwitterTimeline someProperty="test"></TwitterTimeline>
