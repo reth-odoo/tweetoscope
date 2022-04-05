@@ -4,10 +4,11 @@ import TwitterService from "../../commons/services/twitterService";
 import TweetArc from "../../components/tweetArc/tweetArc";
 import TweetTree from "../tweetTree/tweetTree";
 import {regenTrees, genTrees} from "./services/tweetTreeGenerator";
-import {Container, SVGContainer} from "./styles";
+import {Container, LeftArrow, RightArrow, SVGContainer} from "./styles";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import {RawTweet} from "src/commons/models/rawTweet";
 import DisplayTweet from "src/commons/models/displayTweet";
+import { isElementOfType } from "react-dom/test-utils";
 
 
 function TwitterTimeline({someProperty}: {someProperty: string}) {
@@ -17,9 +18,11 @@ function TwitterTimeline({someProperty}: {someProperty: string}) {
 
     //handle scrolling
 
+    //offset in pixels
     const [offset, setOffset] = useState(0);
 
     const containerRef = useRef()  as React.MutableRefObject<HTMLDivElement>
+
 
     //no need to update callback, can just use "prev" from setState method
     const handleScroll = useCallback((event: WheelEvent) => {
@@ -30,6 +33,66 @@ function TwitterTimeline({someProperty}: {someProperty: string}) {
       containerRef.current.addEventListener("wheel", handleScroll)
     }, [handleScroll]);
 
+
+
+
+
+    //handle moving between roots
+
+    function getNextRoot(){
+      let currentCenter = -(offset - containerRef.current.clientWidth/2);
+      let nextGood = false;
+
+      for(const currentRoot of renderedTweets.map(treeTweets => treeTweets[0].displayRoot)){
+        if(nextGood){
+          return currentRoot;
+        }
+        if(inBetween(currentCenter,currentRoot.subtreeSpan.startX,currentRoot.subtreeSpan.endX)){
+          nextGood = true;
+        }
+      }
+
+      return null;
+    }
+
+    function getPrevRoot(){
+      let currentCenter = -(offset - containerRef.current.clientWidth/2);
+      let prev = null;
+      let prevPrev = null;
+      let prevGood = false;
+
+      for(const currentRoot of renderedTweets.map(treeTweets => treeTweets[0].displayRoot)){
+        if(prevGood){
+          return prev;
+        }
+        if(inBetween(currentCenter,currentRoot.subtreeSpan.startX,currentRoot.subtreeSpan.endX)){
+          prevGood = true;
+        }else{
+          prev = currentRoot;
+        }
+
+        
+      }
+      //if outside of a tree, just go to the last one
+      return prev;
+
+    }
+
+    function goToNextRoot(){
+      let currentCenter = containerRef.current.clientWidth/2;
+      let target = getNextRoot();
+      if(target && target!==null){
+        setOffset(prev => Math.min(0, currentCenter - target!.position.x - target!.dimension.width/2));
+      }
+    }
+
+    function goToPrevRoot(){
+      let currentCenter = containerRef.current.clientWidth/2;
+      let target = getPrevRoot();
+      if(target && target!==null){
+        setOffset(prev => Math.min(0, currentCenter - target!.position.x - target!.dimension.width/2));
+      }
+    }
 
 
 
@@ -83,7 +146,17 @@ function TwitterTimeline({someProperty}: {someProperty: string}) {
             </SVGContainer>
             {renderedTweets.length===0?<span>loading...</span>:<></>}
             {renderedTweets.map(tweetList => <TweetTree displayUpdateHandler={updateDisplay} key={tweetList[0]!.displayRoot.id} tweets={tweetList}></TweetTree>)}
+            <LeftArrow onClick={goToPrevRoot} hidden={false}></LeftArrow>
+            <RightArrow onClick={goToNextRoot} hidden={false}></RightArrow>
           </Container>);
+}
+
+
+function inBetween(x:number,a:number,b:number){
+  if(x<a || x>b){
+    return false;
+  }
+  return true;
 }
 
 export default TwitterTimeline;
