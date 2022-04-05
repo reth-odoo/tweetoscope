@@ -40,6 +40,9 @@ function TwitterTimeline({someProperty}: {someProperty: string}) {
     //handle moving between roots
 
     function getNextRoot(){
+      if(!containerRef.current){
+        return null;
+      }
       let currentCenter = -(offset - containerRef.current.clientWidth/2);
       let nextGood = false;
 
@@ -56,6 +59,9 @@ function TwitterTimeline({someProperty}: {someProperty: string}) {
     }
 
     function getPrevRoot(){
+      if(!containerRef.current){
+        return null;
+      }
       let currentCenter = -(offset - containerRef.current.clientWidth/2);
       let prev = null;
       let prevPrev = null;
@@ -146,8 +152,8 @@ function TwitterTimeline({someProperty}: {someProperty: string}) {
             </SVGContainer>
             {renderedTweets.length===0?<span>loading...</span>:<></>}
             {renderedTweets.map(tweetList => <TweetTree displayUpdateHandler={updateDisplay} key={tweetList[0]!.displayRoot.id} tweets={tweetList}></TweetTree>)}
-            <LeftArrow onClick={goToPrevRoot} hidden={false}></LeftArrow>
-            <RightArrow onClick={goToNextRoot} hidden={false}></RightArrow>
+            <LeftArrow onClick={goToPrevRoot} hidden={getPrevRoot()===null}></LeftArrow>
+            <RightArrow onClick={goToNextRoot} hidden={getNextRoot()===null}></RightArrow>
           </Container>);
 }
 
