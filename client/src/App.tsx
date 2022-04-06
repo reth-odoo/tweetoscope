@@ -6,7 +6,7 @@ import { BaseContainer, NavContainer, TlContainer, WglContainer, WgrContainer } 
 
 import TwitterTimeline from "./containers/twitterTimeline/twitterTimeline";
 import TwitterLogger from "./containers/twitterLogger";
-
+import NavBar from "./containers/NavBar/NavBar";
 /**
  * Entry point for the app
  * Initialize app-wide systems (request service)
@@ -19,7 +19,7 @@ function App() {
     <BaseContainer>
       <NavContainer>
         Navbar
-        {/* ADD NAVBAR HERE */}
+        <NavBar></NavBar>
         <TwitterLogger></TwitterLogger>
       </NavContainer>
       <WglContainer>
