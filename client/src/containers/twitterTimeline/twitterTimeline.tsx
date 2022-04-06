@@ -64,8 +64,7 @@ function TwitterTimeline({someProperty}: {someProperty: string}) {
                   return <TweetArc rootTweet={dTweet.displayParent} childTweet={dTweet}></TweetArc>
                 }
                 return <></>
-              })
-              }
+              })}
             </SVGContainer>
             {renderedTweets.map(tweetList => <TweetTree displayUpdateHandler={updateDisplay} key={tweetList[0]!.displayRoot.id} tweets={tweetList}></TweetTree>)}
           </Container>);

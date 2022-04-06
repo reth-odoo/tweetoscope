@@ -6,7 +6,7 @@ import { response } from 'express';
 export class AppService {
   constructor(private configService: ConfigService) {}
   getHello(): string {
-    return 'Hello World!';
+    return 'Hello World';
   }
 
   /**

@@ -7,15 +7,24 @@ import { AppService } from './app.service';
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
+  /**
+   *
+   * direct to twitter login page and ask the user if he allows twitter to give credit to twittoscope
+   * triggered by @useguard
+   */
   @Get()
   @UseGuards(AuthGuard('twitter'))
   getHello(): string {
-    return this.appService.getHello();
+    return 'Hello World!';
   }
+
+  /**
+   * redirect from twitter with token if Login did not failed
+   * req should contain token and refresh token
+   */
   @Get('redirect')
   @UseGuards(AuthGuard('twitter'))
-  yo(@Req() req: Request, @Res() response: Response): string {
-    //modify and use receiveToken, put in a cookie, send some BS with it
+  sendTokenClient(@Req() req: Request, @Res() response: Response): string {
     return this.appService.receiveTokens(req, response);
   }
 }
