@@ -10,7 +10,7 @@ import { join } from 'path';
 @Module({
   imports: [
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '../..', 'client/public'),
+      rootPath: join(__dirname, '../..', 'client/build'),
     }),
     ConfigModule.forRoot({
       isGlobal: true,
