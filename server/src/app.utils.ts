@@ -28,12 +28,8 @@ export async function AESCipher(mes, key) {
  * @param iv 16 bytes we need to decode the secret
  * @returns Message decoded
  */
-export function AESDecipher(mes, iv) {
-  const decipher = createDecipheriv(
-    'aes-256-cbc',
-    this.configService.get('KEY'),
-    iv,
-  );
+export function AESDecipher(mes, iv, key) {
+  const decipher = createDecipheriv('aes-256-cbc', key, iv);
   const decryptedText = decipher.update(mes, 'base64', 'utf8');
   return decryptedText + decipher.final('utf8');
 }
