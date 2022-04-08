@@ -19,7 +19,7 @@ export async function AESCipher(mes, key) {
   const cipher = createCipheriv('aes-256-cbc', key, iv);
   let encryptedText = cipher.update(mes, 'utf8', 'base64');
   encryptedText += cipher.final('base64');
-  return { encryptedText, iv, key };
+  return { encryptedText, iv };
 }
 
 /**
