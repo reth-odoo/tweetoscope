@@ -18,7 +18,9 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "start:front": "rmdir /s build && cd .. && cd ./client/ && npm run-script build && move build ../server/build && cd .. && cd ./server/ && npm run start:dev",
+    "init:front": "cd .. && cd ./client/ && npm run-script build && move build ../server/build && cd .. && cd ./server/ && npm run start:dev"
   },
   "dependencies": {
     "@nestjs/common": "^8.0.0",
