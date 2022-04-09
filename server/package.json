@@ -18,7 +18,9 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "start:front": "rmdir /s build && cd .. && cd ./client/ && npm run-script build && move build ../server/build && cd .. && cd ./server/ && npm run start:dev",
+    "init:front": "cd .. && cd ./client/ && npm run-script build && move build ../server/build && cd .. && cd ./server/ && npm run start:dev"
   },
   "dependencies": {
     "@nestjs/common": "^8.0.0",
@@ -27,6 +29,7 @@
     "@nestjs/mapped-types": "*",
     "@nestjs/passport": "^8.2.1",
     "@nestjs/platform-express": "^8.0.0",
+    "@nestjs/serve-static": "^2.2.2",
     "@superfaceai/passport-twitter-oauth2": "^1.0.0",
     "cookie-parser": "^1.4.6",
     "express-session": "^1.17.2",

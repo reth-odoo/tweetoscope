@@ -2,7 +2,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Strategy, VerifyCallback } from '@superfaceai/passport-twitter-oauth2';
 
 import { Injectable } from '@nestjs/common';
-import { AESCipher } from './app.utils';
+import { AESCipher, AESDecipher } from './app.utils';
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()

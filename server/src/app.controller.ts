@@ -25,6 +25,7 @@ export class AppController {
   @Get('redirect')
   @UseGuards(AuthGuard('twitter'))
   sendTokenClient(@Req() req: Request, @Res() response: Response): string {
-    return this.appService.receiveTokens(req, response);
+    const token = this.appService.receiveTokens(req, response);
+    return token;
   }
 }
