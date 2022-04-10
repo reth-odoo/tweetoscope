@@ -1,33 +1,50 @@
 import React, {useState} from 'react';
-import { DdWrapper, DdHeader, DdList, TitleS, DdListItem} from '../styles';
+import {Main, DropDownContainer, DropDownHeader, DropDownList, DropDownListContainer, ListItem} from '../styles';
+import onClickOustide, { HandleClickOutside } from "react-onclickoutside";
 
 
-export default function DropdownMenu(){
-    const [open,setOpen] = useState(false);
-    const toggle = () => setOpen(!open);
+function DropdownMenu(){
+    
+    const options = ["Tweetoscope", "Threadoscope", "Statoscope"];
+
+    const [isOpen, setIsOpen] = useState(false);
+    
+
+    const [selectedValue, setSelectedValue] = useState('');
+
+    const selectOption = (value: any) => {
+        setSelectedValue(value);
+        setIsOpen(false);
+    }
+
+
+    const toggling = () => setIsOpen(!isOpen);
+
     return(
-        <div>
-            <DdWrapper>
-                <DdHeader
-                    tabIndex={0}
-                    role="button"
-                    onKeyPress={() => toggle()}
-                    onClick={() => toggle()}
-                >
-                    <DdHeader>
-                        <TitleS>...</TitleS>
-                    </DdHeader>
-                </DdHeader>
-                {open && (
-                    <DdList>
-                        <DdListItem>Tweetoscope</DdListItem>
-                        <DdListItem>Threadoscope</DdListItem>
-                        <DdListItem>Statoscope</DdListItem>
-                    </DdList>
+        <Main>
+            <DropDownContainer>
+                <DropDownHeader onClick={toggling}>
+                    {selectedValue ? selectedValue : "..."}
+                </DropDownHeader>
+                {isOpen && (
+                    <DropDownListContainer>
+                        <DropDownList>
+                            {options.map(option => (
+                                <ListItem onClick={() => selectOption(option)}>
+                                    {option}
+                                </ListItem>
+                            ))}
+                        </DropDownList>
+                    </DropDownListContainer>
                 )}
-            </DdWrapper>  
-        </div>
-        
-        
+            </DropDownContainer>
+        </Main>        
     );
 }
+
+
+
+
+export default DropdownMenu;
+
+
