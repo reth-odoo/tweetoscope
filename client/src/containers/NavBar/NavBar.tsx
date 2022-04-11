@@ -9,7 +9,7 @@ export default function NavBar ()  {
     return(
             <nav>
                 <NavBarS>
-                    <NavLogo src={logo} alt="bird logo" height={70} width={70}/>
+                    <NavLogo src={logo} alt="bird logo"/>
                     <SearchBar/>
                     <DropdownMenu/>
                 </NavBarS>  
