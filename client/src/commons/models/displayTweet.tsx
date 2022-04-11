@@ -18,7 +18,7 @@ class DisplayTweet{
         this._tweet = tweet;
 
         this.position = position;
-        this.dimension = {width: 400, height: 100};
+        this.dimension = {width: 500, height: 150};
         this.subtreeSpan = {startX: this.position.x, endX: this.position.x+this.dimension.width};
 
         this._displayParent = displayParent?displayParent:null;
@@ -90,8 +90,15 @@ class DisplayTweet{
     get name(){
         return this._tweet.name;
     }
-
-
+    get likes() {
+      return this._tweet.likes;
+    }
+    get retweets() {
+      return this._tweet.retweets;
+    }
+    get nb_replies() {
+      return this._tweet.replies.length;
+    }
 }
 
 export default DisplayTweet;

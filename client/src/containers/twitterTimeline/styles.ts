@@ -3,9 +3,8 @@ import styled, { keyframes } from "styled-components";
 
 export const Container = styled.div<{offset: number}>`
 position: relative;
-border: 1px solid blue;
-width: 80vw;
-height: 90vh;
+width: 100%;
+height: 100%;
 overflow: hidden;
 > div {transform: translateX(${props => props.offset}px);}
 path {transform: translateX(${props => props.offset}px);}

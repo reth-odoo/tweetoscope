@@ -18,7 +18,7 @@ export const NavLogo = styled.img`
 `;
 
 export const SearBarS = styled.input`
-  diplay: flex;  
+  diplay: flex;
   justify-self: center;
   border: 1px solid rgb(0,67,134);
   border-radius: 100vh;
