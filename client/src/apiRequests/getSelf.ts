@@ -6,24 +6,19 @@ import {tweetParse, userParse} from './requestHandling/dataParsing';
 This module get the id tweet from the server
 */
 
-async function getTweet(id: string): Promise<RawTweet>{
+async function getSelf(): Promise<Object>{
 
-  const route = "/twitter/getTweet";
+  const route = "/twitter/currentUser";
 
   var body = {
-    id : id,
   };
 
   const a = await serverRequest(route,body);
 
-  const b = a?.data;
+  const data = a?.data;
 
-  const users = userParse(b.includes.users);
-
-  var tweet: RawTweet = tweetParse(b.data,users);
-
-  return tweet;
+  return data;
 
 }
 
-export default getTweet;
+export default getSelf;

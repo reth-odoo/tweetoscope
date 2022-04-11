@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { AESDecipher } from './app.utils';
 import { response } from 'express';
 
 @Injectable()
@@ -10,7 +11,7 @@ export class AppService {
   }
 
   /**
-   *
+
    * @param req the request, should  have a "user" set from passport as {token: str, refresh:str}
    * @returns what needs to be passed to the client (AES of the token(s))
    * @returns null if no "user" field or otherwise invalid request
@@ -45,6 +46,22 @@ export class AppService {
         <td>${req.user.refresh.encryptedText || 'no refresh token'}</td>
       </tr>
     </table>`;
+    
     return response.send(page);
   }
+
+  decryptTokens(req){
+
+    console.log("Tu veux des biscuits ?");
+    console.log(req.cookies);
+
+    const cookie = req.cookies['auth-cookie'];
+    const auth_token = AESDecipher(cookie[0],Buffer.from(cookie[1].data));
+
+    console.log("Auth Token: ", auth_token);
+
+    return auth_token;
+
+  }
+
 }

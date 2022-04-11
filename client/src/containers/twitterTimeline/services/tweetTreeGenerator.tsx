@@ -101,7 +101,7 @@ function displayTweetify(tweet: Tweet, depth:number): DisplayTweet{
     return baseDT;
   }
 
-  for(const child of tweet.replies){
+  for(const child of tweet.replies){/*
     let dChild = displayTweetify(child,depth+1);
     dChild.setDisplayParent(baseDT);
     baseDT.addDisplayChild(dChild);
@@ -109,6 +109,7 @@ function displayTweetify(tweet: Tweet, depth:number): DisplayTweet{
     if(depth>=UnhiddenDefault){
       dChild.setHidden(true);
     }
+    */
   }
 
   return baseDT;

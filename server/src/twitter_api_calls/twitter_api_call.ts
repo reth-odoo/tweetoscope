@@ -1,8 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 
-const bearerToken = "AAAAAAAAAAAAAAAAAAAAAKtGYQEAAAAAmetRHjeuMQcnpSorGI3FC1FJyzQ%3DsqjdVQKAgxAm6hW1HcupoPDbgn6ISkYFSfBPeJntGsBEi1h0LJ";
-
-async function apiRequest(url: string){
+async function apiRequest(url: string, id_token: string){
 
     async function getRequest() {
 
@@ -12,7 +10,7 @@ async function apiRequest(url: string){
         
         .get(url, {headers : {
             "User-Agent": "v2TweetLookupJS",
-            "authorization": `Bearer ${bearerToken}`}
+            "authorization": `Bearer ${id_token}`}
         })
         
         .then(function (response) {
@@ -32,11 +30,6 @@ async function apiRequest(url: string){
     
     try {
         const response = await getRequest();
-        console.log("Server Request");
-        console.dir(response, {
-            depth: null
-        });
-        console.log("Server Request End");
         return response;
         } 
         
@@ -47,9 +40,9 @@ async function apiRequest(url: string){
 
 }
 
-async function routeRequest(url: string){
+async function routeRequest(url: string, id_token: string = process.env.BEARER_TOKEN){
     try {
-        const response = await apiRequest(url);
+        const response = await apiRequest(url, id_token);
 
         console.log("Route Request");
         console.dir(response, {

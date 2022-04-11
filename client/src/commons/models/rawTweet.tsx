@@ -1,4 +1,8 @@
+import getTweet from "../../apiRequests/getTweet";
+import getTweetReplies from "../../apiRequests/getTweetReplies";
 import { dateToString } from "../utils/dateFormater";
+import RawTimeline from "./rawTimeline";
+import RawTweetReplies from "./rawTweetReplies";
 
 /**
  * Twitter as pulled straight from twitter
@@ -48,12 +52,20 @@ class RawTweet{
       this.replies.push(reply);
     }
 
-    get replies(): RawTweet[]{
+    get replies(){
         return this._replies;
+    }
+
+    async getRepliesRequest(): Promise<RawTweetReplies> {
+        return await getTweetReplies(this.id);
     }
 
     get parent(): RawTweet | null {
         return this._parent;
+    }
+
+    async getParentRequest(): Promise<RawTweet>{
+        return await getTweet(this._parent);
     }
 
     get name(): string{

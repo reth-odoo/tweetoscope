@@ -6,6 +6,7 @@ import { ConfigModule } from '@nestjs/config';
 import { TscpModule } from './tscp/tscp.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { TwitterController } from './twitter.controller';
 
 @Module({
   imports: [
@@ -17,7 +18,7 @@ import { join } from 'path';
     }),
     TscpModule,
   ],
-  controllers: [AppController],
+  controllers: [AppController, TwitterController],
   providers: [AppService, TwitterStrategy],
 })
 export class AppModule {}

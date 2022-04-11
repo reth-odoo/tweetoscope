@@ -1,4 +1,4 @@
-import serverRequest from './apiRequests';
+import serverRequest from './requestHandling/serverRequest';
 
 /*
 This module get the id tweet from the server
