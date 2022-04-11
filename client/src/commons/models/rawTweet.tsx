@@ -9,17 +9,21 @@ class RawTweet{
     private _username: string;
     private _date: Date;
     private _text: string;
-    private _replies: RawTweet[]; 
+    private _replies: RawTweet[];
     private _parent: RawTweet | null;
     private _id: string;
+    private _likes: number;
+    private _retweets: number;
 
-    constructor(id: string, name: string, username: string, date: Date, text: string, parent?: RawTweet | null, replies?: RawTweet[])  {
-        
-        this._id=id;
+    constructor(id: string, name: string, username: string, date: Date, text: string, likes: number, retweets: number, parent?: RawTweet | null, replies?: RawTweet[])  {
+
+        this._id = id;
         this._name = name;
         this._username = username;
         this._date = date;
         this._text = text;
+        this._likes = likes;
+        this._retweets = retweets;
 
         if(!replies){
             this._replies = [];
@@ -36,10 +40,10 @@ class RawTweet{
     }
 
     clone(): RawTweet{
-        return new RawTweet(this.id, this.name, this.username, this.date, this.text, this.parent, this.replies);
+        return new RawTweet(this.id, this.name, this.username, this.date, this.text, this.likes, this.retweets, this.parent, this.replies);
     }
 
-    
+
     addReply(reply: RawTweet): void {
       this.replies.push(reply);
     }
@@ -72,6 +76,14 @@ class RawTweet{
 
     get id(): string{
         return this._id;
+    }
+
+    get likes(): number {
+      return this._likes;
+    }
+
+    get retweets(): number {
+      return this._retweets;
     }
 
     isRoot(): boolean{

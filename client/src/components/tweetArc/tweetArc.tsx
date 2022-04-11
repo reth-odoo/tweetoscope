@@ -1,4 +1,4 @@
-import DisplayTweet from "../../commons/models/diplayTweet";
+import DisplayTweet from "../../commons/models/displayTweet";
 
 //const Curve = 10;
 const Padding = 10;
@@ -6,10 +6,10 @@ const Padding = 10;
 function TweetArc({rootTweet, childTweet}: {rootTweet: DisplayTweet, childTweet: DisplayTweet}) {
     let Curve = (-(rootTweet.position.y + rootTweet.dimension.height+Padding) + childTweet.position.y)/3
     return connectClean(
-        rootTweet.position.x + rootTweet.dimension.width / 2, 
-        rootTweet.position.y + rootTweet.dimension.height+2*Padding, 
-        childTweet.position.x + childTweet.dimension.width / 2, 
-        childTweet.position.y+2*Padding, 
+        rootTweet.position.x + rootTweet.dimension.width / 2,
+        rootTweet.position.y + rootTweet.dimension.height+2*Padding,
+        childTweet.position.x + childTweet.dimension.width / 2,
+        childTweet.position.y+2*Padding,
         Curve);
 }
 

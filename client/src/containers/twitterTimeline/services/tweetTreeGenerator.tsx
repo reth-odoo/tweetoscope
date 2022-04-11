@@ -1,4 +1,4 @@
-import DisplayTweet from "../../../commons/models/diplayTweet";
+import DisplayTweet from "../../../commons/models/displayTweet";
 import Tweet from "../../../commons/models/tweet";
 
 const TreeSpacing = 15;
@@ -15,7 +15,7 @@ const UnhiddenDefault = 4;
  * @param rootTweets list of root tweets to display on the timeline
  * @returns a list of the display tweets for each root tweet tree
  */
-export function genTrees(rootTweets: Tweet[]): DisplayTweet[][]{ 
+export function genTrees(rootTweets: Tweet[]): DisplayTweet[][]{
   return layoutTrees(rootTweets.map(t => displayTweetify(t,1)));
 }
 
@@ -42,7 +42,7 @@ function layoutTrees(rootTweets: DisplayTweet[]): DisplayTweet[][]{
 }
 
 /**
- * 
+ *
  * @param tweet the tweet being handled (pass in root tweet)
  * @param offset the x offset for the current tweet
  * @param depth the y offset for the current tweet
@@ -110,8 +110,6 @@ function displayTweetify(tweet: Tweet, depth:number): DisplayTweet{
       dChild.setHidden(true);
     }
   }
-  
+
   return baseDT;
 }
-
-

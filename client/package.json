@@ -60,6 +60,7 @@
     ]
   },
   "devDependencies": {
+    "@types/react-onclickoutside": "^6.7.4",
     "@types/styled-components": "^5.1.23",
     "husky": "^7.0.4",
     "lint-staged": "^12.3.4",

@@ -1,4 +1,4 @@
-import DisplayTweet from "../../commons/models/diplayTweet";
+import DisplayTweet from "../../commons/models/displayTweet";
 import TweetNode from "../tweetNode/tweetNode";
 import { TweetTreeDiv } from "./styles";
 
