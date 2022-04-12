@@ -7,6 +7,7 @@ import { BaseContainer, NavContainer, TlContainer, WglContainer } from "./baseSt
 import TwitterTimeline from "./containers/twitterTimeline/twitterTimeline";
 import TwitterLogger from "./containers/twitterLogger";
 import NavBar from "./containers/NavBar/NavBar";
+import Editor from "./containers/editor/editor";
 /**
  * Entry point for the app
  * Initialize app-wide systems (request service)
@@ -22,8 +23,7 @@ function App() {
         {/*<TwitterLogger></TwitterLogger>*/}
       </NavContainer>
       <WglContainer>
-        Text Editor
-        {/* ADD LEFT WIDGETS HERE */}
+        <Editor></Editor>
       </WglContainer>
       <TlContainer>
         <TwitterTimeline someProperty="test"></TwitterTimeline>

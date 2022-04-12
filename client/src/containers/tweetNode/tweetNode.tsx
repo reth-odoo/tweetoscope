@@ -1,10 +1,18 @@
+import { useState } from 'react';
 import DisplayTweet from "../../commons/models/displayTweet";
 import { TweetDiv, HeaderDiv } from "./styles";
 
 function TweetNode(props:TweetNodeProps) {
 
+  // commented state here and mouse enter/leave in TweetDiv kept if needed to enhance hover (which is currently handled in the styles.ts)
+  //const [hover, setHover] = useState(false);
+
   return(
     <TweetDiv onClick={props.onClick} backgroundColor={props.backgroundColor!} borderColor={props.borderColor!} pos={props.data.position} dimensions={props.data.dimension}>
+    {/*onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)} style={{ overflow: hover ? "visible" : "hidden", height: hover ? "auto" : "" }}*/}
+      {/* If retweet */}
+      {props.data.is_retweet ? <p style={{ color: props.nameColor }}>@{props.data.is_retweet} retweeted</p> : null}
+      {props.data.is_retweet ? <br/> : null}
       {/* HeaderDiv is used for the icon and the user data */}
       <HeaderDiv>
         {/* img has constant style for now, can be changed if needed to zoom */}
@@ -13,6 +21,8 @@ function TweetNode(props:TweetNodeProps) {
         <span style={{ color: props.nameColor }}>&nbsp;&nbsp;&nbsp;{props.data.name} @{props.data.username} - {props.data.stringDate}</span>
       </HeaderDiv>
       <br/>
+      {/* This paragraph is for the reply */}
+      {props.data.displayParent ? <p style={{ color: props.nameColor }}>Replying to @{props.data.displayParent.username}</p> : null}
       {/* This paragraph is for nb of likes, retweets and comments (using span for inline) */}
       <p style={{ color: props.textColor }}>
         <span style={{ color: props.likeColor}}>{props.data.likes} Likes &nbsp;&nbsp;&nbsp;</span>
