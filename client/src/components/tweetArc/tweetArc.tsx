@@ -14,7 +14,7 @@ function TweetArc({rootTweet, childTweet}: {rootTweet: DisplayTweet, childTweet:
 }
 
 function connectBezier(x1:number,y1:number,x2:number,y2:number, offset:number){
-    return <path stroke="black" fill="transparent"
+    return <path stroke="#e1e8ed" fill="transparent"
                 d={`M${x1},${y1} C${x1},${y2/2} ${x2},${y2/2} ${x2},${y2}`}
                 >
             </path>
@@ -28,9 +28,9 @@ function connectClean(x1:number,y1:number,x2:number,y2:number, offset:number){
     //SHOULD NEVER HAPPEN\
     //TODO: throw an error
     if(Math.abs(x2-x1) < curveSize*2){
-        return <path stroke="black" fill="transparent" d={`M${x1},${y1} L${x1},${y2}`}></path>
+        return <path stroke="#e1e8ed" fill="transparent" d={`M${x1},${y1} L${x1},${y2}`}></path>
     }
-    return <path stroke="black" fill="transparent"
+    return <path stroke="#e1e8ed" fill="transparent"
         d={`M${x1},${y1}
             L${x1},${y2-offset-curveSize}
             C${x1},${y2-offset} ${x1+horizontalCurve},${y2-offset} ${x1+horizontalCurve},${y2-offset}

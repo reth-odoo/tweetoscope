@@ -10,6 +10,8 @@ interface TweetDivProps{
 export const TweetDiv = styled.div<TweetDivProps>`
 width: ${props => props.dimensions.width}px;
 height: ${props => props.dimensions.height}px;
+min-width: ${props => props.dimensions.width}px;
+min-height: ${props => props.dimensions.height}px;
 position: absolute;
 padding: 15px;
 background-color: ${props => props.backgroundColor};

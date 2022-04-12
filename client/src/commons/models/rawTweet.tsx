@@ -14,8 +14,9 @@ class RawTweet{
     private _id: string;
     private _likes: number;
     private _retweets: number;
+    private _is_retweet: string | null;
 
-    constructor(id: string, name: string, username: string, date: Date, text: string, likes: number, retweets: number, parent?: RawTweet | null, replies?: RawTweet[])  {
+    constructor(id: string, name: string, username: string, date: Date, text: string, likes: number, retweets: number, is_retweet: string | null, parent?: RawTweet | null, replies?: RawTweet[])  {
 
         this._id = id;
         this._name = name;
@@ -24,6 +25,7 @@ class RawTweet{
         this._text = text;
         this._likes = likes;
         this._retweets = retweets;
+        this._is_retweet = is_retweet;
 
         if(!replies){
             this._replies = [];
@@ -40,7 +42,7 @@ class RawTweet{
     }
 
     clone(): RawTweet{
-        return new RawTweet(this.id, this.name, this.username, this.date, this.text, this.likes, this.retweets, this.parent, this.replies);
+        return new RawTweet(this.id, this.name, this.username, this.date, this.text, this.likes, this.retweets, this.is_retweet, this.parent, this.replies);
     }
 
 
@@ -84,6 +86,10 @@ class RawTweet{
 
     get retweets(): number {
       return this._retweets;
+    }
+
+    get is_retweet(): string | null {
+      return this._is_retweet;
     }
 
     isRoot(): boolean{

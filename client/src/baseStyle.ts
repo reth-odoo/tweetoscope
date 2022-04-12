@@ -9,7 +9,7 @@ const BaseContainer = styled.div`
   grid-template-areas:
     "nav nav"
     "wgl tl";
-  grid-gap: 0.25rem;
+  grid-gap: 0.15rem;
 `;
 
 const NavContainer = styled.div`
@@ -20,13 +20,13 @@ const NavContainer = styled.div`
 `;
 
 const TlContainer = styled.div`
-  background: #c2e7ff;
+  background: #252626;
   grid-area: tl;
   overflow: hidden;
 `;
 
 const WglContainer = styled.div`
-  background: #404040;
+  background: #292f33;
   color: white;
   grid-area: wgl;
   overflow: hidden;
