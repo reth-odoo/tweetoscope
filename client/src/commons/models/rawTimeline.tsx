@@ -14,7 +14,7 @@ class RawTimeline {
 
     }
 
-    get timeline(){
+    get tweets(){
         return this._timeline;
     }
 

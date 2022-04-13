@@ -5,7 +5,8 @@ import RawTimeline from "./rawTimeline";
 import RawTweetReplies from "./rawTweetReplies";
 
 /**
- * Twitter as pulled straight from twitter
+ * Representation of a tweet from the API
+ * (no thread aggregation)
  */
 class RawTweet{
 
@@ -18,6 +19,9 @@ class RawTweet{
     private _id: string;
     private _likes: number;
     private _retweets: number;
+
+
+    private _lastChildrenRequest: Date|null = null;
 
     constructor(id: string, name: string, username: string, date: Date, text: string, likes: number, retweets: number, parent?: RawTweet | null, replies?: RawTweet[])  {
 
@@ -44,28 +48,40 @@ class RawTweet{
     }
 
     clone(): RawTweet{
-        return new RawTweet(this.id, this.name, this.username, this.date, this.text, this.likes, this.retweets, this.parent, this.replies);
+        return new RawTweet(this.id, this.name, this.username, this.date, this.text, this.likes, this.retweets, this.parent, this._replies);
     }
 
-
-    addReply(reply: RawTweet): void {
-      this.replies.push(reply);
-    }
-
+    /**
+     * Updates the replies if necessery and returns the updated list of replies
+     */
     get replies(){
+        return new Promise(async (ok, err) => {
+            //cache the response
+            if(this._lastChildrenRequest===null){
+                let reply_handle = await getTweetReplies(this.id).catch(error => err(error)) as RawTweetReplies;
+                this._replies = reply_handle.tweets
+            }
+            ok(this._replies);
+        });
+    }
+
+    /**
+     * Returns the replies without attempting an update
+     */
+    get loadedReplies(){
         return this._replies;
     }
 
-    async getRepliesRequest(): Promise<RawTweetReplies> {
-        return await getTweetReplies(this.id);
-    }
-
-    get parent(): RawTweet | null {
+    get parent(){
         return this._parent;
     }
 
-    async getParentRequest(): Promise<RawTweet>{
-        return await getTweet(this._parent);
+    //probably won't be used?
+    async getParentRequest(): Promise<RawTweet | null>{
+        if(this._parent && this._parent!=null){
+            return await getTweet(this._parent!._id);
+        }
+        return null;
     }
 
     get name(): string{

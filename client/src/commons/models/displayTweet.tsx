@@ -97,7 +97,7 @@ class DisplayTweet{
       return this._tweet.retweets;
     }
     get nb_replies() {
-      return this._tweet.replies.length;
+      return this._tweet.loadedReplies.length;
     }
 }
 

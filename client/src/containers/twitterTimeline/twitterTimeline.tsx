@@ -6,6 +6,7 @@ import TweetTree from "../tweetTree/tweetTree";
 import {regenTrees, genTrees} from "./services/tweetTreeGenerator";
 import {Container, SVGContainer} from "./styles";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
+import RawTweet from "src/commons/models/rawTweet";
 
 
 function TwitterTimeline({someProperty}: {someProperty: string}) {
@@ -47,7 +48,12 @@ function TwitterTimeline({someProperty}: {someProperty: string}) {
 
 
     //assumes getTimeline returns a different object when timeline is updated
-    const [timeline, setTimeline] = useState(twitter.getTimeline());
+    const [timeline, setTimeline] = useState([] as RawTweet[]);
+
+    useEffect(()=>{
+      twitter.getTimeline().then(tweets => setTimeline(tweets));
+    })
+
 
 
     //would filter to only a few tweets that can actually be displayed

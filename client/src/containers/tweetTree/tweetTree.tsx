@@ -5,13 +5,13 @@ import { TweetTreeDiv } from "./styles";
 function TweetTree(props: TweetTreeProps) {
 
 
-  function handleTweetClick(tweet: DisplayTweet){
+  async function handleTweetClick(tweet: DisplayTweet){
     //assumed that all children are switched to the same state
     let offset = 0;
     let new_offset = 0;
     for(const child of tweet.displayChildren){
       offset = child.position.x+child.subtreeSpan.endX;
-      child.setHidden(!child.isHidden);
+      await child.setHidden(!child.isHidden);
       new_offset = tweet.position.x+tweet.dimension.width/2;
     }
 

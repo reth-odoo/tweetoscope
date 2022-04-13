@@ -1,4 +1,4 @@
-import RawTweet from "../../commons/models/rawTweet";
+import RawTweet from "src/commons/models/rawTweet";
 
 type tweet_format = {
     author_id: string,
@@ -31,6 +31,12 @@ function userParse(user_data: user_data): user_format{
     return formated_user_data;
 }
 
+/**
+ * Turns tweet data into a RawTweet object, with no child
+ * @param tweet_data 
+ * @param user_data 
+ * @returns A RawTweet representation of the tweet data
+ */
 function tweetParse(tweet_data: tweet_format, user_data: user_format): RawTweet{
 
     //get Parent tweet
@@ -45,13 +51,9 @@ function tweetParse(tweet_data: tweet_format, user_data: user_format): RawTweet{
         }
     }
 
-    var tweet = new RawTweet(
-        tweet_data.id, 
-        user_data[tweet_data.author_id].name, 
-        user_data[tweet_data.author_id].username, 
-        tweet_data.created_at, 
-        tweet_data.text,
-        origin);
+    let author = tweet_data.author_id;
+    //TODO: add likes and number of retweets
+    let tweet = new RawTweet(tweet_data.id, user_data[author].name, user_data[author].username, tweet_data.created_at, tweet_data.text, -1, -1)
 
     return tweet;
 }
