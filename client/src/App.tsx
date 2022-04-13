@@ -19,12 +19,6 @@ import getTweetReplies from "./apiRequests/getTweetReplies";
 function App() {
 
   return (
-    <><TwitterLogger></TwitterLogger><div className="App">
-      <button onClick={() => getUserTimeline("2244994945", "7140dibdnow9c7btw420jnqp01o48wwk2j1wh0303jvhy")}>Test1</button>
-      <button onClick={() => getTweet("1511201517432360965")}>Test2</button>
-      <button onClick={() => getTweetReplies("1511143607385874434", "b26v89c19zqg8o3fpytlg0pvzdaktnakfqpk8q35estx9")}>Test3</button>
-    </div>
-
     <BaseContainer>
       <NavContainer>
         <NavBar></NavBar>
@@ -38,7 +32,6 @@ function App() {
         <TwitterTimeline someProperty="test"></TwitterTimeline>
       </TlContainer>
     </BaseContainer>
-    </>
   );
 }
 
