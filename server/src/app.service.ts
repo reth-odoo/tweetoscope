@@ -21,7 +21,7 @@ export class AppService {
       return null;
     }
     //basically convert to something that can be put in a cookie here
-    let secret = [
+    const secret = [
       req.user.token.encryptedText,
       req.user.token.iv,
       req.user.refresh.encryptedText,
@@ -30,33 +30,13 @@ export class AppService {
 
     response.cookie('auth-cookie', secret);
 
-    let page = `
-    <style>
-      table, th, td {
-        border:1px solid black;
-      }
-    </style>
-    <table>
-      <tr>
-        <td>Token</td>
-        <td>${req.user.token.encryptedText || 'no token'}</td>
-      </tr>
-      <tr>
-        <td>Refresh</td>
-        <td>${req.user.refresh.encryptedText || 'no refresh token'}</td>
-      </tr>
-    </table>`;
-    
-    return response.send(page);
+    return response;
   }
 
-  decryptTokens(req){
-
+  decryptTokens(req) {
     const cookie = req.cookies['auth-cookie'];
-    const auth_token = AESDecipher(cookie[0],Buffer.from(cookie[1].data));
+    const auth_token = AESDecipher(cookie[0], Buffer.from(cookie[1].data));
 
     return auth_token;
-
   }
-
 }
