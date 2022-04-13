@@ -13,6 +13,7 @@ import getTweetReplies from "./apiRequests/getTweetReplies";
 import sendTweet from "./apiRequests/sendTweet";
 import sendBigTweet from "./apiRequests/sendBigTweet";
 
+import Editor from "./containers/editor/editor";
 /**
  * Entry point for the app
  * Initialize app-wide systems (request service)
@@ -28,8 +29,7 @@ function App() {
         {/*<TwitterLogger></TwitterLogger>*/}
       </NavContainer>
       <WglContainer>
-        Text Editor
-        {/* ADD LEFT WIDGETS HERE */}
+        <Editor></Editor>
       </WglContainer>
       <TlContainer>
         <TwitterTimeline someProperty="test"></TwitterTimeline>

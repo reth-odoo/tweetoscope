@@ -2,7 +2,7 @@ import DisplayTweet from "../../../commons/models/displayTweet";
 import Tweet from "../../../commons/models/tweet";
 
 const TreeSpacing = 15;
-const Dimensions = {width: 500, height: 400}
+const Dimensions = {width: 500, height: 160}
 const NodeSpacingX = 100;
 const NodeSpacingY = 300;
 

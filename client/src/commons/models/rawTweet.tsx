@@ -25,6 +25,7 @@ export class RawTweet{
     private _parent: RawTweet | null;
     private _id: string;
     private _metrics: PublicMetrics;
+    private _is_retweet: string | null;
 
 
     private _lastChildrenRequest: Date|null = null;
@@ -36,6 +37,9 @@ export class RawTweet{
         this._username = username;
         this._date = date;
         this._text = text;
+
+        //TODO: actually do this
+        this._is_retweet = null;
 
         this._metrics = metrics;
 
@@ -118,6 +122,10 @@ export class RawTweet{
 
     get retweets(): number {
       return this._metrics.retweet_count;
+    }
+
+    get is_retweet(): string | null {
+      return this._is_retweet;
     }
 
     isRoot(): boolean{
