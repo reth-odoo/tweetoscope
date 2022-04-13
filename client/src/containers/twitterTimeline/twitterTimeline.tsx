@@ -7,6 +7,7 @@ import {regenTrees, genTrees} from "./services/tweetTreeGenerator";
 import {Container, SVGContainer} from "./styles";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import {RawTweet} from "src/commons/models/rawTweet";
+import DisplayTweet from "src/commons/models/displayTweet";
 
 
 function TwitterTimeline({someProperty}: {someProperty: string}) {
@@ -48,16 +49,23 @@ function TwitterTimeline({someProperty}: {someProperty: string}) {
 
 
     //assumes getTimeline returns a different object when timeline is updated
-    const [timeline, setTimeline] = useState([] as RawTweet[]);
 
     useEffect(()=>{
-      twitter.getTimeline().then(tweets => setTimeline(tweets));
-    })
+      //apparently the only way to get async useEffect?
+      async function getTl(){
+        let tweets = await twitter.getTimeline()
+        //can only use 1 setState here
+        setRenderedTweets(genTrees(tweets));
+      }
+      getTl();
+    },
+    []
+    )
 
 
 
     //would filter to only a few tweets that can actually be displayed
-    const [renderedTweets, setRenderedTweets] = useState(genTrees(timeline));
+    const [renderedTweets, setRenderedTweets]: [DisplayTweet[][], any] = useState([]);
 
 
     //assume getTimeline is "free" and can be called multiple times

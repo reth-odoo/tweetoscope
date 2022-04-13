@@ -60,7 +60,7 @@ export class RawTweet{
     /**
      * Updates the replies if necessery and returns the updated list of replies
      */
-    get replies(){
+    get replies(): Promise<RawTweet[]>{
         return new Promise(async (ok, err) => {
             //cache the response
             if(this._lastChildrenRequest===null){

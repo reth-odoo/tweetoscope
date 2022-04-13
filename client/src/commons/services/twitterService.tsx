@@ -8,7 +8,7 @@ class TwitterService{
 
     async getTimeline(){
         let tl_handle = await getUserTimeline("813286");
-        return tl_handle.timeline;
+        return tl_handle.tweets;
     }
 }
 

@@ -29,7 +29,7 @@ function serverRequest(route: string, body: any): Promise<AxiosResponse> | undef
           //console.log(res);
           return res;
       } else {
-          throw new Error('Unsuccessful request');
+          throw new Error(`Unsuccessful request at ${route} with: ${body}`);
       }
     }
 
