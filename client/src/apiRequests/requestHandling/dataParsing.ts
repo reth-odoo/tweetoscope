@@ -57,7 +57,7 @@ function tweetParse(tweet_data: tweet_format, user_data: user_format): RawTweet{
 
     let author = tweet_data.author_id;
     //TODO: add likes and number of retweets
-    let tweet = new RawTweet(tweet_data.id, user_data[author].name, user_data[author].username, tweet_data.created_at, tweet_data.text, metrics)
+    let tweet = new RawTweet(tweet_data.id, user_data[author].name, user_data[author].username, new Date(tweet_data.created_at), tweet_data.text, metrics)
 
     return tweet;
 }
