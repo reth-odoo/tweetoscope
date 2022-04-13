@@ -1,15 +1,22 @@
-import React from "react";
-import { SearBarS } from "../styles";
+import React, {useState} from "react";// le useState est là pour quand on va le rattacher au vrai donnée.
+import {SearchBarForm, SearchBarButton, SearBarInput, SearchBarContainer, SearchBarInputContainer } from "../styles";
 
-export default function SearchBar() {
+function SearchBar() {
     return(
-        <>
-            <SearBarS
-            type="search"
-            name="searchbar"
-            id="searchbar"
-            placeholder="Rechercher"
-            />
-        </>
+        <SearchBarContainer>
+            <SearchBarInputContainer>
+                <SearchBarForm id="searchbarinput">
+                  <SearBarInput
+                  type="search"
+                  name="searchbar"
+                  id="searchbar"
+                  placeholder="Search"
+                  />
+                </SearchBarForm>
+                <SearchBarButton type="submit" form="searchbarinput">Search</SearchBarButton>
+            </SearchBarInputContainer>     
+        </SearchBarContainer>
     );
 }
+  
+export default SearchBar;

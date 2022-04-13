@@ -13,8 +13,6 @@ const BaseContainer = styled.div`
 `;
 
 const NavContainer = styled.div`
-  background: #00acee;
-  color: white;
   grid-area: nav;
   overflow: hidden;
 `;

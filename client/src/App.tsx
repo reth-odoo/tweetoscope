@@ -2,10 +2,8 @@ import React from "react";
 import { Link, Outlet } from "react-router-dom";
 import "./assets/style.css";
 import { BaseContainer, NavContainer, TlContainer, WglContainer, WgrContainer } from "./baseStyle";
-// import logo from "./logo.svg";
 
 import TwitterTimeline from "./containers/twitterTimeline/twitterTimeline";
-import TwitterLogger from "./containers/twitterLogger";
 import NavBar from "./containers/NavBar/NavBar";
 /**
  * Entry point for the app
@@ -18,9 +16,7 @@ function App() {
   return (
     <BaseContainer>
       <NavContainer>
-        Navbar
         <NavBar></NavBar>
-        <TwitterLogger></TwitterLogger>
       </NavContainer>
       <WglContainer>
         Widget Left
