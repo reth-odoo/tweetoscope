@@ -59,7 +59,7 @@ function TwitterLogger() {
                 //Authenticated Resource Access
                 const data: any = await getSelf();
 
-                console.log("Data: ", data);
+                //console.log("Data: ", data);
 
                 const user = data.data;
                 

@@ -21,12 +21,12 @@ function serverRequest(route: string, body: any): Promise<AxiosResponse> | undef
       })
 
       .catch(function (error: any) {
-        console.log(error);
+        console.error(error);
       });
 
       if (res) {
-          console.log("Final Result");
-          console.log(res);
+          //console.log("Final Result");
+          //console.log(res);
           return res;
       } else {
           throw new Error('Unsuccessful request');
@@ -38,7 +38,7 @@ function serverRequest(route: string, body: any): Promise<AxiosResponse> | undef
       return response;
 
   } catch (e) {
-      console.log(e);
+      console.error(e);
   };
 
 }

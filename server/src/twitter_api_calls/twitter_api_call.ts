@@ -1,74 +1,78 @@
 import axios, { AxiosResponse } from 'axios';
 
-export async function getRequest(url: string, id_token: string = process.env.BEARER_TOKEN){
+export async function getRequest(
+  url: string,
+  id_token: string = process.env.BEARER_TOKEN,
+) {
+  try {
+    let res: AxiosResponse<any, any>;
 
-    try {
+    await axios
 
-        var res: AxiosResponse<any, any>;
+      .get(url, {
+        headers: {
+          'User-Agent': 'v2TweetLookupJS',
+          authorization: `Bearer ${id_token}`,
+        },
+      })
 
-        await axios
-        
-        .get(url, {headers : {
-            "User-Agent": "v2TweetLookupJS",
-            "authorization": `Bearer ${id_token}`}
-        })
-        
-        .then(function (response) {
-          res = response.data;
-        })
+      .then(function (response) {
+        res = response.data;
+      })
 
-        .catch(function (error: any) {
-          console.log(error);
-        });
+      .catch(function (error: any) {
+        console.error(error);
+      });
 
-        console.log("Route Request");
-        console.dir(res, {
-            depth: null
-        });
-        console.log("Route Request End");
-        return res;
-
+    //console.log('Route Request');
+    console.dir(res, {
+      depth: null,
+    });
+    //console.log('Route Request End');
+    return res;
   } catch (e) {
-        console.log(e);
-        process.exit(-1);
-    }
-}; 
+    console.error(e);
+    process.exit(-1);
+  }
+}
 
-export async function postRequest(url: string, id_token: string = process.env.BEARER_TOKEN, body: any = {}){
-    
-    console.log("Body Request:",body);
+export async function postRequest(
+  url: string,
+  id_token: string = process.env.BEARER_TOKEN,
+  body: any = {},
+) {
+  //console.log('Body Request:', body);
 
-    try {
+  try {
+    let res: AxiosResponse<any, any>;
 
-        var res: AxiosResponse<any, any>;
+    await axios
 
-        await axios
-        
-        .post(url, body, {headers : {
-            "User-Agent": "v2TweetLookupJS",
-            "authorization": `Bearer ${id_token}`,
-            "Content-type": "application/json"}
-        })
-        
-        .then(function (response) {
-          res = response.data;
-        })
+      .post(url, body, {
+        headers: {
+          'User-Agent': 'v2TweetLookupJS',
+          authorization: `Bearer ${id_token}`,
+          'Content-type': 'application/json',
+        },
+      })
 
-        .catch(function (error: any) {
-          console.log(error);
-        });
+      .then(function (response) {
+        res = response.data;
+      })
 
-        console.log("Route Request");
-        console.dir(res, {
-            depth: null
-        });
-        console.log("Route Request End");
-        console.log("Body Request:",body);
-        return res;
-        
+      .catch(function (error: any) {
+        console.error(error);
+      });
 
+    //console.log('Route Request');
+    console.dir(res, {
+      depth: null,
+    });
+    //console.log('Route Request End');
+    //console.log('Body Request:', body);
+    return res;
   } catch (e) {
-        console.log("Erreur:",e);
-        process.exit(-1);
-    }
-}; 
+    console.error('Erreur:', e);
+    process.exit(-1);
+  }
+}
