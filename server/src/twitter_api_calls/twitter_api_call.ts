@@ -1,8 +1,8 @@
 import axios, { AxiosResponse } from 'axios';
 
-async function apiRequest(url: string, id_token: string){
+export async function getRequest(url: string, id_token: string = process.env.BEARER_TOKEN){
 
-    async function getRequest() {
+    try {
 
         var res: AxiosResponse<any, any>;
 
@@ -21,36 +21,12 @@ async function apiRequest(url: string, id_token: string){
           console.log(error);
         });
 
-        if (res.data) {
-            return res;
-        } else {
-            throw new Error('Unsuccessful request');
-        }
-    }
-    
-    try {
-        const response = await getRequest();
-        return response;
-        } 
-        
-    catch (e) {
-        console.log(e);
-        process.exit(-1);
-    };
-
-}
-
-async function routeRequest(url: string, id_token: string = process.env.BEARER_TOKEN){
-    try {
-        const response = await apiRequest(url, id_token);
-
         console.log("Route Request");
-        console.dir(response, {
+        console.dir(res, {
             depth: null
         });
         console.log("Route Request End");
-        return response;
-        
+        return res;
 
   } catch (e) {
         console.log(e);
@@ -58,4 +34,41 @@ async function routeRequest(url: string, id_token: string = process.env.BEARER_T
     }
 }; 
 
-export default routeRequest;
+export async function postRequest(url: string, id_token: string = process.env.BEARER_TOKEN, body: any = {}){
+    
+    console.log("Body Request:",body);
+
+    try {
+
+        var res: AxiosResponse<any, any>;
+
+        await axios
+        
+        .post(url, body, {headers : {
+            "User-Agent": "v2TweetLookupJS",
+            "authorization": `Bearer ${id_token}`,
+            "Content-type": "application/json"}
+        })
+        
+        .then(function (response) {
+          res = response.data;
+        })
+
+        .catch(function (error: any) {
+          console.log(error);
+        });
+
+        console.log("Route Request");
+        console.dir(res, {
+            depth: null
+        });
+        console.log("Route Request End");
+        console.log("Body Request:",body);
+        return res;
+        
+
+  } catch (e) {
+        console.log("Erreur:",e);
+        process.exit(-1);
+    }
+}; 

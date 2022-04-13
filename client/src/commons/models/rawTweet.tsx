@@ -1,14 +1,21 @@
 import getTweet from "../../apiRequests/getTweet";
 import getTweetReplies from "../../apiRequests/getTweetReplies";
 import { dateToString } from "../utils/dateFormater";
-import RawTimeline from "./rawTimeline";
 import RawTweetReplies from "./rawTweetReplies";
+
+
+export interface PublicMetrics{
+    retweet_count:number, 
+    reply_count: number, 
+    like_count: number, 
+    quote_count: number
+}
 
 /**
  * Representation of a tweet from the API
  * (no thread aggregation)
  */
-class RawTweet{
+export class RawTweet{
 
     private _name: string;
     private _username: string;
@@ -17,21 +24,20 @@ class RawTweet{
     private _replies: RawTweet[];
     private _parent: RawTweet | null;
     private _id: string;
-    private _likes: number;
-    private _retweets: number;
+    private _metrics: PublicMetrics;
 
 
     private _lastChildrenRequest: Date|null = null;
 
-    constructor(id: string, name: string, username: string, date: Date, text: string, likes: number, retweets: number, parent?: RawTweet | null, replies?: RawTweet[])  {
+    constructor(id: string, name: string, username: string, date: Date, text: string, metrics: PublicMetrics, parent?: RawTweet | null, replies?: RawTweet[])  {
 
         this._id = id;
         this._name = name;
         this._username = username;
         this._date = date;
         this._text = text;
-        this._likes = likes;
-        this._retweets = retweets;
+
+        this._metrics = metrics;
 
         if(!replies){
             this._replies = [];
@@ -48,7 +54,7 @@ class RawTweet{
     }
 
     clone(): RawTweet{
-        return new RawTweet(this.id, this.name, this.username, this.date, this.text, this.likes, this.retweets, this.parent, this._replies);
+        return new RawTweet(this.id, this.name, this.username, this.date, this.text, this._metrics, this.parent, this.loadedReplies);
     }
 
     /**
@@ -107,16 +113,14 @@ class RawTweet{
     }
 
     get likes(): number {
-      return this._likes;
+      return this._metrics.like_count;
     }
 
     get retweets(): number {
-      return this._retweets;
+      return this._metrics.retweet_count;
     }
 
     isRoot(): boolean{
-        return this._parent === null;
+        return this._parent == null || this._parent.id === this.id;
     }
 }
-
-export default RawTweet;

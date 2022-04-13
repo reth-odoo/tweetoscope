@@ -1,5 +1,5 @@
 import serverRequest from './requestHandling/serverRequest';
-import RawTweet from 'src/commons/models/rawTweet';
+import {RawTweet} from 'src/commons/models/rawTweet';
 import RawUserTimeline from 'src/commons/models/rawUserTimeline';
 import {tweetParse, userParse} from './requestHandling/dataParsing';
 

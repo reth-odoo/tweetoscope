@@ -1,4 +1,4 @@
-import RawTweet from "./rawTweet"
+import {RawTweet} from "./rawTweet"
 
 class RawTimeline {
 

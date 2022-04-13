@@ -52,13 +52,8 @@ export class AppService {
 
   decryptTokens(req){
 
-    console.log("Tu veux des biscuits ?");
-    console.log(req.cookies);
-
     const cookie = req.cookies['auth-cookie'];
     const auth_token = AESDecipher(cookie[0],Buffer.from(cookie[1].data));
-
-    console.log("Auth Token: ", auth_token);
 
     return auth_token;
 

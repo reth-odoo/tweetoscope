@@ -1,4 +1,4 @@
-import RawTweet from "src/commons/models/rawTweet";
+import {PublicMetrics, RawTweet} from "src/commons/models/rawTweet";
 
 type tweet_format = {
     author_id: string,
@@ -6,7 +6,8 @@ type tweet_format = {
     id: string, 
     created_at: Date, 
     referenced_tweets: Array<any>,
-    text: string, };
+    text: string, 
+    public_metrics: Object};
 
 type user_data = [
     {id: string; 
@@ -51,9 +52,12 @@ function tweetParse(tweet_data: tweet_format, user_data: user_format): RawTweet{
         }
     }
 
+    //parse public metrics
+    let metrics = tweet_data.public_metrics as PublicMetrics;
+
     let author = tweet_data.author_id;
     //TODO: add likes and number of retweets
-    let tweet = new RawTweet(tweet_data.id, user_data[author].name, user_data[author].username, tweet_data.created_at, tweet_data.text, -1, -1)
+    let tweet = new RawTweet(tweet_data.id, user_data[author].name, user_data[author].username, tweet_data.created_at, tweet_data.text, metrics)
 
     return tweet;
 }

@@ -6,7 +6,7 @@ import TweetTree from "../tweetTree/tweetTree";
 import {regenTrees, genTrees} from "./services/tweetTreeGenerator";
 import {Container, SVGContainer} from "./styles";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
-import RawTweet from "src/commons/models/rawTweet";
+import {RawTweet} from "src/commons/models/rawTweet";
 
 
 function TwitterTimeline({someProperty}: {someProperty: string}) {

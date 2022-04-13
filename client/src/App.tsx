@@ -10,6 +10,9 @@ import NavBar from "./containers/NavBar/NavBar";
 import getUserTimeline from "./apiRequests/getUserTimeline";
 import getTweet from "./apiRequests/getTweet";
 import getTweetReplies from "./apiRequests/getTweetReplies";
+import sendTweet from "./apiRequests/sendTweet";
+import sendBigTweet from "./apiRequests/sendBigTweet";
+
 /**
  * Entry point for the app
  * Initialize app-wide systems (request service)

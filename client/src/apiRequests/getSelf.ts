@@ -1,6 +1,4 @@
 import serverRequest from './requestHandling/serverRequest';
-import RawTweet from '../commons/models/rawTweet';
-import {tweetParse, userParse} from './requestHandling/dataParsing';
 
 /*
 This module get the id tweet from the server

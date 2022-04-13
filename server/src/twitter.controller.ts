@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Req } from '@nestjs/common';
 import { AppService } from './app.service';
 import { Request } from 'express';
-import routeRequest from './twitter_api_calls/twitter_api_call';
+import { getRequest, postRequest} from './twitter_api_calls/twitter_api_call';
 import { AESDecipher } from './app.utils';
 
 @Controller('twitter')
@@ -29,7 +29,7 @@ export class TwitterController {
     const auth_token = this.appService.decryptTokens(req);
 
     var params: string = "?";
-    params += "tweet.fields=created_at,referenced_tweets,author_id,conversation_id";
+    params += "tweet.fields=created_at,referenced_tweets,author_id,conversation_id,public_metrics";
     params += "&";
     params += "expansions=author_id,referenced_tweets.id";
     params += "&";
@@ -37,7 +37,7 @@ export class TwitterController {
 
     const fullURL = baseURL+params;
 
-    return routeRequest(fullURL, auth_token);
+    return getRequest(fullURL, auth_token);
 
   }; 
     
@@ -52,7 +52,7 @@ export class TwitterController {
     const auth_token = this.appService.decryptTokens(req);
 
     var params: string = "?";
-    params += "tweet.fields=created_at,referenced_tweets,author_id,conversation_id";
+    params += "tweet.fields=created_at,referenced_tweets,author_id,conversation_id,public_metrics";
     params += "&";
     params += "expansions=author_id,referenced_tweets.id";
     params += "&";
@@ -64,7 +64,7 @@ export class TwitterController {
 
     const fullURL = baseURL+params;
 
-    return routeRequest(fullURL, auth_token);
+    return getRequest(fullURL, auth_token);
 
   }
 
@@ -78,7 +78,7 @@ export class TwitterController {
     var params: string = "?"; //Do not remove
     params += `query=conversation_id:${req.body.id}`;
     params += "&";
-    params += "tweet.fields=created_at,referenced_tweets,author_id,conversation_id";
+    params += "tweet.fields=created_at,referenced_tweets,author_id,conversation_id,public_metrics";
     params += "&";
     params += "expansions=author_id,referenced_tweets.id";
     params += "&";
@@ -93,7 +93,7 @@ export class TwitterController {
     console.log("Full URL");
     console.log(fullURL);
 
-    return routeRequest(fullURL, auth_token);
+    return getRequest(fullURL, auth_token);
 
   }
 
@@ -108,7 +108,37 @@ export class TwitterController {
 
     const fullURL = baseURL+params;
 
-    return routeRequest(fullURL,auth_token);
+    return getRequest(fullURL,auth_token);
+
+  }
+
+  @Post('sendTweet')
+  sendTweet(@Req() req: Request): Promise<any>{
+
+    const auth_token = this.appService.decryptTokens(req);
+
+    const baseURL = `https://api.twitter.com/2/tweets`;
+
+    const body = {}
+
+    console.log("Body Request:");
+    console.log(body);
+
+    body["text"]=`${req.body.text}`;
+    if (req.body.quote_tweet_id && req.body.quote_tweet_id != ""){
+      body["quote_tweet_id"]=`${req.body.quote_tweet_id}`;
+    }
+    if (req.body.in_reply_to_tweet_id && req.body.in_reply_to_tweet_id != ""){
+      body["reply"]={
+        "in_reply_to_tweet_id":`${req.body.in_reply_to_tweet_id}`
+      };
+    }
+
+    console.log("Body Request:",body);
+
+    const fullURL = baseURL;
+
+    return postRequest(fullURL,auth_token,body);
 
   }
 
@@ -125,7 +155,7 @@ export class TwitterController {
 
     const fullURL = baseURL+params;
 
-    return routeRequest(fullURL);
+    return getRequest(fullURL);
 
   }
 
