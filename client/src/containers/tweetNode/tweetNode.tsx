@@ -1,11 +1,14 @@
 import { useState } from 'react';
 import DisplayTweet from "../../commons/models/displayTweet";
 import { TweetDiv, HeaderDiv } from "./styles";
+import { genAnalytics } from "./services/analyticsGen";
 
 function TweetNode(props:TweetNodeProps) {
 
   // commented state here and mouse enter/leave in TweetDiv kept if needed to enhance hover (which is currently handled in the styles.ts)
   //const [hover, setHover] = useState(false);
+
+  let top_words = genAnalytics(props.data.text);
 
   return(
     <TweetDiv onClick={props.onClick} backgroundColor={props.backgroundColor!} borderColor={props.borderColor!} pos={props.data.position} dimensions={props.data.dimension}>
@@ -30,6 +33,11 @@ function TweetNode(props:TweetNodeProps) {
         <span style={{ color: props.commentColor}}>{props.data.nb_replies} Comments &nbsp;&nbsp;&nbsp;</span>
       </p>
       <br/>
+      {/* Analytics */}
+      <p style={{ color: props.nameColor }}>
+        Recurring Words: {top_words.map((word) => (<span style={{ color: props.recurringColor }}> &nbsp;{word}</span>))}
+      </p>
+      <br/>
       {/* Last paragraph for text */}
       <p style={{ color: props.textColor }}>{props.data.text}</p>
     </TweetDiv>
@@ -44,6 +52,7 @@ export interface TweetNodeProps extends React.HTMLAttributes<HTMLDivElement>{
   likeColor?: string,
   retweetColor?: string,
   commentColor?: string,
+  recurringColor?: string,
   backgroundColor?: string,
   borderColor?: string
 }
@@ -55,6 +64,7 @@ TweetNode.defaultProps = {
   likeColor: "#f56342",
   retweetColor: "#c842f5",
   commentColor: "#42f5aa",
+  recurringColor: "#fad369",
   backgroundColor: "#292f33",
   borderColor: "#66757f",
 };
