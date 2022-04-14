@@ -7,6 +7,12 @@ import { BaseContainer, NavContainer, TlContainer, WglContainer } from "./baseSt
 import TwitterTimeline from "./containers/twitterTimeline/twitterTimeline";
 import TwitterLogger from "./containers/twitterLogger";
 import NavBar from "./containers/NavBar/NavBar";
+import getUserTimeline from "./apiRequests/getUserTimeline";
+import getTweet from "./apiRequests/getTweet";
+import getTweetReplies from "./apiRequests/getTweetReplies";
+import sendTweet from "./apiRequests/sendTweet";
+import sendBigTweet from "./apiRequests/sendBigTweet";
+
 import Editor from "./containers/editor/editor";
 /**
  * Entry point for the app

@@ -97,11 +97,11 @@ function layout(tweet: DisplayTweet, offset: number, depth: number, outputArray:
  */
 function displayTweetify(tweet: Tweet, depth:number): DisplayTweet{
   let baseDT = new DisplayTweet(tweet, {x:0, y:0});
-  if(tweet.replies.length==0){
+  if(tweet.loadedReplies.length==0){
     return baseDT;
   }
 
-  for(const child of tweet.replies){
+  for(const child of tweet.loadedReplies){
     let dChild = displayTweetify(child,depth+1);
     dChild.setDisplayParent(baseDT);
     baseDT.addDisplayChild(dChild);
@@ -109,6 +109,7 @@ function displayTweetify(tweet: Tweet, depth:number): DisplayTweet{
     if(depth>=UnhiddenDefault){
       dChild.setHidden(true);
     }
+    
   }
 
   return baseDT;

@@ -1,9 +1,21 @@
+import getTweet from "../../apiRequests/getTweet";
+import getTweetReplies from "../../apiRequests/getTweetReplies";
 import { dateToString } from "../utils/dateFormater";
+import RawTweetReplies from "./rawTweetReplies";
+
+
+export interface PublicMetrics{
+    retweet_count:number, 
+    reply_count: number, 
+    like_count: number, 
+    quote_count: number
+}
 
 /**
- * Twitter as pulled straight from twitter
+ * Representation of a tweet from the API
+ * (no thread aggregation)
  */
-class RawTweet{
+export class RawTweet{
 
     private _name: string;
     private _username: string;
@@ -12,20 +24,24 @@ class RawTweet{
     private _replies: RawTweet[];
     private _parent: RawTweet | null;
     private _id: string;
-    private _likes: number;
-    private _retweets: number;
+    private _metrics: PublicMetrics;
     private _is_retweet: string | null;
 
-    constructor(id: string, name: string, username: string, date: Date, text: string, likes: number, retweets: number, is_retweet: string | null, parent?: RawTweet | null, replies?: RawTweet[])  {
+
+    private _lastChildrenRequest: Date|null = null;
+
+    constructor(id: string, name: string, username: string, date: Date, text: string, metrics: PublicMetrics, parent?: RawTweet | null, replies?: RawTweet[])  {
 
         this._id = id;
         this._name = name;
         this._username = username;
         this._date = date;
         this._text = text;
-        this._likes = likes;
-        this._retweets = retweets;
-        this._is_retweet = is_retweet;
+
+        //TODO: actually do this
+        this._is_retweet = null;
+
+        this._metrics = metrics;
 
         if(!replies){
             this._replies = [];
@@ -42,20 +58,40 @@ class RawTweet{
     }
 
     clone(): RawTweet{
-        return new RawTweet(this.id, this.name, this.username, this.date, this.text, this.likes, this.retweets, this.is_retweet, this.parent, this.replies);
+        return new RawTweet(this.id, this.name, this.username, this.date, this.text, this._metrics, this.parent, this.loadedReplies);
     }
 
-
-    addReply(reply: RawTweet): void {
-      this.replies.push(reply);
+    /**
+     * Updates the replies if necessery and returns the updated list of replies
+     */
+    get replies(): Promise<RawTweet[]>{
+        return new Promise(async (ok, err) => {
+            //cache the response
+            if(this._lastChildrenRequest===null){
+                let reply_handle = await getTweetReplies(this.id).catch(error => err(error)) as RawTweetReplies;
+                this._replies = reply_handle.tweets
+            }
+            ok(this._replies);
+        });
     }
 
-    get replies(): RawTweet[]{
+    /**
+     * Returns the replies without attempting an update
+     */
+    get loadedReplies(){
         return this._replies;
     }
 
-    get parent(): RawTweet | null {
+    get parent(){
         return this._parent;
+    }
+
+    //probably won't be used?
+    async getParentRequest(): Promise<RawTweet | null>{
+        if(this._parent && this._parent!=null){
+            return await getTweet(this._parent!._id);
+        }
+        return null;
     }
 
     get name(): string{
@@ -81,11 +117,11 @@ class RawTweet{
     }
 
     get likes(): number {
-      return this._likes;
+      return this._metrics.like_count;
     }
 
     get retweets(): number {
-      return this._retweets;
+      return this._metrics.retweet_count;
     }
 
     get is_retweet(): string | null {
@@ -93,8 +129,6 @@ class RawTweet{
     }
 
     isRoot(): boolean{
-        return this._parent === null;
+        return this._parent == null || this._parent.id === this.id;
     }
 }
-
-export default RawTweet;

@@ -1,68 +1,78 @@
 import axios, { AxiosResponse } from 'axios';
 
-const bearerToken = "AAAAAAAAAAAAAAAAAAAAAKtGYQEAAAAAmetRHjeuMQcnpSorGI3FC1FJyzQ%3DsqjdVQKAgxAm6hW1HcupoPDbgn6ISkYFSfBPeJntGsBEi1h0LJ";
+export async function getRequest(
+  url: string,
+  id_token: string = process.env.BEARER_TOKEN,
+) {
+  try {
+    let res: AxiosResponse<any, any>;
 
-async function apiRequest(url: string){
+    await axios
 
-    async function getRequest() {
+      .get(url, {
+        headers: {
+          'User-Agent': 'v2TweetLookupJS',
+          authorization: `Bearer ${id_token}`,
+        },
+      })
 
-        var res: AxiosResponse<any, any>;
+      .then(function (response) {
+        res = response.data;
+      })
 
-        await axios
-        
-        .get(url, {headers : {
-            "User-Agent": "v2TweetLookupJS",
-            "authorization": `Bearer ${bearerToken}`}
-        })
-        
-        .then(function (response) {
-          res = response.data;
-        })
+      .catch(function (error: any) {
+        console.error(error);
+      });
 
-        .catch(function (error: any) {
-          console.log(error);
-        });
-
-        if (res.data) {
-            return res;
-        } else {
-            throw new Error('Unsuccessful request');
-        }
-    }
-    
-    try {
-        const response = await getRequest();
-        console.log("Server Request");
-        console.dir(response, {
-            depth: null
-        });
-        console.log("Server Request End");
-        return response;
-        } 
-        
-    catch (e) {
-        console.log(e);
-        process.exit(-1);
-    };
-
+    //console.log('Route Request');
+    console.dir(res, {
+      depth: null,
+    });
+    //console.log('Route Request End');
+    return res;
+  } catch (e) {
+    console.error(e);
+    process.exit(-1);
+  }
 }
 
-async function routeRequest(url: string){
-    try {
-        const response = await apiRequest(url);
+export async function postRequest(
+  url: string,
+  id_token: string = process.env.BEARER_TOKEN,
+  body: any = {},
+) {
+  //console.log('Body Request:', body);
 
-        console.log("Route Request");
-        console.dir(response, {
-            depth: null
-        });
-        console.log("Route Request End");
-        return response;
-        
+  try {
+    let res: AxiosResponse<any, any>;
 
+    await axios
+
+      .post(url, body, {
+        headers: {
+          'User-Agent': 'v2TweetLookupJS',
+          authorization: `Bearer ${id_token}`,
+          'Content-type': 'application/json',
+        },
+      })
+
+      .then(function (response) {
+        res = response.data;
+      })
+
+      .catch(function (error: any) {
+        console.error(error);
+      });
+
+    //console.log('Route Request');
+    console.dir(res, {
+      depth: null,
+    });
+    //console.log('Route Request End');
+    //console.log('Body Request:', body);
+    return res;
   } catch (e) {
-        console.log(e);
-        process.exit(-1);
-    }
-}; 
-
-export default routeRequest;
+    console.error('Erreur:', e);
+    process.exit(-1);
+  }
+}
