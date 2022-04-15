@@ -4,6 +4,6 @@ import { TscpController } from './tscp.controller';
 
 @Module({
   controllers: [TscpController],
-  providers: [TscpService]
+  providers: [TscpService],
 })
 export class TscpModule {}

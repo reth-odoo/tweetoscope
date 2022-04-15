@@ -4,12 +4,12 @@ const BaseContainer = styled.div`
   display: grid;
   width: 100vw;
   height: 100vh;
-  grid-template-rows: 0.1fr 1fr;
-  grid-template-columns: 0.1fr 1fr 0.1fr;
+  grid-template-rows: 1fr 12fr;
+  grid-template-columns: 1fr 3fr;
   grid-template-areas:
-    "nav nav nav"
-    "wgl tl wgr";
-  grid-gap: 0.25rem;
+    "nav nav"
+    "wgl tl";
+  grid-gap: 0.15rem;
 `;
 
 const NavContainer = styled.div`
@@ -18,23 +18,17 @@ const NavContainer = styled.div`
 `;
 
 const TlContainer = styled.div`
-  background: #c2e7ff;
+  background: #252626;
   grid-area: tl;
   overflow: hidden;
 `;
 
 const WglContainer = styled.div`
-  background: #404040;
+  background: #292f33;
   color: white;
   grid-area: wgl;
   overflow: hidden;
+  text-align: center;
 `;
 
-const WgrContainer = styled.div`
-  background: #404040;
-  color: white;
-  grid-area: wgr;
-  overflow: hidden;
-`;
-
-export { BaseContainer, NavContainer, TlContainer, WglContainer, WgrContainer };
+export { BaseContainer, NavContainer, TlContainer, WglContainer };
