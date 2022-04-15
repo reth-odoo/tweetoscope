@@ -68,8 +68,13 @@ export class RawTweet{
         return new Promise(async (ok, err) => {
             //cache the response
             if(this._lastChildrenRequest===null){
-                let reply_handle = await getTweetReplies(this.id).catch(error => err(error)) as RawTweetReplies;
+                let reply_handle = await getTweetReplies(this.id).catch(error => {
+                    console.error(`${error}. Keeping previous reply list`)
+                    ok(this._replies)
+                }) as RawTweetReplies;
+
                 this._replies = reply_handle.tweets
+                
             }
             ok(this._replies);
         });
@@ -80,6 +85,10 @@ export class RawTweet{
      */
     get loadedReplies(){
         return this._replies;
+    }
+
+    debugAddReply(reply: RawTweet){
+        this._replies.push(reply);
     }
 
     get parent(){
