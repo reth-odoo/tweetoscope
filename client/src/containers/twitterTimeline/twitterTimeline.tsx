@@ -33,11 +33,11 @@ function TwitterTimeline({someProperty}: {someProperty: string}) {
 
 
 
-    function updateDisplay(offsetChange?: number){
+    async function updateDisplay(offsetChange?: number){
       //just modifying the IDs
       //TODO: actually make 2 distinct arrays?
       setRenderedTweets(
-        regenTrees(renderedTweets.map(arr => Array.from(arr)))
+        await regenTrees(renderedTweets.map(arr => Array.from(arr)))
       )
       if(offsetChange){
         setOffset(prev => Math.min(prev+offsetChange,0))
@@ -54,14 +54,16 @@ function TwitterTimeline({someProperty}: {someProperty: string}) {
       //apparently the only way to get async useEffect?
       async function getTl(){
         let tweets = await twitter.getTimeline()
+        let tree = await genTrees(tweets)
         //can only use 1 setState here
-        setRenderedTweets(genTrees(tweets));
+        setRenderedTweets(tree);
       }
       getTl();
     },
     []
     )
-
+    //NOTE: DO NOT REMOVE THE EMPTY DEPENDENCY ARRAY
+    //reason: this should only run when the page is loaded
 
 
     //would filter to only a few tweets that can actually be displayed
@@ -71,7 +73,6 @@ function TwitterTimeline({someProperty}: {someProperty: string}) {
     //assume getTimeline is "free" and can be called multiple times
     return(
           <Container ref={containerRef} offset={offset}>
-            <span>{offset}</span>
             <SVGContainer>
               {renderedTweets.flat().map(dTweet => {
                 if(dTweet.displayParent!=null){
@@ -80,6 +81,7 @@ function TwitterTimeline({someProperty}: {someProperty: string}) {
                 return <></>
               })}
             </SVGContainer>
+            {renderedTweets.length===0?<span>loading...</span>:<></>}
             {renderedTweets.map(tweetList => <TweetTree displayUpdateHandler={updateDisplay} key={tweetList[0]!.displayRoot.id} tweets={tweetList}></TweetTree>)}
           </Container>);
 }

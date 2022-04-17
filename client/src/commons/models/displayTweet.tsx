@@ -1,3 +1,4 @@
+import { DEFAULT_TWEET_DIMENSIONS } from "src/AppParameters";
 import Tweet from "./tweet";
 
 class DisplayTweet{
@@ -18,7 +19,7 @@ class DisplayTweet{
         this._tweet = tweet;
 
         this.position = position;
-        this.dimension = {width: 500, height: 160};
+        this.dimension = DEFAULT_TWEET_DIMENSIONS;
         this.subtreeSpan = {startX: this.position.x, endX: this.position.x+this.dimension.width};
 
         this._displayParent = displayParent?displayParent:null;
@@ -31,8 +32,26 @@ class DisplayTweet{
     addDisplayChild(child: DisplayTweet){
         this._displayChildren.push(child);
     }
-    get displayChildren(){
-        return this._displayChildren;
+    get displayChildren(): Promise<DisplayTweet[]>{
+
+        return new Promise(async (ok, err) => {
+            let reps = await this._tweet.replies;
+            let currentIds = this._displayChildren.map(dp => dp._tweet.id)
+
+            //if id already used, don't add rep to _displayChildren
+            for(const rep of reps){
+                let add = true;
+                for(const currentId of currentIds){
+                    if(currentId === rep.id){
+                        add = false;
+                    }
+                }
+                if(add){
+                    this._displayChildren.push(new DisplayTweet(rep, {x:0, y:0}, this));
+                }
+            }
+            ok(this._displayChildren);
+        });
     }
 
     setDisplayParent(parent: DisplayTweet){
@@ -96,8 +115,8 @@ class DisplayTweet{
     get retweets() {
       return this._tweet.retweets;
     }
-    get nb_replies() {
-      return this._tweet.loadedReplies.length;
+    get real_reply_nb() {
+      return this._tweet.real_reply_nb;
     }
     get is_retweet() {
       return this._tweet.is_retweet;
