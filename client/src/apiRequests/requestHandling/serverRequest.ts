@@ -23,13 +23,14 @@ function serverRequest(route: string, body: any): Promise<AxiosResponse> | undef
       .catch(function (error: any) {
         console.error(error);
       });
-
+      
       if (res) {
           //console.log("Final Result");
           //console.log(res);
           return res;
       } else {
-          throw new Error(`Unsuccessful request at ${route} with: ${body}`);
+          console.error(body);
+          throw new Error(`Unsuccessful request at ${route} with this body ^`);
       }
     }
 
