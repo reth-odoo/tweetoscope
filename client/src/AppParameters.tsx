@@ -4,6 +4,8 @@ export const DEFAULT_TWEET_UNWRAP_DEPTH = 3;
 
 export const DEFAULT_TWEET_DIMENSIONS = { width: 500, height: 160 };
 
+export const DEFAULT_SERVER_URL = "http://127.0.0.1:3000"
+
 const LONG_TEXT = `Alice was beginning to get very tired of sitting by her sister on the bank, 
 and of having nothing to do: once or twice she had peeped into the book her sister was reading, 
 but it had no pictures or conversations in it, “and what is the use of a book.

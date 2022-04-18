@@ -14,13 +14,16 @@ async function getTweet(id: string): Promise<RawTweet>{
     id : id,
   };
 
-  const a = await serverRequest(route,body);
+  const res_data = await serverRequest(route,body);
 
-  const b = a?.data;
+  if(res_data.meta.result_count === 0){
+    throw new Error("Could not find the tweet (result_count==0)");
+  }
 
-  const users = userParse(b.includes.users);
 
-  var tweet: RawTweet = tweetParse(b.data,users);
+  const users = userParse(res_data.includes.users);
+
+  var tweet: RawTweet = tweetParse(res_data.data,users);
 
   return tweet;
 

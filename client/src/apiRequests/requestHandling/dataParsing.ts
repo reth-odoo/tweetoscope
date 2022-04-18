@@ -40,18 +40,6 @@ function userParse(user_data: user_data): user_format{
  */
 function tweetParse(tweet_data: tweet_format, user_data: user_format): RawTweet{
 
-    //get Parent tweet
-
-    var origin = null;
-
-    if (tweet_data.referenced_tweets){
-        for (let i = 0; i < tweet_data.referenced_tweets.length; i++){
-            if (tweet_data.referenced_tweets[i].type === 'replied_to'){
-                origin = tweet_data.referenced_tweets[i].id;
-            }
-        }
-    }
-
     //parse public metrics
     let metrics = tweet_data.public_metrics as PublicMetrics;
 

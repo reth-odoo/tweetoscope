@@ -16,23 +16,26 @@ async function getTweetReplies(id: string, p_token?: string): Promise<RawTweetRe
     p_token: p_token,
   };
 
-  const a = await serverRequest(route,body);
+  const res_data = await serverRequest(route,body);
 
-  const b = a?.data;
+  if(res_data.meta.result_count === 0){
+    return new RawTweetReplies(id);
+  }
 
-  const users = userParse(b.includes.users);
+  const users = userParse(res_data.includes.users);
 
   var tweet_list: RawTweetReplies = new RawTweetReplies(id);
 
-  for (let i = 0; i < b.data.length; i++){
+
+  for (let i = 0; i < res_data.data.length; i++){
     
-    var tweet: RawTweet = tweetParse(b.data[i],users);
+    var tweet: RawTweet = tweetParse(res_data.data[i],users);
 
     tweet_list.addTweet(tweet);
 
   }
 
-  tweet_list.pagination_token = b.meta.next_token;
+  tweet_list.pagination_token = res_data.meta.next_token;
   
   return tweet_list;
 
