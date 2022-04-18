@@ -30,7 +30,7 @@ function TweetNode(props:TweetNodeProps) {
       <p style={{ color: props.textColor }}>
         <span style={{ color: props.likeColor}}>{props.data.likes} Likes &nbsp;&nbsp;&nbsp;</span>
         <span style={{ color: props.retweetColor}}>{props.data.retweets} Retweets &nbsp;&nbsp;&nbsp;</span>
-        <span style={{ color: props.commentColor}}>{props.data.nb_replies} Comments &nbsp;&nbsp;&nbsp;</span>
+        <span style={{ color: props.commentColor}}>{props.data.real_reply_nb} Comments &nbsp;&nbsp;&nbsp;</span>
       </p>
       <br/>
       {/* Analytics */}

@@ -1,29 +1,28 @@
+import { DEFAULT_TWEET_DIMENSIONS, DEFAULT_TWEET_UNWRAP_DEPTH } from "src/AppParameters";
 import DisplayTweet from "../../../commons/models/displayTweet";
 import Tweet from "../../../commons/models/tweet";
 
 const TreeSpacing = 15;
-const Dimensions = {width: 500, height: 160}
+const Dimensions = DEFAULT_TWEET_DIMENSIONS
 const NodeSpacingX = 100;
 const NodeSpacingY = 300;
 
 const TopSpacing = 100;
-
-const UnhiddenDefault = 4;
 
 /**
  * Creates a list of displaytweets for each root tweet tree
  * @param rootTweets list of root tweets to display on the timeline
  * @returns a list of the display tweets for each root tweet tree
  */
-export function genTrees(rootTweets: Tweet[]): DisplayTweet[][]{
-  return layoutTrees(rootTweets.map(t => displayTweetify(t,1)));
+export async function genTrees(rootTweets: Tweet[]): Promise<DisplayTweet[][]>{
+  return layoutTrees(rootTweets.map(t => new DisplayTweet(t, {x:0, y:0})));
 }
 
-export function regenTrees(tweetArrays: DisplayTweet[][]): DisplayTweet[][]{
+export async function regenTrees(tweetArrays: DisplayTweet[][]): Promise<DisplayTweet[][]>{
   return layoutTrees(tweetArrays.map(arr => arr[0].displayRoot));
 }
 
-function layoutTrees(rootTweets: DisplayTweet[]): DisplayTweet[][]{
+async function layoutTrees(rootTweets: DisplayTweet[]): Promise<DisplayTweet[][]>{
   let prevTreeStartX = 0;
   let prevTreeWidth = 0;
 
@@ -32,7 +31,7 @@ function layoutTrees(rootTweets: DisplayTweet[]): DisplayTweet[][]{
   for(const tweet of rootTweets){
     //TODO assert root (not sure if possible outside testing framework)
     let arr: DisplayTweet[] = []
-    let res = layout(tweet, treeOffset() + NodeSpacingX, TopSpacing, arr);
+    let res = await layout(tweet, treeOffset() + NodeSpacingX, TopSpacing, arr);
     prevTreeStartX = res.startX;
     prevTreeWidth = res.width;
     ret.push(arr);
@@ -49,23 +48,22 @@ function layoutTrees(rootTweets: DisplayTweet[]): DisplayTweet[][]{
  * @param outputArray the actual result
  * @returns the start and end around (sub)tree, and the root DisplayTweet
  */
-function layout(tweet: DisplayTweet, offset: number, depth: number, outputArray: DisplayTweet[]): {tweet: DisplayTweet, startX: number, width: number} {
-
+async function layout(tweet: DisplayTweet, offset: number, depth: number, outputArray: DisplayTweet[]): Promise<{tweet: DisplayTweet, startX: number, width: number}> {
 
   let lastOffset = offset;
 
-  let displayChildren = [];
+  let displayChildren = await tweet.displayChildren;
+
   //go to the bottom and progressively move the offset
-  for(const child of tweet.displayChildren){
+  for(const child of displayChildren){
     if(child.isHidden){
       continue;
     }
-    let res = layout(child, lastOffset, depth+NodeSpacingY, outputArray);
-    displayChildren.push(res.tweet);
+    let res = await layout(child, lastOffset, depth+NodeSpacingY, outputArray);
     lastOffset = res.startX+res.width+NodeSpacingX;
   }
   //if leaf node, just place it at the offset
-  if(tweet.displayChildren.length === 0){
+  if(displayChildren.length === 0){
     tweet.position = {x:offset,y:depth};
     outputArray.push(tweet);
     return {tweet:tweet, startX: offset, width: Dimensions.width}
@@ -73,7 +71,7 @@ function layout(tweet: DisplayTweet, offset: number, depth: number, outputArray:
 
   let width = 0;
   //otherwise place in the middle of the children
-  if(tweet.displayChildren.filter(dTweet => !dTweet.isHidden).length>0){
+  if(displayChildren.filter(dTweet => !dTweet.isHidden).length>0){
     tweet.position = {x:(lastOffset+offset)/2-Dimensions.width/2,y:depth};
     width = lastOffset-offset;
   }
@@ -90,27 +88,4 @@ function layout(tweet: DisplayTweet, offset: number, depth: number, outputArray:
 
 
   return {tweet: tweet, startX: offset, width: width}
-}
-/**
- * turn a tweet tree into a displayTweet tree
- * preserving links (replies -> displayChildren)
- */
-function displayTweetify(tweet: Tweet, depth:number): DisplayTweet{
-  let baseDT = new DisplayTweet(tweet, {x:0, y:0});
-  if(tweet.loadedReplies.length==0){
-    return baseDT;
-  }
-
-  for(const child of tweet.loadedReplies){
-    let dChild = displayTweetify(child,depth+1);
-    dChild.setDisplayParent(baseDT);
-    baseDT.addDisplayChild(dChild);
-
-    if(depth>=UnhiddenDefault){
-      dChild.setHidden(true);
-    }
-    
-  }
-
-  return baseDT;
 }

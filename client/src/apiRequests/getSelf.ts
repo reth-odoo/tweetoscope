@@ -11,11 +11,13 @@ async function getSelf(): Promise<Object>{
   var body = {
   };
 
-  const a = await serverRequest(route,body);
+  const res_data = await serverRequest(route,body);
 
-  const data = a?.data;
+  if(res_data.meta.result_count === 0){
+    throw new Error("Could not find self (result_count==0)");
+  }
 
-  return data;
+  return res_data;
 
 }
 

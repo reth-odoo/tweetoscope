@@ -15,12 +15,10 @@ async function sendTweet(text: string, response: string ="", quoted: string=""):
 
   };
 
-  const a = await serverRequest(route,body);
+  const res_data = await serverRequest(route,body);
 
-  const b = a?.data;
-
-  console.log("Send Tweet: ", b);
-  return b.data;
+  console.log("Send Tweet: ", res_data);
+  return res_data.data;
 
 }
 
