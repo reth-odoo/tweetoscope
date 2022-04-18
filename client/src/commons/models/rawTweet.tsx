@@ -68,6 +68,12 @@ export class RawTweet{
         return new Promise(async (ok, err) => {
             //cache the response
             if(this._lastChildrenRequest===null){
+            
+                if(this.real_reply_nb<=0){
+                    ok(this._replies);
+                    return;
+                }
+
                 let reply_handle = await getTweetReplies(this.id).catch(error => {
                     console.error(`${error}. Keeping previous reply list`)
                     ok(this._replies)
