@@ -8,13 +8,13 @@ import { RawTweet } from "./rawTweet";
 class RawTweetReplies{
 
     private _timeline: RawTweet[];
-    private _tweet: RawTweet;
+    private _parent: RawTweet;
     private _pagination_token: string;
 
     constructor(tweet: RawTweet){
 
         this._timeline = [];
-        this._tweet = tweet;
+        this._parent = tweet;
         this._pagination_token = "";
 
     }
@@ -27,12 +27,12 @@ class RawTweetReplies{
         this._timeline = t;
     }
 
-    get tweet(){
-        return this._tweet;
+    get parent(){
+        return this._parent;
     }
 
-    set tweet(tweet: RawTweet){
-        this._tweet = tweet;
+    set parent(tweet: RawTweet){
+        this._parent = tweet;
     }
 
     get pagination_token(){
@@ -48,7 +48,7 @@ class RawTweetReplies{
     }
 
     async nextPage(): Promise<RawTweetReplies>{
-        return await getTweetReplies(this.tweet,this.pagination_token);
+        return await getTweetReplies(this._parent,this.pagination_token);
     }
 
 }

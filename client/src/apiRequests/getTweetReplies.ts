@@ -29,7 +29,7 @@ async function getTweetReplies(tweet: RawTweet, p_token?: string): Promise<RawTw
   var body = {
     id : tweet.id,
     p_token: p_token,
-    conversation_id: "1516057871108165637",
+    conversation_id: tweet.conversation_id,
     user_id: tweet.username
   };
 
