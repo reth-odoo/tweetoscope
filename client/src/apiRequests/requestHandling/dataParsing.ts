@@ -26,7 +26,9 @@ function userParse(user_data: user_data): user_format{
     var formated_user_data: user_format = {};
 
     for (let i = 0; i < user_data.length; i++){
+
         formated_user_data[user_data[i].id] = user_data[i];
+        
     }
     
     return formated_user_data;
@@ -34,18 +36,24 @@ function userParse(user_data: user_data): user_format{
 
 /**
  * Turns tweet data into a RawTweet object, with no child
- * @param tweet_data 
- * @param user_data 
+ * @param tweet_data Data Structure containing the relevant information to create a RawTweet
+ * @param user_data Data Structure containing possibles author of the tweet
+ * @param parent Optional Parameter; Parent of the tweet contained in tweet_data
  * @returns A RawTweet representation of the tweet data
  */
-function tweetParse(tweet_data: tweet_format, user_data: user_format): RawTweet{
+function tweetParse(tweet_data: tweet_format, user_data: user_format, parent?: RawTweet): RawTweet{
 
     //parse public metrics
     let metrics = tweet_data.public_metrics as PublicMetrics;
 
     let author = tweet_data.author_id;
-    //TODO: add likes and number of retweets
-    let tweet = new RawTweet(tweet_data.id, user_data[author].name, user_data[author].username, new Date(tweet_data.created_at), tweet_data.text, metrics)
+    var tweet: RawTweet;
+    if(parent) {
+        tweet = new RawTweet(tweet_data.id, user_data[author].name, user_data[author].username, new Date(tweet_data.created_at), tweet_data.text, metrics, parent);
+    }
+    else{
+        tweet = new RawTweet(tweet_data.id, user_data[author].name, user_data[author].username, new Date(tweet_data.created_at), tweet_data.text, metrics);
+    }
 
     return tweet;
 }

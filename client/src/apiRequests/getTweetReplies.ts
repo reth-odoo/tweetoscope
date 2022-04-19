@@ -7,36 +7,59 @@ import {tweetParse, userParse} from './requestHandling/dataParsing';
 This module get the id user's timeline
 */
 
-async function getTweetReplies(id: string, p_token?: string): Promise<RawTweetReplies>{
+type reference_format = {
+  type: string; 
+  id: string
+};
+
+function findReply(tweet_list: Array<reference_format>){
+
+  for(let i = 0; i < tweet_list.length; i++){
+    if(tweet_list[i].type === "replied_to"){
+      return tweet_list[i].id;
+    }
+  }
+
+}
+
+async function getTweetReplies(tweet: RawTweet, p_token?: string): Promise<RawTweetReplies>{
 
   const route = "/twitter/searchReplyTweets"
 
   var body = {
-    id : id,
+    id : tweet.id,
     p_token: p_token,
+    conversation_id: "1516057871108165637",
+    user_id: tweet.username
   };
 
   const res_data = await serverRequest(route,body);
 
-  if(res_data.meta.result_count === 0){
-    return new RawTweetReplies(id);
-  }
+  console.log("Result_Data: ",res_data);
+
+  /*if(res_data.meta.result_count === 0){
+    return new RawTweetReplies(tweet);
+  }*/
 
   const users = userParse(res_data.includes.users);
 
-  var tweet_list: RawTweetReplies = new RawTweetReplies(id);
-
+  var tweet_list: RawTweetReplies = new RawTweetReplies(tweet);
 
   for (let i = 0; i < res_data.data.length; i++){
     
-    var tweet: RawTweet = tweetParse(res_data.data[i],users);
+    if (tweet.id === findReply(res_data.data[i].referenced_tweets)){
 
-    tweet_list.addTweet(tweet);
+      var ntweet: RawTweet = tweetParse(res_data.data[i],users,tweet);
+      tweet_list.addTweet(ntweet);
+
+    }
 
   }
 
   tweet_list.pagination_token = res_data.meta.next_token;
   
+  console.log("Final Result: ", tweet_list);
+
   return tweet_list;
 
 }

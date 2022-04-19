@@ -26,6 +26,7 @@ export class RawTweet{
     private _id: string;
     private _metrics: PublicMetrics;
     private _is_retweet: string | null;
+    private _conversation_id: string | undefined;
 
 
     private _lastChildrenRequest: Date|null = null;
@@ -45,14 +46,18 @@ export class RawTweet{
 
         if(!replies){
             this._replies = [];
-        }else{
+        }
+        else{
             this._replies = replies;
         }
 
         if(parent && parent!==null) {
             this._parent = parent;
-        }else{
+            this._conversation_id = parent.conversation_id;
+        }
+        else{
             this._parent = null;
+            this._conversation_id = this.id;
         }
 
     }
@@ -74,7 +79,7 @@ export class RawTweet{
                     return;
                 }
 
-                let reply_handle = await getTweetReplies(this.id).catch(error => {
+                let reply_handle = await getTweetReplies(this).catch(error => {
                     console.error(`${error}. Keeping previous reply list`)
                     ok(this._replies)
                 }) as RawTweetReplies;
@@ -100,8 +105,8 @@ export class RawTweet{
         this._replies.push(reply);
     }
 
-    get parent(){
-        return this._parent;
+    set parent(tweet: RawTweet){
+        this._parent = tweet;
     }
 
     //probably won't be used?
@@ -148,6 +153,10 @@ export class RawTweet{
 
     get is_retweet(): string | null {
       return this._is_retweet;
+    }
+
+    get conversation_id(){
+        return this._conversation_id;
     }
 
     isRoot(): boolean{
