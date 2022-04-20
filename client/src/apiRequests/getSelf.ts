@@ -13,8 +13,8 @@ async function getSelf(): Promise<Object>{
 
   const res_data = await serverRequest(route,body);
 
-  if(res_data.meta.result_count === 0){
-    throw new Error("Could not find self (result_count==0)");
+  if(!res_data.data){
+    throw new Error("Could not find self");
   }
 
   return res_data;

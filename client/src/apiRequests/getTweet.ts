@@ -16,10 +16,9 @@ async function getTweet(id: string): Promise<RawTweet>{
 
   const res_data = await serverRequest(route,body);
 
-  if(res_data.meta.result_count === 0){
-    throw new Error("Could not find the tweet (result_count==0)");
+  if(!res_data.data){
+    throw new Error("Could not find the tweet");
   }
-
 
   const users = userParse(res_data.includes.users);
 
