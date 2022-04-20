@@ -37,9 +37,9 @@ async function getTweetReplies(tweet: RawTweet, p_token?: string): Promise<RawTw
 
   console.log("Result_Data: ",res_data);
 
-  /*if(res_data.meta.result_count === 0){
+  if(res_data.meta.result_count === 0){
     return new RawTweetReplies(tweet);
-  }*/
+  }
 
   const users = userParse(res_data.includes.users);
 
