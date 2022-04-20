@@ -35,8 +35,6 @@ async function getTweetReplies(tweet: RawTweet, p_token?: string): Promise<RawTw
 
   const res_data = await serverRequest(route,body);
 
-  console.log("Result_Data: ",res_data);
-
   if(res_data.meta.result_count === 0){
     return new RawTweetReplies(tweet);
   }
@@ -57,8 +55,6 @@ async function getTweetReplies(tweet: RawTweet, p_token?: string): Promise<RawTw
   }
 
   tweet_list.pagination_token = res_data.meta.next_token;
-  
-  console.log("Final Result: ", tweet_list);
 
   return tweet_list;
 
