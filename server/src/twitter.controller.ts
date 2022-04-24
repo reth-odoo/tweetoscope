@@ -76,7 +76,42 @@ export class TwitterController {
     const auth_token = this.appService.decryptTokens(req);
 
     var params: string = "?"; //Do not remove
-    params += `query=conversation_id:${req.body.conversation_id} to:${req.body.user_id}`;
+    params += `query=conversation_id:${req.body.conversation_id} -from:${req.body.user_id} to:${req.body.user_id}`;
+    params += "&";
+    params += "tweet.fields=created_at,referenced_tweets,author_id,conversation_id,public_metrics";
+    params += "&";
+    params += "expansions=author_id,referenced_tweets.id";
+    params += "&";
+    params += "user.fields=name";
+    params += "&";
+    params += "max_results=100";
+    params += "&";
+    params += `since_id=${req.body.id}`;
+    if (req.body.p_token && req.body.p_token != "") {
+      params += "&";
+      params += `next_token=${req.body.p_token}`;
+    }
+
+    const fullURL = baseURL+params;
+
+    console.log("Full URL");
+    console.log(fullURL);
+
+    console.log("Req: ", req.body);
+
+    return getRequest(fullURL, auth_token);
+
+  }
+
+  @Post('getThread')
+  getThread(@Req() req: Request): Promise<any>{
+
+    const baseURL = `https://api.twitter.com/2/tweets/search/recent`;
+
+    const auth_token = this.appService.decryptTokens(req);
+
+    var params: string = "?"; //Do not remove
+    params += `query=conversation_id:${req.body.conversation_id} from:${req.body.user_id} to:${req.body.user_id}`;
     params += "&";
     params += "tweet.fields=created_at,referenced_tweets,author_id,conversation_id,public_metrics";
     params += "&";
