@@ -22,11 +22,11 @@ class RawTweetReplies{
 
     }
 
-    get timeline(){
+    get tweets(){
         return this._timeline;
     }
 
-    set timeline(t: RawTweet[]){
+    set tweets(t: RawTweet[]){
         this._timeline = t;
     }
 
