@@ -9,7 +9,7 @@ export default function NavBar ()  {
     const { search } = window.location;
     const query = new URLSearchParams(search).get('s');
     const [searchQuery, setSearchQuery] = useState(query || '');
-    const filteredPosts = filterPosts(posts, searchQuery);
+    //const filteredPosts = filterPosts(posts, searchQuery);
 
     return(
             <nav>

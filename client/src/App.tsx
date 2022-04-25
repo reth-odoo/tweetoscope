@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, Outlet } from "react-router-dom";
 import "./assets/style.css";
-import { BaseContainer, NavContainer, TlContainer, WglContainer, WgrContainer } from "./baseStyle";
+import { BaseContainer, NavContainer, TlContainer, WglContainer} from "./baseStyle";
 
 import TwitterTimeline from "./containers/twitterTimeline/twitterTimeline";
 import NavBar from "./containers/NavBar/NavBar";
@@ -25,10 +25,6 @@ function App() {
       <TlContainer>
         <TwitterTimeline someProperty="test"></TwitterTimeline>
       </TlContainer>
-      <WgrContainer>
-        Widget Right
-        {/* ADD RIGHT WIDGETS HERE */}
-      </WgrContainer>
     </BaseContainer>
   );
 }
