@@ -14,7 +14,16 @@ import { isElementOfType } from "react-dom/test-utils";
 function TwitterTimeline({someProperty}: {someProperty: string}) {
 
     const twitter = new TwitterService();
+    const arrow_values = {"ArrowLeft": [-1, 0], "ArrowRight": [1, 0], "ArrowUp": [0, -1], "ArrowDown": [0, 1]};
 
+    /*
+    function handleKeys(event) {
+
+      if(event.key in arrow_values) {
+        break;
+      }
+    }
+    */
 
     //handle scrolling
 
@@ -77,7 +86,7 @@ function TwitterTimeline({someProperty}: {someProperty: string}) {
           prev = currentRoot;
         }
 
-        
+
       }
       //if outside of a tree, just go to the last one
       return prev;
@@ -101,7 +110,6 @@ function TwitterTimeline({someProperty}: {someProperty: string}) {
     }
 
 
-
     async function updateDisplay(offsetChange?: number){
       //just modifying the IDs
       //TODO: actually make 2 distinct arrays?
@@ -112,9 +120,6 @@ function TwitterTimeline({someProperty}: {someProperty: string}) {
         setOffset(prev => Math.min(prev+offsetChange,0))
       }
     }
-
-
-
 
 
     //assumes getTimeline returns a different object when timeline is updated
@@ -158,8 +163,8 @@ function TwitterTimeline({someProperty}: {someProperty: string}) {
 }
 
 
-function inBetween(x:number,a:number,b:number){
-  if(x<a || x>b){
+function inBetween(x:number, a:number, b:number){
+  if(x < a || x > b){
     return false;
   }
   return true;
