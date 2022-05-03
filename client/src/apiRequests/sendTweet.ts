@@ -9,17 +9,16 @@ async function sendTweet(text: string, response: string ="", quoted: string=""):
   const route = "/twitter/sendTweet";
 
   const body = {
-    text : text,
-    in_reply_to_tweet_id:response,
-    quote_tweet_id:quoted,
+    text: text,
+    in_reply_to_tweet_id: response,
+    quote_tweet_id: quoted,
 
   };
 
-  const res_data = await serverRequest(route,body);
+  const res_data = await serverRequest(route, body);
 
   console.log("Send Tweet: ", res_data);
   return res_data.data;
-
 }
 
 export default sendTweet;

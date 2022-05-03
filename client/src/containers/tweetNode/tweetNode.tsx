@@ -8,6 +8,10 @@ function TweetNode(props:TweetNodeProps) {
   // commented state here and mouse enter/leave in TweetDiv kept if needed to enhance hover (which is currently handled in the styles.ts)
   //const [hover, setHover] = useState(false);
 
+  //function moveTweet() {
+    // tell the twitterTimeline to move coords depending on the clicked tweet
+  //}
+
   let top_words = genAnalytics(props.data.text);
 
   return(
