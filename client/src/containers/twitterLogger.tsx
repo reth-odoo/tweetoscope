@@ -55,19 +55,23 @@ function TwitterLogger() {
         (async() => {
             
             try {
-
-                //Authenticated Resource Access
-                const data: any = await getSelf();
-
-                //console.log("Data: ", data);
-
-                const user = data.data;
                 
-                setName(user.name);
-                setUserName(user.username);
-                setImageUrl(user.profile_image_url);
-                setStatus(user.description);
-                setUrl(user.url);
+                if (!cookies["auth-cookie"]){
+
+                    //Authenticated Resource Access
+                    const data: any = await getSelf();
+
+                    //console.log("Data: ", data);
+
+                    const user = data.data;
+
+                    setName(user.name);
+                    setUserName(user.username);
+                    setImageUrl(user.profile_image_url);
+                    setStatus(user.description);
+                    setUrl(user.url);
+                    
+                }
 
             } 
                 
