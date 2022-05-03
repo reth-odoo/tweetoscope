@@ -1,10 +1,19 @@
 import React from "react";
 import { Link, Outlet } from "react-router-dom";
 import "./assets/style.css";
-import { BaseContainer, NavContainer, TlContainer, WglContainer} from "./baseStyle";
+import { BaseContainer, NavContainer, TlContainer, WglContainer } from "./baseStyle";
+// import logo from "./logo.svg";
 
 import TwitterTimeline from "./containers/twitterTimeline/twitterTimeline";
+import TwitterLogger from "./containers/twitterLogger";
 import NavBar from "./containers/NavBar/NavBar";
+import getUserTimeline from "./apiRequests/getUserTimeline";
+import getTweet from "./apiRequests/getTweet";
+import getTweetReplies from "./apiRequests/getTweetReplies";
+import sendTweet from "./apiRequests/sendTweet";
+import sendBigTweet from "./apiRequests/sendBigTweet";
+
+import Editor from "./containers/editor/editor";
 /**
  * Entry point for the app
  * Initialize app-wide systems (request service)
@@ -17,10 +26,10 @@ function App() {
     <BaseContainer>
       <NavContainer>
         <NavBar></NavBar>
+        {/*<TwitterLogger></TwitterLogger>*/}
       </NavContainer>
       <WglContainer>
-        Widget Left
-        {/* ADD LEFT WIDGETS HERE */}
+        <Editor></Editor>
       </WglContainer>
       <TlContainer>
         <TwitterTimeline someProperty="test"></TwitterTimeline>
