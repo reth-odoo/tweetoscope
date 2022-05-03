@@ -1,5 +1,5 @@
 import { EditorDiv, EditHeader, WriteArea, SubmitButton, ConfirmText } from "./styles";
-import sendBigTweet from "../../apiRequests/sendBigTweet";
+import sendTweetThread from "../../apiRequests/sendTweetThread";
 import getSelf from "../../apiRequests/getSelf";
 import { formatTweet } from "./services/tweetFormat";
 
@@ -11,8 +11,12 @@ function Editor() {
 
     if(text_area && conf_area) {
       if(text_area.value) {
-        const formatedText = formatTweet(text_area.value);
-        sendBigTweet(formatedText);
+        const formated_list: [string,string[]] = formatTweet(text_area.value);
+        const tweet_thread: string[] = formated_list[1];
+        console.log(formated_list);
+        console.log(tweet_thread);
+        // sends the tweet thread which has been formatted for twitter
+        sendTweetThread(tweet_thread);
 
         // clear text when tweet sent
         text_area.value = "";
