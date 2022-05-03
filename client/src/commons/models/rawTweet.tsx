@@ -31,7 +31,7 @@ export class RawTweet{
 
     private _lastChildrenRequest: Date|null = null;
 
-    constructor(id: string, name: string, username: string, date: Date, text: string, metrics: PublicMetrics, parent?: RawTweet | null, replies?: RawTweet[])  {
+    constructor(id: string, name: string, username: string, date: Date, text: string, metrics: PublicMetrics, parent?: RawTweet | null, replies?: RawTweet[]){
 
         this._id = id;
         this._name = name;
@@ -85,7 +85,7 @@ export class RawTweet{
                 }) as RawTweetReplies;
                 
                 if(reply_handle){
-                    this._replies = reply_handle.tweets
+                    this._replies = reply_handle.tweets;
                 }
                 
             }
@@ -137,6 +137,10 @@ export class RawTweet{
 
     get id(): string{
         return this._id;
+    }
+
+    get metrics(){
+        return this._metrics;
     }
 
     get likes(): number {

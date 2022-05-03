@@ -24,6 +24,10 @@ function findReply(tweet_list: Array<reference_format>){
 
 async function getTweetReplies(tweet: RawTweet, p_token?: string): Promise<RawTweetReplies>{
 
+  // List of replies
+
+  // Server Request
+
   const route = "/twitter/searchReplyTweets"
 
   var body = {
@@ -39,20 +43,29 @@ async function getTweetReplies(tweet: RawTweet, p_token?: string): Promise<RawTw
     return new RawTweetReplies(tweet);
   }
 
+  // Create a data structure allowing easier access to user
+
   const users = userParse(res_data.includes.users);
+
+  // Generate Replies List from Request Response
 
   var tweet_list: RawTweetReplies = new RawTweetReplies(tweet);
 
   for (let i = 0; i < res_data.data.length; i++){
-    
+
+    var ntweet: RawTweet = tweetParse(res_data.data[i],users,tweet);
+
+    // Add Tweet to the list who are answer to the Request Tweet
+
     if (tweet.id === findReply(res_data.data[i].referenced_tweets)){
 
-      var ntweet: RawTweet = tweetParse(res_data.data[i],users,tweet);
       tweet_list.addTweet(ntweet);
 
     }
 
   }
+
+  // Pagination_token
 
   tweet_list.pagination_token = res_data.meta.next_token;
 
