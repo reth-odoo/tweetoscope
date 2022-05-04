@@ -1,7 +1,12 @@
 export function formatTweet(text: string) {
 
   const prefixDict: { [key: string]: string } = {"#": "heading1", "##": "heading2", "###": "heading3", "**": "bold", "*": "italic", "[link]": "link", "[img]": "image", "[gif]": "gif"};
-  let formatedText = "";
+
+  let twittoText = "";
+  let twitterText = "";
+  let twitter_threads: string[] = [];
+  let heading_number = 1;
+  let heading_number_below = 1;
 
   let lineArray = text.split("\n");
 
@@ -17,7 +22,8 @@ export function formatTweet(text: string) {
       if("#*[".includes(char) && write.span === false) prefix.reading = true;
 
       if(prefix.reading && char === " ") {
-        formatedText +=  prefix.name;
+        twittoText +=  prefix.name;
+        twitterText += prefix.name;
         prefix.name = "";
         prefix.reading = false;
       }
@@ -25,32 +31,67 @@ export function formatTweet(text: string) {
       // if we stumble upon a ( and we are reading the prefix, it means the prefix is over
       else if(char === "(" && prefix.reading) {
         if(prefixDict[prefix.name] !== undefined) {
-          formatedText += `<span class=${prefixDict[prefix.name]}>`;
+          // add a span for the twittoscope text
+          twittoText += `<span class=${prefixDict[prefix.name]}>`;
+          // different cases for twitter text
+          if(prefix.name === "#") {
+            twitter_threads.push(twitterText);
+            twitterText = "";
+            twitterText += "THREAD: ";
+          }
+          else if(prefix.name === "##") {
+            twitter_threads.push(twitterText);
+            twitterText = "";
+            twitterText += `${heading_number}. `;
+            heading_number += 1;
+          }
+          else if(prefix.name === "###") {
+            twitter_threads.push(twitterText);
+            twitterText = "";
+            twitterText += `${heading_number - 1}.${heading_number_below}. `;
+            heading_number_below += 1;
+          }
           // text to be set in the <span> tag relative to the prefix is the text until the next )
           write.span = true;
           write.current = false;
         }
         // if the prefix was not found, add it as text
-        else formatedText += prefix.name;
+        else {
+          twittoText += prefix.name;
+          twitterText += prefix.name;
+        }
 
         prefix.name = "";
         prefix.reading = false;
       }
 
       else if(char === ")" && write.span) {
-        formatedText += "</span>";
+        twittoText += "</span>";
         write.span = false;
         write.current = false;
       }
 
       if(prefix.reading) prefix.name += char;
 
-      else if(write.current) formatedText += char;
+      else if(write.current) {
+        twittoText += char;
+        twitterText += char;
+      }
     }
 
     // add break tag when end of line
-    formatedText += "<br><br>";
+    twittoText += "<br><br>";
+    twitterText += "\n";
   }
 
-  return formatedText;
+  twitter_threads.push(twitterText);
+
+  // if the tweet started with a title, then an empty string was set at index 0 so we need to remove it
+  if(twitter_threads[0] === "") {
+    twitter_threads.shift();
+  }
+
+  const format_list: [string, string[]] = [twittoText, twitter_threads];
+
+  return format_list;
 }
