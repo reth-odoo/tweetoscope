@@ -1,4 +1,4 @@
-import { DEFAULT_TWEET_DIMENSIONS } from "src/AppParameters";
+import { DEFAULT_TWEET_DIMENSIONS, DEFAULT_TWEET_UNWRAP_DEPTH } from "src/AppParameters";
 import Tweet from "./tweet";
 
 class DisplayTweet{
@@ -8,11 +8,21 @@ class DisplayTweet{
 
     subtreeSpan: {startX: number, endX: number};
 
+    
+
     private _displayChildren: DisplayTweet[];
     private _displayParent: DisplayTweet|null;
-    private _hidden: boolean;
+    private _selected: boolean;
 
-    private _tweet: Tweet;
+    //true if no children should be displayed
+    private _hiding: boolean;
+
+    private _depth: number|null;
+
+    //function to call when changing selected state
+    private _selected_callback: (select: boolean) => void = () => {};
+
+    public _tweet: Tweet;
 
     constructor(tweet: Tweet, position: {x: number, y: number}, displayParent?: DisplayTweet, displayChildren?: DisplayTweet[]){
 
@@ -25,13 +35,19 @@ class DisplayTweet{
         this._displayParent = displayParent?displayParent:null;
         this._displayChildren = displayChildren?displayChildren:[];
 
-        this._hidden = false;
+        this._depth = null;
+
+        this._hiding = this.displayDepth>=DEFAULT_TWEET_UNWRAP_DEPTH;
+        this._selected = false;
 
     }
 
     addDisplayChild(child: DisplayTweet){
         this._displayChildren.push(child);
     }
+    /**
+     * returns children and requests them if needed
+     */
     get displayChildren(): Promise<DisplayTweet[]>{
 
         return new Promise(async (ok, err) => {
@@ -53,6 +69,22 @@ class DisplayTweet{
             ok(this._displayChildren);
         });
     }
+    /**
+     * returns children already visibly displayed
+     */
+    get displayedChildren(){
+        if(this._hiding){
+            return [];
+        }
+        return this._displayChildren;
+    }
+    /**
+     * returns children without triggering a new request
+     */
+    get loadedChildren(){
+        return this._displayChildren;
+
+    }
 
     setDisplayParent(parent: DisplayTweet){
         this._displayParent = parent;
@@ -69,20 +101,36 @@ class DisplayTweet{
         return this;
     }
 
-    /*setHiddenRec(state: boolean){
-        //TODO assert parent not hidden?
-        this._hidden = state;
-        for(const child of this._displayChildren){
-            child.setHiddenRec(state);
-        }
-    }*/
-
-    setHidden(state: boolean){
-        this._hidden = state;
+    /**
+     * This applies for all children regardless of _hidden
+     * @param state whether the children of the tweet should be displayed
+     */
+    setHiding(state: boolean){
+        this._hiding = state;
     }
 
-    get isHidden(){
-        return this._hidden;
+    get isHiding(){
+        return this._hiding;
+    }
+
+    get selected(){
+        return this._selected;
+    }
+
+
+    select(){
+       this._selected = true; 
+       this._selected_callback(true);
+    }
+    unSelect(){
+        this._selected = false;
+        this._selected_callback(false);
+    }
+
+    setSelectCallback(f: (select: boolean)=>void){
+        this._selected_callback = f;
+        //call, in case it wasn't up to date
+        f(this._selected)
     }
 
 
@@ -91,6 +139,19 @@ class DisplayTweet{
         this.subtreeSpan = {startX: this.position.x, endX: this.position.x+this.dimension.width};
     }
 
+
+    get displayDepth(): number{
+        if(this._depth){
+            return this._depth;
+        }
+        if(this.displayParent===null){
+            this._depth = 0;
+            return 0;
+        }else{
+            this._depth = this.displayParent.displayDepth;
+        }
+        return this._depth;
+    }
 
     //get data from tweet (not a subclass to avoid redundant data)
     //modifying the tweet would update the display as well
