@@ -4,7 +4,8 @@ interface TweetDivProps{
     backgroundColor: string;
     borderColor: string;
     pos: {x: number, y: number};
-    dimensions: {width: number, height: number}
+    dimensions: {width: number, height: number};
+    selected: boolean;
 }
 
 export const TweetDiv = styled.div<TweetDivProps>`
@@ -19,6 +20,7 @@ export const TweetDiv = styled.div<TweetDivProps>`
   left: ${props => props.pos.x}px;
   top: ${props => props.pos.y}px;
   overflow: hidden;
+  ${props => props.selected?"border: 1px solid red":""};
 
   &:hover {
     overflow: visible;
