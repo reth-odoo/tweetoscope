@@ -1,6 +1,6 @@
 import { RawTweet } from "src/commons/models/rawTweet";
 
-export const DEFAULT_TWEET_UNWRAP_DEPTH = 3;
+export const DEFAULT_TWEET_UNWRAP_DEPTH = 0;
 
 export const DEFAULT_TWEET_DIMENSIONS = { width: 500, height: 160 };
 
@@ -37,7 +37,7 @@ First, she tried to look down and make out what she was coming to,
 but it was too dark to see anything; then she looked at the sides of the well, 
 and noticed that they were filled with cupboards and book-shelves; here and there she saw maps and pictures hung upon pegs. 
 She took down a jar from one of the shelves as she passed.`;
-export function genTestTweet() {
+export function genTestTweets() {
   function* genId() {
     let id = 0;
 
@@ -57,6 +57,8 @@ export function genTestTweet() {
   }
 
   let id = genId();
+  let tweets = [];
+  for(let i = 0; i<12; i++){
   let root = new RawTweet(
     getId(id),
     "John",
@@ -86,6 +88,35 @@ export function genTestTweet() {
   );
   root.debugAddReply(rep1);
   root.debugAddReply(rep2);
-
-  return root;
+  let rep3 = new RawTweet(
+    getId(id),
+    "Henry",
+    "henr24",
+    new Date(Date.now()),
+    "Tweeto..what?",
+    { retweet_count: 0, reply_count: 0, like_count: 1, quote_count: 0 },
+    root
+  );  let rep4 = new RawTweet(
+    getId(id),
+    "Henry",
+    "henr24",
+    new Date(Date.now()),
+    "Tweeto..what?",
+    { retweet_count: 0, reply_count: 0, like_count: 1, quote_count: 0 },
+    root
+  );  let rep5 = new RawTweet(
+    getId(id),
+    "Henry",
+    "henr24",
+    new Date(Date.now()),
+    "Tweeto..what?",
+    { retweet_count: 0, reply_count: 0, like_count: 1, quote_count: 0 },
+    root
+  );
+  rep2.debugAddReply(rep3);
+  rep3.debugAddReply(rep4);
+  rep4.debugAddReply(rep5);
+  tweets.push(root)
+  }
+  return tweets;
 }
