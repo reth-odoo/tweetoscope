@@ -86,6 +86,26 @@ export function genTestTweets() {
     { retweet_count: 0, reply_count: 0, like_count: 1, quote_count: 0 },
     root
   );
+  let rep10 = new RawTweet(
+    getId(id),
+    "Henry",
+    "henr24",
+    new Date(Date.now()),
+    "Tweeto..what?",
+    { retweet_count: 0, reply_count: 0, like_count: 1, quote_count: 0 },
+    root
+  );
+    let rep11 = new RawTweet(
+    getId(id),
+    "Henry",
+    "henr24",
+    new Date(Date.now()),
+    "Tweeto..what?",
+    { retweet_count: 0, reply_count: 0, like_count: 1, quote_count: 0 },
+    root
+  );
+  root.debugAddReply(rep10);
+  root.debugAddReply(rep11);
   root.debugAddReply(rep1);
   root.debugAddReply(rep2);
   let rep3 = new RawTweet(

@@ -167,15 +167,15 @@ function TwitterTimeline({someProperty}: {someProperty: string}) {
       }
     }
 
-
+    /**
+     * Hides/shows tweets and computes the new offset for tweets to look still
+     * @param tweet the tweet of which the children will be hidden/shown  
+     * @param hide whether the tweets will be hidden or shown
+     */
     async function setHideTweet(tweet: DisplayTweet, hide: boolean){
-      let initial_span = tweet.subtreeSpan.endX-tweet.subtreeSpan.startX;
-
       tweet.setHiding(hide);
-      updateDisplay()
-
-      let new_span = tweet.subtreeSpan.endX-tweet.subtreeSpan.startX;
-      boundShiftOffsets({x:(new_span-initial_span)/2, y:0})
+      await updateDisplay();
+      centerTweet(tweet);
     }
 
 
