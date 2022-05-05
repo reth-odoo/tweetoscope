@@ -4,7 +4,7 @@ import TwitterService from "../../commons/services/twitterService";
 import TweetArc from "../../components/tweetArc/tweetArc";
 import TweetTree from "../tweetTree/tweetTree";
 import {regenTrees, genTrees} from "./services/tweetTreeGenerator";
-import {Container, LeftArrow, RightArrow, SVGContainer} from "./styles";
+import {Container, SVGContainer} from "./styles";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import {RawTweet} from "src/commons/models/rawTweet";
 import DisplayTweet from "src/commons/models/displayTweet";
