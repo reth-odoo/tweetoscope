@@ -176,7 +176,6 @@ function TwitterTimeline({someProperty}: {someProperty: string}) {
 
       let new_span = tweet.subtreeSpan.endX-tweet.subtreeSpan.startX;
       boundShiftOffsets({x:(new_span-initial_span)/2, y:0})
-      console.log("ko")
     }
 
 
@@ -222,7 +221,6 @@ function TwitterTimeline({someProperty}: {someProperty: string}) {
     //assume getTimeline is "free" and can be called multiple times
     return(
           <Container onKeyDown={handleKeyPress} tabIndex={0} ref={containerRef} offsets={offsets}>
-            <span>{offsets.x}:{offsets.y}</span>
             <SVGContainer>
               {renderedTweets.flat().map(dTweet => {
                 if(dTweet.displayParent!=null){
