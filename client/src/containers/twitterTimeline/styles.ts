@@ -17,15 +17,3 @@ left:0;
 width:100%;
 height:100%;
 `;
-
-
-const Arrow = styled.span<{hidden: boolean}>`
-width: 20px; 
-height: 20px; 
-background: red; 
-position: absolute;
-top: 50%;
-${props=>props.hidden?"display:hidden;":""}`;
-
-export const RightArrow = styled(Arrow)`right: 10px`;
-export const LeftArrow = styled(Arrow)`left: 10px`;
