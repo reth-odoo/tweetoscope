@@ -62,18 +62,22 @@ function DropdownMenu(){
             
             try {
 
-                //Authenticated Resource Access
-                const data: any = await getSelf();
+                if (!cookies["auth-cookie"]){
 
-                //console.log("Data: ", data);
+                    //Authenticated Resource Access
+                    const data: any = await getSelf();
 
-                const user = data.data;
-                
-                setName(user.name);
-                setUserName(user.username);
-                setImageUrl(user.profile_image_url);
-                setStatus(user.description);
-                setUrl(user.url);
+                    //console.log("Data: ", data);
+
+                    const user = data.data;
+
+                    setName(user.name);
+                    setUserName(user.username);
+                    setImageUrl(user.profile_image_url);
+                    setStatus(user.description);
+                    setUrl(user.url);
+
+                }
 
             } 
                 
