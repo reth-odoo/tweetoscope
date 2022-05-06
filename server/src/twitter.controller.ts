@@ -33,7 +33,7 @@ export class TwitterController {
     params += "&";
     params += "expansions=author_id,referenced_tweets.id";
     params += "&";
-    params += "user.fields=name";
+    params += "user.fields=name,profile_image_url";
 
     const fullURL = baseURL+params;
 
@@ -56,7 +56,7 @@ export class TwitterController {
     params += "&";
     params += "expansions=author_id,referenced_tweets.id";
     params += "&";
-    params += "user.fields=name";
+    params += "user.fields=name,profile_image_url";
     if (req.body.p_token && req.body.p_token != "") {
       params += "&";
       params += `pagination_token=${req.body.p_token}`;
@@ -82,7 +82,7 @@ export class TwitterController {
     params += "&";
     params += "expansions=author_id,referenced_tweets.id";
     params += "&";
-    params += "user.fields=name";
+    params += "user.fields=name,profile_image_url";
     params += "&";
     params += "max_results=100";
     params += "&";
@@ -117,7 +117,7 @@ export class TwitterController {
     params += "&";
     params += "expansions=author_id,referenced_tweets.id";
     params += "&";
-    params += "user.fields=name";
+    params += "user.fields=name,profile_image_url";
     params += "&";
     params += "max_results=100";
     params += "&";
