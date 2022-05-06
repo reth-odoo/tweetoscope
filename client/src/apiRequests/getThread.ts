@@ -23,7 +23,9 @@ type reference_format = {
   
 async function getThread(tweet: RawTweet, p_token?: string): Promise<RawTweet[]>{
 
-    // Thread composition
+  // Thread composition
+
+  // Request preparation
 
   const route2 = "/twitter/getThread"
 
@@ -34,8 +36,12 @@ async function getThread(tweet: RawTweet, p_token?: string): Promise<RawTweet[]>
     user_id: tweet.username
   };
 
-  const thread_data = await serverRequest(route2,body2);
+  // Request Execution
 
+  const thread_data = await serverRequest(route2,body2); 
+
+  // Parsing the Response Users into a more useable format
+  
   const users2 = userParse(thread_data.includes.users);
 
   var tweet_list2: RawTweet[] = []; //List of Raw_tweet that composes the thread

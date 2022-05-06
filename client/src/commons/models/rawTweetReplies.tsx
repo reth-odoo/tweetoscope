@@ -75,6 +75,7 @@ class RawTweetReplies{
         const fullTweet = new RawTweet(this.parent.id,
             this.parent.name,
             this.parent.username,
+            this.parent.profile_image,
             this.parent.date,
             fullThread,
             this.parent.metrics,
