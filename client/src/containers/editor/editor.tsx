@@ -4,8 +4,9 @@ import getSelf from "../../apiRequests/getSelf";
 import { formatTweet } from "./services/tweetFormat";
 import { dateToString } from "../../commons/utils/dateFormater";
 import { useEffect, useState } from 'react';
+import Tweet from "src/commons/models/tweet";
 
-function Editor() {
+function Editor(props: EditorProps) {
 
   // get user data
   const [userData, setUserData] = useState("");
@@ -74,6 +75,7 @@ function Editor() {
   return(
     <EditorDiv>
       <EditHeader>TwittoWrite Editor</EditHeader>
+      <span>{props.SelectedTweet?("Responding to " + props.SelectedTweet.username):""}</span>
       <br/>
       <p style={{ color: "#55acee"}}>
         <span id={"editor-user-area"}>{userData} -&nbsp;</span>
@@ -87,6 +89,10 @@ function Editor() {
       <br/>
     </EditorDiv>
   );
+}
+
+interface EditorProps{
+  SelectedTweet: Tweet|null
 }
 
 export default Editor;
