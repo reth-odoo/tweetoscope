@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import DisplayTweet from "../../commons/models/displayTweet";
 import { TweetDiv, HeaderDiv } from "./styles";
 import { genAnalytics } from "./services/analyticsGen";
@@ -14,8 +14,16 @@ function TweetNode(props:TweetNodeProps) {
 
   let top_words = genAnalytics(props.data.text);
 
+  let [selected, setSelected] = useState(props.data.selected);
+  useEffect(()=>{
+    props.data.setSelectCallback(setSelected);
+  },[])
+
   return(
-    <TweetDiv onClick={props.onClick} backgroundColor={props.backgroundColor!} borderColor={props.borderColor!} pos={props.data.position} dimensions={props.data.dimension}>
+    <TweetDiv onClick={props.onClick} backgroundColor={props.backgroundColor!} 
+    borderColor={props.borderColor!} 
+    pos={props.data.position} dimensions={props.data.dimension}
+    selected={selected}>
     {/*onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)} style={{ overflow: hover ? "visible" : "hidden", height: hover ? "auto" : "" }}*/}
       {/* If retweet */}
       {props.data.is_retweet ? <p style={{ color: props.nameColor }}>@{props.data.is_retweet} retweeted</p> : null}

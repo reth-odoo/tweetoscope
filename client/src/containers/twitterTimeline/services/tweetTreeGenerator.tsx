@@ -52,18 +52,22 @@ async function layout(tweet: DisplayTweet, offset: number, depth: number, output
 
   let lastOffset = offset;
 
-  let displayChildren = await tweet.displayChildren;
-
-  //go to the bottom and progressively move the offset
-  for(const child of displayChildren){
-    if(child.isHidden){
-      continue;
+  //this is the one place you CANNOT use displayedTweet (this is where the request is implicitly made)
+  if(!tweet.isHiding){
+    let displayChildren = await tweet.displayChildren;
+    //go to the bottom and progressively move the offset
+    for(const child of displayChildren){
+      let res = await layout(child, lastOffset, depth+NodeSpacingY, outputArray);
+      lastOffset = res.startX+res.width+NodeSpacingX;
     }
-    let res = await layout(child, lastOffset, depth+NodeSpacingY, outputArray);
-    lastOffset = res.startX+res.width+NodeSpacingX;
+    //remove the last spacing
+    if(lastOffset!==offset){
+      lastOffset-=NodeSpacingX;
+    }
   }
+
   //if leaf node, just place it at the offset
-  if(displayChildren.length === 0){
+  if(tweet.displayedChildren.length === 0){
     tweet.position = {x:offset,y:depth};
     outputArray.push(tweet);
     return {tweet:tweet, startX: offset, width: Dimensions.width}
@@ -71,7 +75,7 @@ async function layout(tweet: DisplayTweet, offset: number, depth: number, output
 
   let width = 0;
   //otherwise place in the middle of the children
-  if(displayChildren.filter(dTweet => !dTweet.isHidden).length>0){
+  if(tweet.displayedChildren.length>0){
     tweet.position = {x:(lastOffset+offset)/2-Dimensions.width/2,y:depth};
     width = lastOffset-offset;
   }

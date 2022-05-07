@@ -4,11 +4,12 @@ import TwitterService from "../../commons/services/twitterService";
 import TweetArc from "../../components/tweetArc/tweetArc";
 import TweetTree from "../tweetTree/tweetTree";
 import {regenTrees, genTrees} from "./services/tweetTreeGenerator";
-import {Container, LeftArrow, RightArrow, SVGContainer} from "./styles";
+import {Container, SVGContainer} from "./styles";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import {RawTweet} from "src/commons/models/rawTweet";
 import DisplayTweet from "src/commons/models/displayTweet";
 import { isElementOfType } from "react-dom/test-utils";
+import { tweetParse } from "src/apiRequests/requestHandling/dataParsing";
 
 
 function TwitterTimeline({someProperty}: {someProperty: string}) {
@@ -28,14 +29,21 @@ function TwitterTimeline({someProperty}: {someProperty: string}) {
     //handle scrolling
 
     //offset in pixels
-    const [offset, setOffset] = useState(0);
+    const [offsets, setOffsets] = useState({x:0,y:0});
+    const boundShiftOffsets = (shifts: {x:number, y:number}) => setOffsets(prev=>{
+      return {x: Math.min(prev.x+shifts.x,0), y: Math.min(prev.y+shifts.y,0)}
+    })
+    const boundSetOffsets = (new_offsets: {x:number, y:number}) => setOffsets({
+      x:Math.min(new_offsets.x, 0), 
+      y: Math.min(new_offsets.y,0)
+    });
 
     const containerRef = useRef()  as React.MutableRefObject<HTMLDivElement>
 
 
     //no need to update callback, can just use "prev" from setState method
     const handleScroll = useCallback((event: WheelEvent) => {
-      setOffset(prev => Math.min(prev-event.deltaY, 0));
+      boundShiftOffsets( {x: -event.deltaY, y:0});
     }, [])
 
     useEffect(() => {
@@ -46,79 +54,138 @@ function TwitterTimeline({someProperty}: {someProperty: string}) {
 
 
 
-    //handle moving between roots
+    //handle moving between tweets
 
-    function getNextRoot(){
-      if(!containerRef.current){
-        return null;
+    const [selected,setSelected]: [DisplayTweet|null, any] = useState(null);
+
+    function select(dp: DisplayTweet){
+      if(selected){
+        selected.unSelect()
       }
-      let currentCenter = -(offset - containerRef.current.clientWidth/2);
-      let nextGood = false;
+      setSelected(dp);
+      dp.select();
 
-      for(const currentRoot of renderedTweets.map(treeTweets => treeTweets[0].displayRoot)){
-        if(nextGood){
-          return currentRoot;
-        }
-        if(inBetween(currentCenter,currentRoot.subtreeSpan.startX,currentRoot.subtreeSpan.endX)){
-          nextGood = true;
-        }
-      }
-
-      return null;
-    }
-
-    function getPrevRoot(){
-      if(!containerRef.current){
-        return null;
-      }
-      let currentCenter = -(offset - containerRef.current.clientWidth/2);
-      let prev = null;
-      let prevPrev = null;
-      let prevGood = false;
-
-      for(const currentRoot of renderedTweets.map(treeTweets => treeTweets[0].displayRoot)){
-        if(prevGood){
-          return prev;
-        }
-        if(inBetween(currentCenter,currentRoot.subtreeSpan.startX,currentRoot.subtreeSpan.endX)){
-          prevGood = true;
-        }else{
-          prev = currentRoot;
-        }
-
-
-      }
-      //if outside of a tree, just go to the last one
-      return prev;
-
-    }
-
-    function goToNextRoot(){
-      let currentCenter = containerRef.current.clientWidth/2;
-      let target = getNextRoot();
-      if(target && target!==null){
-        setOffset(prev => Math.min(0, currentCenter - target!.position.x - target!.dimension.width/2));
-      }
-    }
-
-    function goToPrevRoot(){
-      let currentCenter = containerRef.current.clientWidth/2;
-      let target = getPrevRoot();
-      if(target && target!==null){
-        setOffset(prev => Math.min(0, currentCenter - target!.position.x - target!.dimension.width/2));
-      }
+      centerTweet(dp);
     }
 
 
-    async function updateDisplay(offsetChange?: number){
+    const centerTweet = (tweet: DisplayTweet) => {
+      boundSetOffsets(
+      {x: -(tweet.position.x+tweet.dimension.width/2-containerRef.current.offsetWidth/2) ,
+       y: -(tweet.position.y+tweet.dimension.height/2-containerRef.current.offsetHeight/2)});
+      };
+
+    async function handleKeyPress(event: React.KeyboardEvent){
+      //if no tweet selected, select one
+      if(!selected){
+        selectFirst();
+        return;
+      }
+
+      const s = selected!;
+
+      switch(event.key){
+        case("ArrowLeft"):
+          const left = await getNextDT(true, selected, null, selected, 0);
+          if(left){
+            select(left);
+          }
+        break;
+        case("ArrowRight"):
+          const right = await getNextDT(false, selected, null, selected, 0);
+          if(right){
+            select(right);
+          }
+        break;
+        case("ArrowUp"):
+          if(s.displayParent){
+            select(selected!.displayParent!)
+          }
+        break;
+        case("ArrowDown"):
+          //if hiding, just show children
+          if(s.isHiding){
+            setHideTweet(s!, false);
+            break;
+          }
+
+          const current_children = s.displayedChildren;
+          const nb_cr_children = current_children.length;
+          if(nb_cr_children>0){
+            const new_select = current_children[Math.floor(nb_cr_children/2)]
+            select(new_select);
+          }
+        break;
+
+        case("SpaceBar"):
+        case(" "):
+          setHideTweet(selected, !selected.isHiding);
+        break;
+      }
+    }
+
+    async function getNextDT(left: boolean, orig: DisplayTweet, prev: DisplayTweet|null, current: DisplayTweet|null, depth: number): Promise<DisplayTweet|null>{
+      //if depth 0 and not the start, ok
+      if(depth===0 && current && current.id!==orig.id){
+        return current;
+      }else{
+        //if current is null, assume we're 1 level above roots => children = roots
+        const children = (current===null?getRoots():(await current.displayedChildren)).slice();
+
+        //if looking for first to left, go through array in reverse
+        if(left){
+          children.reverse();
+        }
+
+        let prev_encountered = false;
+        for(const child of children){
+          if(prev_encountered || prev===null){
+            let ret = getNextDT(left, orig, null, child, depth-1)
+            return ret;
+          }
+          else if(prev && child.id===prev.id){
+            prev_encountered = true;
+            continue;
+          }
+        }
+
+        if(!current){
+          return null;
+        }
+        return getNextDT(left, orig, current, current.displayParent, depth+1);
+      }
+    }
+
+    const getRoots = () => renderedTweets.map((d: DisplayTweet[])=> d[d.length-1].displayRoot);
+
+    /**
+     * Selects the first tweet on display, if any
+     */
+    function selectFirst(){
+      if(renderedTweets.length>0){
+         select(renderedTweets[0][renderedTweets[0].length-1]);
+      }
+    }
+
+    /**
+     * Hides/shows tweets and computes the new offset for tweets to look still
+     * @param tweet the tweet of which the children will be hidden/shown  
+     * @param hide whether the tweets will be hidden or shown
+     */
+    async function setHideTweet(tweet: DisplayTweet, hide: boolean){
+      tweet.setHiding(hide);
+      await updateDisplay();
+      centerTweet(tweet);
+    }
+
+
+
+    async function updateDisplay(){
       //just modifying the IDs
       //TODO: actually make 2 distinct arrays?
       setRenderedTweets(
         await regenTrees(renderedTweets.map(arr => Array.from(arr)))
       )
-      if(offsetChange){
-        setOffset(prev => Math.min(prev+offsetChange,0))
-      }
     }
 
 
@@ -129,7 +196,6 @@ function TwitterTimeline({someProperty}: {someProperty: string}) {
       async function getTl(){
         let tweets = await twitter.getTimeline()
         let tree = await genTrees(tweets)
-        //can only use 1 setState here
         setRenderedTweets(tree);
       }
       getTl();
@@ -143,10 +209,18 @@ function TwitterTimeline({someProperty}: {someProperty: string}) {
     //would filter to only a few tweets that can actually be displayed
     const [renderedTweets, setRenderedTweets]: [DisplayTweet[][], any] = useState([]);
 
+    //update selected if no selected tweet
+    useEffect(()=>{
+      //should only trigger if tweet was unloaded
+      //(requires selected to be set to null when selected tweet unloaded)
+      if(!selected){
+        selectFirst()
+      }
+    },[renderedTweets]);
 
     //assume getTimeline is "free" and can be called multiple times
     return(
-          <Container ref={containerRef} offset={offset}>
+          <Container onKeyDown={handleKeyPress} tabIndex={0} ref={containerRef} offsets={offsets}>
             <SVGContainer>
               {renderedTweets.flat().map(dTweet => {
                 if(dTweet.displayParent!=null){
@@ -156,9 +230,7 @@ function TwitterTimeline({someProperty}: {someProperty: string}) {
               })}
             </SVGContainer>
             {renderedTweets.length===0?<span>loading...</span>:<></>}
-            {renderedTweets.map(tweetList => <TweetTree displayUpdateHandler={updateDisplay} key={tweetList[0]!.displayRoot.id} tweets={tweetList}></TweetTree>)}
-            <LeftArrow onClick={goToPrevRoot} hidden={getPrevRoot()===null}></LeftArrow>
-            <RightArrow onClick={goToNextRoot} hidden={getNextRoot()===null}></RightArrow>
+            {renderedTweets.map(tweetList => <TweetTree clickNotifier={select} key={tweetList[tweetList.length-1]!.displayRoot.id} tweets={tweetList}></TweetTree>)}
           </Container>);
 }
 

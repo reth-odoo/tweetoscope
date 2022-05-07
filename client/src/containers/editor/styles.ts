@@ -45,3 +45,20 @@ export const SubmitButton = styled.button`
 export const ConfirmText = styled.p`
   margin-top: 20px;
 `;
+
+export const HelpButton = styled.button`
+  background-color: #66757d;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 16px;
+  margin-top: 10px;
+  margin-left: 20px;
+  transition-duration: 0.5s;
+
+  &:hover {
+    background-color: #55acee;
+    cursor: pointer;
+  }
+`;
