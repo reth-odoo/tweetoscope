@@ -62,10 +62,13 @@ class RawTweetReplies{
         this._thread.push(tweet)
     }
 
-    async fullThread(): Promise<RawTweet>{
+    async generateThread(){
 
         this.thread = await getThread(this._parent);
 
+    }
+
+    get threadTweet(): RawTweet{
         var fullThread: string = this.parent.text;
 
         for (let i = this.thread.length - 1; i > 0; i--){
@@ -75,6 +78,7 @@ class RawTweetReplies{
         const fullTweet = new RawTweet(this.parent.id,
             this.parent.name,
             this.parent.username,
+            this.parent.profile_image,
             this.parent.date,
             fullThread,
             this.parent.metrics,
@@ -82,7 +86,6 @@ class RawTweetReplies{
             this.parent.loadedReplies);
 
         return fullTweet;
-
     }
 
     async nextPage(): Promise<RawTweetReplies>{

@@ -12,12 +12,14 @@ type tweet_format = {
 type user_data = [
     {id: string; 
     name: string; 
-    username: string}];
+    username: string
+    profile_image: string}];
 
 type user_format = {
     [id: string] : {
         name: string; 
-        username: string}
+        username: string
+        profile_image: string}
     };
 
 
@@ -49,10 +51,10 @@ function tweetParse(tweet_data: tweet_format, user_data: user_format, parent?: R
     let author = tweet_data.author_id;
     var tweet: RawTweet;
     if(parent) {
-        tweet = new RawTweet(tweet_data.id, user_data[author].name, user_data[author].username, new Date(tweet_data.created_at), tweet_data.text, metrics, parent);
+        tweet = new RawTweet(tweet_data.id, user_data[author].name, user_data[author].username, user_data[author].profile_image, new Date(tweet_data.created_at), tweet_data.text, metrics, parent);
     }
     else{
-        tweet = new RawTweet(tweet_data.id, user_data[author].name, user_data[author].username, new Date(tweet_data.created_at), tweet_data.text, metrics);
+        tweet = new RawTweet(tweet_data.id, user_data[author].name, user_data[author].username, user_data[author].profile_image, new Date(tweet_data.created_at), tweet_data.text, metrics);
     }
 
     return tweet;

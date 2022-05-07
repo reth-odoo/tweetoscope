@@ -19,6 +19,7 @@ export class RawTweet{
 
     private _name: string;
     private _username: string;
+    private _profile_image: string;
     private _date: Date;
     private _text: string;
     private _replies: RawTweet[];
@@ -28,14 +29,14 @@ export class RawTweet{
     private _is_retweet: string | null;
     private _conversation_id: string | undefined;
 
-
     private _lastChildrenRequest: Date|null = null;
 
-    constructor(id: string, name: string, username: string, date: Date, text: string, metrics: PublicMetrics, parent?: RawTweet | null, replies?: RawTweet[]){
+    constructor(id: string, name: string, username: string, profile_image: string, date: Date, text: string, metrics: PublicMetrics, parent?: RawTweet | null, replies?: RawTweet[]){
 
         this._id = id;
         this._name = name;
         this._username = username;
+        this._profile_image = profile_image;
         this._date = date;
         this._text = text;
 
@@ -63,7 +64,7 @@ export class RawTweet{
     }
 
     clone(): RawTweet{
-        return new RawTweet(this.id, this.name, this.username, this.date, this.text, this._metrics, this.parent, this.loadedReplies);
+        return new RawTweet(this.id, this.name, this.username, this.profile_image, this.date, this.text, this._metrics, this.parent, this.loadedReplies);
     }
 
     /**
@@ -120,9 +121,15 @@ export class RawTweet{
     get name(): string{
         return this._name;
     }
+
     get username(): string{
         return this._username;
     }
+
+    get profile_image(): string{
+        return this._profile_image;
+    }
+
     get text(): string{
         return this._text;
     }

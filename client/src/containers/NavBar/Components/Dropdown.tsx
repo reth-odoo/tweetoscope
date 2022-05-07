@@ -12,7 +12,6 @@ import getSelf from '../../../apiRequests/getSelf'
 const base_url = 'http://127.0.0.1:3000'
 const request_token_route = `${base_url}/twitter` //Mettre ici la route du Request Token
 
-        
 
 function DropdownMenu(){
     //dropdown const
@@ -55,7 +54,7 @@ function DropdownMenu(){
             removeCookie('auth-cookie');
 
         } 
-        
+
         catch (error) {
 
             console.error(error); 
@@ -74,26 +73,27 @@ function DropdownMenu(){
 
                     console.log("Data: ", data);
 
-                    const user = data.data;
-                
-                    setName(user.name);
-                    setUserName(user.username);
-                    setImageUrl(user.profile_image_url);
-                    setStatus(user.description);
-                    setUrl(user.url);
+                const user = data.data;
+            
+
+                setName(user.name);
+                setUserName(user.username);
+                setImageUrl(user.profile_image_url);
+                setStatus(user.description);
+                setUrl(user.url);
 
                 
                 
             } 
-            
+                
             catch (error) {
 
                 console.error(error); 
 
             }
-    
+          
         })();
-    
+
     },[]);
 
     return(
@@ -116,7 +116,7 @@ function DropdownMenu(){
                                     <ListItem>URL: {url}</ListItem>
                                     <ListItem>Status: {status}</ListItem>
                                     <TwitterLoggerLogOutButtonContainer>
-                                    <TwitterLoggerLogOutButton className='signout-btn' onClick={logout}>Sign Out</TwitterLoggerLogOutButton>
+                                      <TwitterLoggerLogOutButton className='signout-btn' onClick={logout}>Sign Out</TwitterLoggerLogOutButton>
                                     </TwitterLoggerLogOutButtonContainer>
                                 </DropDownList>
                             </DropDownListContainer>
