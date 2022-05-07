@@ -106,15 +106,17 @@ export const DropDownHeader = styled("div")`
   display : flex;
   flex-direction : row;
   margin-bottom: 0.01em;
-  padding: 0.4em 2em 0.4em 1em;
+  padding: 0.4em 0.1em 0.4em 1em;
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.15);
   font-weight: 500;
   text-align : center;
+  font-size : 1em;
   color: rgb(255,255,255);
   border: 1px solid;
   border-radius: 100vh;
   background: #55ACEE;
   height: 1.6em;
+  width : 16vh;
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -127,6 +129,7 @@ export const DropDownHeaderUsrName = styled.p`
   display : flex;
   align-items: flex-end;
   justify-self : flex-end; 
+  margin-left : 0.5vh;
   width : auto;
   height : 100%;
   border : 1 px solid rgb(0,0,0);
@@ -137,6 +140,7 @@ export const DropDownListContainer = styled("div")`
   justify-content: center;
   position: absolute;
   margin-top: 3px;
+  margin-right : 3px;
   z-index: 100;
   width: auto;
   height: auto;

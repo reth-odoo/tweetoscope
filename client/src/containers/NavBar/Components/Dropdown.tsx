@@ -69,19 +69,21 @@ function DropdownMenu(){
         
             try {
 
-                //Authenticated Resource Access
-                const data: any = await getSelf();
+                    //Authenticated Resource Access
+                    const data: any = await getSelf();
 
-                console.log("Data: ", data);
+                    console.log("Data: ", data);
 
-                const user = data.data;
-            
-                setName(user.name);
-                setUserName(user.username);
-                setImageUrl(user.profile_image_url);
-                setStatus(user.description);
-                setUrl(user.url);
+                    const user = data.data;
+                
+                    setName(user.name);
+                    setUserName(user.username);
+                    setImageUrl(user.profile_image_url);
+                    setStatus(user.description);
+                    setUrl(user.url);
 
+                
+                
             } 
             
             catch (error) {
@@ -110,7 +112,7 @@ function DropdownMenu(){
                         {  isOpen && (
                             <DropDownListContainer>
                                 <DropDownList>
-                                    <ListItem>Name: {name} ({username})</ListItem>
+                                    <ListItem>Name: {name} (@{username})</ListItem>
                                     <ListItem>URL: {url}</ListItem>
                                     <ListItem>Status: {status}</ListItem>
                                     <TwitterLoggerLogOutButtonContainer>
