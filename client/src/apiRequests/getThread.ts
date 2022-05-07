@@ -23,8 +23,6 @@ type reference_format = {
   
 async function getThread(tweet: RawTweet, p_token?: string): Promise<RawTweet[]>{
 
-  // Thread composition
-
   // Request preparation
 
   const route2 = "/twitter/getThread"
@@ -37,30 +35,31 @@ async function getThread(tweet: RawTweet, p_token?: string): Promise<RawTweet[]>
   };
 
   // Request Execution
-
+  
   const thread_data = await serverRequest(route2,body2); 
 
   // Parsing the Response Users into a more useable format
   
   const users2 = userParse(thread_data.includes.users);
 
-  var tweet_list2: RawTweet[] = []; //List of Raw_tweet that composes the thread
+  var tweet_list: RawTweet[] = []; //List of Raw_tweet that composes the thread
+  var precedent_tweet: RawTweet = tweet; 
+  var ntweet: RawTweet;
 
-  for (let i = 0; i < thread_data.data.length; i++){
+  for (let i = thread_data.data.length-1; i <= 0 ; i--){
 
-    var ntweet2: RawTweet = tweetParse(thread_data.data[i],users2,tweet);
+    // Check if it can find a tweet that answer precedent tweet, add it to tweet_list if it is
 
-    if (tweet.id === findReply(thread_data.data[i].referenced_tweets)){
-
-      tweet_list2.push(ntweet2);
+    if (precedent_tweet.id === findReply(thread_data.data[i].referenced_tweets)){
+      ntweet = tweetParse(thread_data.data[i],users2,tweet);
+      tweet_list.push(ntweet);
+      precedent_tweet = ntweet;
 
     }
 
   }
 
-  // Pagination_token
-
-  return tweet_list2;
+  return tweet_list;
 
 }
 

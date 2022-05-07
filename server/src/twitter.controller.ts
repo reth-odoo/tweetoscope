@@ -204,7 +204,7 @@ export class TwitterController {
 
   }
 
-  @Post('mockup')
+  /*@Post('mockup')
   mockup(@Req() req: Request): Promise<any>{
 
     const auth_token = this.appService.decryptTokens(req);
@@ -219,6 +219,6 @@ export class TwitterController {
 
     return getRequest(fullURL);
 
-  }
+  }*/
 
 }
