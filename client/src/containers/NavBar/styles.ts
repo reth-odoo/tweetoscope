@@ -132,7 +132,6 @@ export const DropDownHeaderUsrName = styled.p`
   margin-left : 0.5vh;
   width : auto;
   height : 100%;
-  border : 1 px solid rgb(0,0,0);
 `;
 
 export const DropDownListContainer = styled("div")`
