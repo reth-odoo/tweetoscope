@@ -15,7 +15,7 @@ export const NavLogoContainer = styled.div`
   height: 85%;
   width: auto;  
   margin: 5px;
-  margin-bottom: 8px;
+  margin-bottom: 20px;
 `;
 
 export const NavLogo = styled.img`
@@ -89,7 +89,6 @@ export const DataListItem = styled.a`
 
 // Styled component pour le Dropdown du Twitterlogger
 export const Main = styled("div")`
-  background: #55ACEE;
   height: 2em;
   display: flex;
   align-items: center;
@@ -104,22 +103,33 @@ export const DropDownContainer = styled("div")`
 `;
 
 export const DropDownHeader = styled("div")`
+  display : flex;
+  flex-direction : row;
   margin-bottom: 0.01em;
   padding: 0.4em 2em 0.4em 1em;
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.15);
   font-weight: 500;
-  font-size: 1.3rem;
+  text-align : center;
   color: rgb(255,255,255);
   border: 1px solid;
   border-radius: 100vh;
-  height: 0.6em;
+  background: #55ACEE;
+  height: 1.6em;
   display: flex;
-  justify-content: center;
   align-items: center;
   cursor: pointer;
   &:hover {
     color: #fd9e46;
   }
+`;
+
+export const DropDownHeaderUsrName = styled.p`
+  display : flex;
+  align-items: flex-end;
+  justify-self : flex-end; 
+  width : auto;
+  height : 100%;
+  border : 1 px solid rgb(0,0,0);
 `;
 
 export const DropDownListContainer = styled("div")`
@@ -157,15 +167,24 @@ export const ListItem = styled("div")`
   }
 `;
 
-//Style component pour les élements du twitterlogger
+//Style component pour les élements du twitterlogger qui est dans le dropdown mais comme ce sont des éléments spécifiques, ils sont à part.
 export const TwitterLoggerSignInImg = styled.img`
   cursor: pointer;
 `;
 
+export const TwitterLoggerUserImgContainer = styled.div`
+  display : flex;
+  align-items: center;
+  justify-self : flex-start;
+  height : auto;
+  width : 25 vh;
+  border-color : 1 px solid #fd9e46; 
+  border-radius: 100vh;
+`;
+
 export const TwitterLoggerUserImg = styled.img`
-  height: auto;
-  width: auto;
-  borer-radius : 100vh;
+  display: flex;
+  object-fit : fill;
 `;
 
 export const TwitterLoggerLogOutButtonContainer = styled.div`
