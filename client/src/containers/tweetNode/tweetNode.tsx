@@ -17,11 +17,11 @@ function TweetNode(props:TweetNodeProps) {
   let [selected, setSelected] = useState(props.data.selected);
   useEffect(()=>{
     props.data.setSelectCallback(setSelected);
-  },[])
+  },[]);
 
   return(
-    <TweetDiv onClick={props.onClick} backgroundColor={props.backgroundColor!} 
-    borderColor={props.borderColor!} 
+    <TweetDiv onClick={props.onClick} backgroundColor={props.backgroundColor!}
+    borderColor={props.borderColor!}
     pos={props.data.position} dimensions={props.data.dimension}
     selected={selected}>
     {/*onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)} style={{ overflow: hover ? "visible" : "hidden", height: hover ? "auto" : "" }}*/}
