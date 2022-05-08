@@ -15,7 +15,7 @@ export const NavLogoContainer = styled.div`
   height: 85%;
   width: auto;  
   margin: 5px;
-  margin-bottom: 20px;
+  margin-bottom: 8px;
 `;
 
 export const NavLogo = styled.img`
@@ -70,10 +70,6 @@ export const SearchBarButton = styled.button`
   height: 100%;
   width: 20%;
   cursor: pointer;
-  &:hover {
-    border : 1px solid;
-    color: #fd9e46;
-  }
 `;
 
 // Styled component pour les data result du search (searchbar)
@@ -93,6 +89,7 @@ export const DataListItem = styled.a`
 
 // Styled component pour le Dropdown du Twitterlogger
 export const Main = styled("div")`
+  background: #55ACEE;
   height: 2em;
   display: flex;
   align-items: center;
@@ -102,29 +99,22 @@ export const Main = styled("div")`
 `;
 
 export const DropDownContainer = styled("div")`
-  min-width: 15vh;
-  max-width: 35vh;
+  width: 10.5em;
   margin: 0 auto;
 `;
 
 export const DropDownHeader = styled("div")`
-  display : flex;
-  flex-direction : row;
-  direction : rtl;
   margin-bottom: 0.01em;
-  padding: 0.4em 0.1em 0.4em 1em;
+  padding: 0.4em 2em 0.4em 1em;
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.15);
   font-weight: 500;
-  text-align : center;
-  font-size : 1em;
+  font-size: 1.3rem;
   color: rgb(255,255,255);
   border: 1px solid;
   border-radius: 100vh;
-  background: #55ACEE;
-  height: 1.6em;
-  min-width : 15vh;
-  width : auto;
-  max-width : 35vh;
+  height: 0.6em;
+  display: flex;
+  justify-content: center;
   align-items: center;
   cursor: pointer;
   &:hover {
@@ -132,22 +122,11 @@ export const DropDownHeader = styled("div")`
   }
 `;
 
-export const DropDownHeaderUsrName = styled.p`
-  display : flex;
-  align-items: center;
-  justify-content : center; 
-  margin-right : 0.5vh;
-  margin-left : 0.5vh;
-  width : auto;
-  height : 100%;
-`;
-
 export const DropDownListContainer = styled("div")`
   display: flex;
   justify-content: center;
   position: absolute;
   margin-top: 3px;
-  margin-right : 3px;
   z-index: 100;
   width: auto;
   height: auto;
@@ -178,23 +157,15 @@ export const ListItem = styled("div")`
   }
 `;
 
-//Style component pour les élements du twitterlogger qui est dans le dropdown mais comme ce sont des éléments spécifiques, ils sont à part.
+//Style component pour les élements du twitterlogger
 export const TwitterLoggerSignInImg = styled.img`
   cursor: pointer;
 `;
 
-export const TwitterLoggerUserImgContainer = styled.div`
-  display : flex;
-  align-items: center;
-  justify-content : center;
-  height : auto;
-  width : auto;
-  border-radius: 100vh;
-`;
-
 export const TwitterLoggerUserImg = styled.img`
-  display: flex;
-  object-fit : fill;
+  height: auto;
+  width: auto;
+  borer-radius : 100vh;
 `;
 
 export const TwitterLoggerLogOutButtonContainer = styled.div`
