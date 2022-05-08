@@ -70,6 +70,10 @@ export const SearchBarButton = styled.button`
   height: 100%;
   width: 20%;
   cursor: pointer;
+  &:hover {
+    border : 1px solid;
+    color: #fd9e46;
+  }
 `;
 
 // Styled component pour les data result du search (searchbar)
@@ -98,13 +102,15 @@ export const Main = styled("div")`
 `;
 
 export const DropDownContainer = styled("div")`
-  width: 10.5em;
+  min-width: 15vh;
+  max-width: 35vh;
   margin: 0 auto;
 `;
 
 export const DropDownHeader = styled("div")`
   display : flex;
   flex-direction : row;
+  direction : rtl;
   margin-bottom: 0.01em;
   padding: 0.4em 0.1em 0.4em 1em;
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.15);
@@ -116,8 +122,9 @@ export const DropDownHeader = styled("div")`
   border-radius: 100vh;
   background: #55ACEE;
   height: 1.6em;
-  width : 16vh;
-  display: flex;
+  min-width : 15vh;
+  width : auto;
+  max-width : 35vh;
   align-items: center;
   cursor: pointer;
   &:hover {
@@ -127,8 +134,9 @@ export const DropDownHeader = styled("div")`
 
 export const DropDownHeaderUsrName = styled.p`
   display : flex;
-  align-items: flex-end;
-  justify-self : flex-end; 
+  align-items: center;
+  justify-content : center; 
+  margin-right : 0.5vh;
   margin-left : 0.5vh;
   width : auto;
   height : 100%;
@@ -178,10 +186,9 @@ export const TwitterLoggerSignInImg = styled.img`
 export const TwitterLoggerUserImgContainer = styled.div`
   display : flex;
   align-items: center;
-  justify-self : flex-start;
+  justify-content : center;
   height : auto;
-  width : 25 vh;
-  border-color : 1 px solid #fd9e46; 
+  width : auto;
   border-radius: 100vh;
 `;
 

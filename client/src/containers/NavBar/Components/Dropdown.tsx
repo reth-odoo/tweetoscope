@@ -68,10 +68,10 @@ function DropdownMenu(){
         
             try {
 
-                    //Authenticated Resource Access
-                    const data: any = await getSelf();
+                //Authenticated Resource Access
+                const data: any = await getSelf();
 
-                    console.log("Data: ", data);
+                console.log("Data: ", data);
 
                 const user = data.data;
             
@@ -106,7 +106,7 @@ function DropdownMenu(){
                     <DropDownContainer>
                         <DropDownHeader onClick={toggling}>
                             <TwitterLoggerUserImgContainer>
-                                <TwitterLoggerUserImg alt='User profile' src={imageUrl} style={{ width : "30px", borderRadius:"50%" }}/> <DropDownHeaderUsrName>{name}</DropDownHeaderUsrName>
+                            <DropDownHeaderUsrName>{name}</DropDownHeaderUsrName> <TwitterLoggerUserImg alt='User profile' src={imageUrl} style={{ width : "30px", borderRadius:"50%" }}/> 
                             </TwitterLoggerUserImgContainer>
                         </DropDownHeader>
                         {  isOpen && (
