@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, Outlet } from "react-router-dom";
 import "./assets/style.css";
 import { BaseContainer, NavContainer, TlContainer, WglContainer } from "./baseStyle";
@@ -14,6 +14,7 @@ import sendTweet from "./apiRequests/sendTweet";
 import sendBigTweet from "./apiRequests/sendBigTweet";
 
 import Editor from "./containers/editor/editor";
+import Tweet from "./commons/models/tweet";
 /**
  * Entry point for the app
  * Initialize app-wide systems (request service)
@@ -22,6 +23,15 @@ import Editor from "./containers/editor/editor";
 
 function App() {
 
+  /* Start of shared state */
+
+  //assumed read-only state except for TwitterTimeline
+
+  const [selectedTweet, setSelectedTweet]: [null|Tweet, any] = useState(null);
+  const [requestDisplayRefresh, setRefreshRequestFn]: [() => void, any] = useState(()=>{return ()=>{}})
+
+  /* End of shared state */
+
   return (
     <BaseContainer>
       <NavContainer>
@@ -29,10 +39,10 @@ function App() {
         {/*<TwitterLogger></TwitterLogger>*/}
       </NavContainer>
       <WglContainer>
-        <Editor></Editor>
+        <Editor SelectedTweet={selectedTweet}></Editor>
       </WglContainer>
       <TlContainer>
-        <TwitterTimeline someProperty="test"></TwitterTimeline>
+        <TwitterTimeline SelectTweet={setSelectedTweet} SetRefreshHandle={setRefreshRequestFn}></TwitterTimeline>
       </TlContainer>
     </BaseContainer>
   );

@@ -5,26 +5,13 @@ import TweetArc from "../../components/tweetArc/tweetArc";
 import TweetTree from "../tweetTree/tweetTree";
 import {regenTrees, genTrees} from "./services/tweetTreeGenerator";
 import {Container, SVGContainer} from "./styles";
-import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
-import {RawTweet} from "src/commons/models/rawTweet";
 import DisplayTweet from "src/commons/models/displayTweet";
-import { isElementOfType } from "react-dom/test-utils";
-import { tweetParse } from "src/apiRequests/requestHandling/dataParsing";
 
 
-function TwitterTimeline({someProperty}: {someProperty: string}) {
+function TwitterTimeline(props: TimelineProps) {
 
     const twitter = new TwitterService();
-    const arrow_values = {"ArrowLeft": [-1, 0], "ArrowRight": [1, 0], "ArrowUp": [0, -1], "ArrowDown": [0, 1]};
 
-    /*
-    function handleKeys(event) {
-
-      if(event.key in arrow_values) {
-        break;
-      }
-    }
-    */
 
     //handle scrolling
 
@@ -66,6 +53,8 @@ function TwitterTimeline({someProperty}: {someProperty: string}) {
       dp.select();
 
       centerTweet(dp);
+
+      props.SelectTweet(dp.referencedTweet);
     }
 
 
@@ -188,6 +177,8 @@ function TwitterTimeline({someProperty}: {someProperty: string}) {
       )
     }
 
+    props.SetRefreshHandle(updateDisplay);
+
 
     //assumes getTimeline returns a different object when timeline is updated
 
@@ -199,8 +190,7 @@ function TwitterTimeline({someProperty}: {someProperty: string}) {
         setRenderedTweets(tree);
       }
       getTl();
-    },
-    []
+    },    []
     )
     //NOTE: DO NOT REMOVE THE EMPTY DEPENDENCY ARRAY
     //reason: this should only run when the page is loaded
@@ -234,12 +224,9 @@ function TwitterTimeline({someProperty}: {someProperty: string}) {
           </Container>);
 }
 
-
-function inBetween(x:number, a:number, b:number){
-  if(x < a || x > b){
-    return false;
-  }
-  return true;
+interface TimelineProps{
+  SelectTweet: (tweet: Tweet) => void
+  SetRefreshHandle: (f: ()=>void) => void
 }
 
 export default TwitterTimeline;

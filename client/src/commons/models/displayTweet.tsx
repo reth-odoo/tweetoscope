@@ -22,7 +22,7 @@ class DisplayTweet{
     //function to call when changing selected state
     private _selected_callback: (select: boolean) => void = () => {};
 
-    public _tweet: Tweet;
+    private _tweet: Tweet;
 
     constructor(tweet: Tweet, position: {x: number, y: number}, displayParent?: DisplayTweet, displayChildren?: DisplayTweet[]){
 
@@ -151,6 +151,10 @@ class DisplayTweet{
             this._depth = this.displayParent.displayDepth;
         }
         return this._depth;
+    }
+
+    get referencedTweet(){
+        return this._tweet;
     }
 
     //get data from tweet (not a subclass to avoid redundant data)
