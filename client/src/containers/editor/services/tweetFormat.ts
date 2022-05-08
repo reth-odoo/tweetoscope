@@ -1,6 +1,6 @@
 export function formatTweet(text: string) {
 
-  const prefixDict: { [key: string]: string } = {"#": "heading1", "##": "heading2", "###": "heading3", "**": "bold", "*": "italic", "[img]": "image", "[gif]": "gif"};
+  const prefixDict: { [key: string]: string } = {"#": "heading1", "##": "heading2", "###": "heading3", "**": "bold", "*": "italic", "[link]": "link", "[img]": "image", "[gif]": "gif"};
 
   let twittoText = "";
   let twitterText = "";
@@ -22,7 +22,7 @@ export function formatTweet(text: string) {
       if("#*[".includes(char) && write.span === false) prefix.reading = true;
 
       if(prefix.reading && char === " ") {
-        twittoText += prefix.name;
+        twittoText +=  prefix.name;
         twitterText += prefix.name;
         prefix.name = "";
         prefix.reading = false;
@@ -32,12 +32,7 @@ export function formatTweet(text: string) {
       else if(char === "(" && prefix.reading) {
         if(prefixDict[prefix.name] !== undefined) {
           // add a span for the twittoscope text
-          if(prefix.name === "[img]") {
-            twittoText += "<img src=";
-          }
-          else {
-            twittoText += `<span class=${prefixDict[prefix.name]}>`;
-          }
+          twittoText += `<span class=${prefixDict[prefix.name]}>`;
           // different cases for twitter text
           if(prefix.name === "#") {
             twitter_threads.push(twitterText);
@@ -66,28 +61,21 @@ export function formatTweet(text: string) {
           twitterText += prefix.name;
         }
 
+        prefix.name = "";
         prefix.reading = false;
       }
 
       else if(char === ")" && write.span) {
-        if(prefix.name === "[img]") {
-          twittoText += "/>";
-        }
-        else {
-          twittoText += "</span>";
-        }
+        twittoText += "</span>";
         write.span = false;
         write.current = false;
-        prefix.name = "";
       }
 
       if(prefix.reading) prefix.name += char;
 
       else if(write.current) {
         twittoText += char;
-        if(prefix.name !== "[img]") {
-          twitterText += char;
-        }
+        twitterText += char;
       }
     }
 

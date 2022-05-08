@@ -44,7 +44,6 @@ export const SubmitButton = styled.button`
 
 export const ConfirmText = styled.p`
   margin-top: 20px;
-  transition-duration: 0.5s;
 `;
 
 export const HelpButton = styled.button`
