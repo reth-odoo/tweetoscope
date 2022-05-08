@@ -177,7 +177,7 @@ function TwitterTimeline(props: TimelineProps) {
       )
     }
 
-    props.SetRefreshHandle(updateDisplay);
+    useEffect(()=>props.SetRefreshHandle(updateDisplay),[])
 
 
     //assumes getTimeline returns a different object when timeline is updated
@@ -190,8 +190,8 @@ function TwitterTimeline(props: TimelineProps) {
         setRenderedTweets(tree);
       }
       getTl();
-    },    []
-    )
+    },
+    [])
     //NOTE: DO NOT REMOVE THE EMPTY DEPENDENCY ARRAY
     //reason: this should only run when the page is loaded
 
