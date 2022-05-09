@@ -20,8 +20,8 @@ function TweetNode(props:TweetNodeProps) {
   },[])
 
   return(
-    <TweetDiv onClick={props.onClick} backgroundColor={props.backgroundColor!} 
-    borderColor={props.borderColor!} 
+    <TweetDiv onClick={props.onClick} backgroundColor={props.backgroundColor!}
+    borderColor={props.borderColor!}
     pos={props.data.position} dimensions={props.data.dimension}
     selected={selected}>
     {/*onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)} style={{ overflow: hover ? "visible" : "hidden", height: hover ? "auto" : "" }}*/}
@@ -31,7 +31,7 @@ function TweetNode(props:TweetNodeProps) {
       {/* HeaderDiv is used for the icon and the user data */}
       <HeaderDiv>
         {/* img has constant style for now, can be changed if needed to zoom */}
-        <img src={require("../../commons/services/temp_icons/icon_1.jpg")} style={{ width:"30px", borderRadius:"50%" }}/>
+        <img src={props.data.profile_image} style={{ width:"30px", borderRadius:"50%" }}/>
         {/* &nbsp are inline spaces */}
         <span style={{ color: props.nameColor }}>&nbsp;&nbsp;&nbsp;{props.data.name} @{props.data.username} - {props.data.stringDate}</span>
       </HeaderDiv>

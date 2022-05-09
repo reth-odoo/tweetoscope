@@ -21,7 +21,7 @@ function TwitterTimeline(props: TimelineProps) {
       return {x: Math.min(prev.x+shifts.x,0), y: Math.min(prev.y+shifts.y,0)}
     })
     const boundSetOffsets = (new_offsets: {x:number, y:number}) => setOffsets({
-      x:Math.min(new_offsets.x, 0), 
+      x:Math.min(new_offsets.x, 0),
       y: Math.min(new_offsets.y,0)
     });
 
@@ -43,7 +43,7 @@ function TwitterTimeline(props: TimelineProps) {
 
     //handle moving between tweets
 
-    const [selected,setSelected]: [DisplayTweet|null, any] = useState(null);
+    const [selected, setSelected]: [DisplayTweet|null, any] = useState(null);
 
     function select(dp: DisplayTweet){
       if(selected){
@@ -158,7 +158,7 @@ function TwitterTimeline(props: TimelineProps) {
 
     /**
      * Hides/shows tweets and computes the new offset for tweets to look still
-     * @param tweet the tweet of which the children will be hidden/shown  
+     * @param tweet the tweet of which the children will be hidden/shown
      * @param hide whether the tweets will be hidden or shown
      */
     async function setHideTweet(tweet: DisplayTweet, hide: boolean){
@@ -210,7 +210,7 @@ function TwitterTimeline(props: TimelineProps) {
 
     //assume getTimeline is "free" and can be called multiple times
     return(
-          <Container onKeyDown={handleKeyPress} tabIndex={0} ref={containerRef} offsets={offsets}>
+          <Container id={"timeline-div"} onKeyDown={handleKeyPress} tabIndex={0} ref={containerRef} offsets={offsets}>
             <SVGContainer>
               {renderedTweets.flat().map(dTweet => {
                 if(dTweet.displayParent!=null){
