@@ -8,7 +8,7 @@ class DisplayTweet{
 
     subtreeSpan: {startX: number, endX: number};
 
-    
+
 
     private _displayChildren: DisplayTweet[];
     private _displayParent: DisplayTweet|null;
@@ -119,7 +119,7 @@ class DisplayTweet{
 
 
     select(){
-       this._selected = true; 
+       this._selected = true;
        this._selected_callback(true);
     }
     unSelect(){
@@ -185,6 +185,9 @@ class DisplayTweet{
     }
     get is_retweet() {
       return this._tweet.is_retweet;
+    }
+    get profile_image() {
+      return this._tweet.profile_image;
     }
 }
 

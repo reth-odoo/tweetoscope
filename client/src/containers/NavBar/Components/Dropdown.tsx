@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Main, DropDownContainer, DropDownHeader, DropDownList, DropDownListContainer, ListItem, 
+import {Main, DropDownContainer, DropDownHeader, DropDownList, DropDownListContainer, ListItem,
     TwitterLoggerLogOutButtonContainer, TwitterLoggerLogOutButton,TwitterLoggerSignInImg,
     TwitterLoggerUserImg, TwitterLoggerUserImgContainer, DropDownHeaderUsrName} from '../styles';
 import onClickOustide, { HandleClickOutside } from "react-onclickoutside"; //à implem
@@ -16,7 +16,7 @@ const request_token_route = `${base_url}/twitter` //Mettre ici la route du Reque
 function DropdownMenu(){
     //dropdown const
     const [isOpen, setIsOpen] = useState(false);
-    const toggling = () => setIsOpen(!isOpen);    
+    const toggling = () => setIsOpen(!isOpen);
 
     //twitterlogger const
     const [name, setName] = React.useState<string>("");
@@ -25,7 +25,7 @@ function DropdownMenu(){
     const [status, setStatus] = React.useState<string>("");
     const [url, setUrl] = React.useState<string>("");
     const [cookies, setCookie, removeCookie] = useCookies();
-    
+
     const [userData, setUserData] = useState();
 
     const login = () => {
@@ -33,20 +33,20 @@ function DropdownMenu(){
         (async () => {
 
             try {
-            
+
                 window.location.assign(`${request_token_route}`);
 
-            } 
-        
+            }
+
             catch (error) {
 
-                console.error(error); 
+                console.error(error);
 
             }
-        
+
         })();
     }
-    
+
     const logout = () => {
 
         try {
@@ -54,28 +54,28 @@ function DropdownMenu(){
             removeCookie('auth-cookie');
             window.location.assign(`${base_url}`)
 
-        } 
+        }
 
         catch (error) {
 
-            console.error(error); 
+            console.error(error);
 
         }
 
     }
-    
+
     React.useEffect(() => {
         (async() => {
-        
+
             try {
 
                 //Authenticated Resource Access
                 const data: any = await getSelf();
 
-                console.log("Data: ", data);
+                //console.log("Data: ", data);
 
                 const user = data.data;
-            
+
 
                 setName(user.name);
                 setUserName(user.username);
@@ -83,16 +83,16 @@ function DropdownMenu(){
                 setStatus(user.description);
                 setUrl(user.url);
 
-                
-                
-            } 
-                
-            catch (error) {
 
-                console.error(error); 
 
             }
-          
+
+            catch (error) {
+
+                console.error(error);
+
+            }
+
         })();
 
     },[]);
@@ -107,7 +107,7 @@ function DropdownMenu(){
                     <DropDownContainer>
                         <DropDownHeader onClick={toggling}>
                             <TwitterLoggerUserImgContainer>
-                            <DropDownHeaderUsrName>{name}</DropDownHeaderUsrName> <TwitterLoggerUserImg alt='User profile' src={imageUrl} style={{ width : "30px", borderRadius:"50%" }}/> 
+                            <DropDownHeaderUsrName>{name}</DropDownHeaderUsrName> <TwitterLoggerUserImg alt='User profile' src={imageUrl} style={{ width : "30px", borderRadius:"50%" }}/>
                             </TwitterLoggerUserImgContainer>
                         </DropDownHeader>
                         {  isOpen && (
@@ -124,8 +124,8 @@ function DropdownMenu(){
                         )}
                     </DropDownContainer>
             }
-            </CookiesProvider>  
-        </Main>        
+            </CookiesProvider>
+        </Main>
     );
 }
 
@@ -133,4 +133,3 @@ function DropdownMenu(){
 
 
 export default DropdownMenu;
-

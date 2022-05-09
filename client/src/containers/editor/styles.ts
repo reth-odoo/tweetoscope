@@ -1,15 +1,28 @@
 import styled from "styled-components";
 
 export const EditorDiv = styled.div`
+  height: 100%;
+  width: 0;
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  transition: 0.5s;
+  border-right: 2px solid #ccd6dd;
+  text-align: center;
+  background-color: #292f33;
+  white-space: nowrap;
 `;
 
-export const EditHeader = styled.p`
+export const EditTitle = styled.p`
   color: #55acee;
   font-size: 25px;
   margin-top: 15px;
 `;
 
 export const WriteArea = styled.textarea`
+  margin: auto;
   resize: none;
   padding: 10px;
   font-family: 'Open Sans', sans-serif;
@@ -59,6 +72,33 @@ export const HelpButton = styled.button`
 
   &:hover {
     background-color: #55acee;
+    cursor: pointer;
+  }
+`;
+
+export const EditInfo = styled.div`
+  display: flex;
+  align-items: center;
+  margin-left: 21px;
+`;
+
+export const EditPar = styled.p`
+  color: #55acee;
+  margin-left: 21px;
+  text-align: left;
+`;
+
+export const CloseButton = styled.span`
+  color: white;
+  font-size: 20px;
+  transition-duration: 0.5s;
+  text-align: right;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+
+  &:hover {
+    color: #55acee;
     cursor: pointer;
   }
 `;
