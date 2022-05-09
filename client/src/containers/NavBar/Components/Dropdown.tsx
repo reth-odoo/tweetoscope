@@ -52,6 +52,7 @@ function DropdownMenu(){
         try {
 
             removeCookie('auth-cookie');
+            window.location.assign(`${base_url}`)
 
         } 
 
