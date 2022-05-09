@@ -1,4 +1,4 @@
-import { EditorDiv, EditHeader, WriteArea, SubmitButton, ConfirmText, HelpButton } from "./styles";
+import { EditorDiv, EditHeader, WriteArea, SubmitButton, ConfirmText, HelpButton, EditPar } from "./styles";
 import sendTweetThread from "../../apiRequests/sendTweetThread";
 import getSelf from "../../apiRequests/getSelf";
 import { formatTweet } from "./services/tweetFormat";
@@ -75,12 +75,13 @@ function Editor(props: EditorProps) {
   return(
     <EditorDiv>
       <EditHeader>TwittoWrite Editor</EditHeader>
-      <span>{props.SelectedTweet?("Responding to " + props.SelectedTweet.username):""}</span>
       <br/>
-      <p style={{ color: "#55acee"}}>
+      <EditPar>
         <span id={"editor-user-area"}>{userData} -&nbsp;</span>
         <span id={"editor-time-area"}></span>
-      </p>
+      </EditPar>
+      <br/>
+      <EditPar>{props.SelectedTweet?("Replying to @" + props.SelectedTweet.username):""}</EditPar>
       <br/>
       <WriteArea id={"tweet-text-area"} name={"tweet-text-area"} rows={20} cols={40} placeholder={"Type in your text here..."}></WriteArea>
       <SubmitButton id={"tweet-text-button"} onClick={handleSubmit}>Write Tweet</SubmitButton>

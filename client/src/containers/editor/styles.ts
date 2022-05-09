@@ -62,3 +62,8 @@ export const HelpButton = styled.button`
     cursor: pointer;
   }
 `;
+
+export const EditPar = styled.p`
+  color: "#55acee";
+  text-align: left;
+`;
