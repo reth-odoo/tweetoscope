@@ -228,7 +228,7 @@ function TwitterTimeline(props: TimelineProps) {
     useEffect(()=>{
       //apparently the only way to get async useEffect?
       async function getTl(){
-        let tweets = await twitter.getTimeline()
+        let tweets = await twitter.getTimeline(props.timelineId)
         let tree = await genTrees(tweets)
         setRenderedTweets(tree);
       }
@@ -268,6 +268,7 @@ function TwitterTimeline(props: TimelineProps) {
 }
 
 interface TimelineProps{
+  timelineId: string,
   SelectTweet: (tweet: Tweet|null) => void
   SetRefreshHandle: (f: ()=>void) => void
 }

@@ -28,7 +28,10 @@ function App() {
   //assumed read-only state except for TwitterTimeline
 
   const [selectedTweet, setSelectedTweet]: [null|Tweet, any] = useState(null);
-  const [requestDisplayRefresh, setRefreshRequestFn]: [() => void, any] = useState(()=>{return ()=>{}})
+  const [requestDisplayRefresh, setRefreshRequestFn]: [() => void, any] = useState(()=>{return ()=>{}});
+  const [timelineId, setTimelineId] = useState("813286");
+
+  /* End of shared state */
 
   const showEditor = () => {
     const editorDiv = document.getElementById("editor-div");
@@ -42,18 +45,16 @@ function App() {
     }
   };
 
-  /* End of shared state */
-
   return (
     <BaseContainer>
       <NavContainer>
-        <NavBar></NavBar>
+        <NavBar SetTimelineId={setTimelineId}></NavBar>
         {/*<TwitterLogger></TwitterLogger>*/}
       </NavContainer>
       <MainContainer>
         <Editor SelectedTweet={selectedTweet}></Editor>
         <EditorButton id={"editor-button"} onClick={showEditor}>⇦ Editor</EditorButton>
-        <TwitterTimeline SelectTweet={setSelectedTweet} SetRefreshHandle={setRefreshRequestFn}></TwitterTimeline>
+        <TwitterTimeline timelineId={timelineId} SelectTweet={setSelectedTweet} SetRefreshHandle={setRefreshRequestFn}></TwitterTimeline>
       </MainContainer>
     </BaseContainer>
   );
