@@ -57,7 +57,8 @@ function Editor(props: EditorProps) {
         const tweet_thread: string[] = formated_list[1];
 
         // sends the tweet thread which has been formatted for twitter
-        sendTweetThread(tweet_thread);
+        let response = props.SelectedTweet ? props.SelectedTweet.id : "";
+        sendTweetThread(tweet_thread, response);
 
         // clear text when tweet sent
         textArea.value = "";
@@ -104,7 +105,7 @@ function Editor(props: EditorProps) {
         <span style={{color: "#55acee"}}>&nbsp;&nbsp;&nbsp;{userData.name} @{userData.username} - {localTime}</span>
       </EditInfo>
       <br/>
-      <EditPar>{props.SelectedTweet ? ("Replying to @" + props.SelectedTweet.username) : ""}</EditPar>
+      <EditPar id={"editor-reply"}>{props.SelectedTweet ? ("Replying to @" + props.SelectedTweet.username) : ""}</EditPar>
       <br/>
       <WriteArea id={"editor-text-area"} name={"editor-text-area"} rows={18} cols={50} placeholder={"Type in your text here..."} onKeyDown={handleKeyDown}></WriteArea>
       <br/>

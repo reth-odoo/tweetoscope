@@ -5,7 +5,7 @@ import rawUserList from '../commons/models/rawUserList'
 This module get the list of the followers of the user corresponding to id
 */
 
-async function getFollowers(id: string, p_token: string = ""): Promise<Object>{
+async function getFollowers(id: string, p_token: string = ""): Promise<any>{
 
   const route = "/twitter/getFollowers";
 
@@ -14,14 +14,21 @@ async function getFollowers(id: string, p_token: string = ""): Promise<Object>{
       p_token: p_token
   };
 
-  const a = await serverRequest(route,body);
+  console.log(body);
 
-  const data = new rawUserList(id, a?.data.data, a?.data.meta.next_token);
+  const a = await serverRequest(route, body);
 
-  console.log("Result: ", data);
+  let followerList = [];
 
-  return data;
+  console.log(a);
 
+  for(const user of a.data) {
+    followerList.push(user);
+  }
+
+  //const data = new rawUserList(id, a?.data.data, a?.data.meta.next_token);
+
+  return followerList;
 }
 
 export default getFollowers;
