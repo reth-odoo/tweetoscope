@@ -140,10 +140,9 @@ export const DropDownHeaderUsrNameContainer = styled.div`
   margin-right : 0.5vh;
   margin-left : 0.5vh;
   width : 80%;
-  overflow : hidden;
   height : 100%;
+  word-wrap: break-word;
   &:hover&{
-    overflow : auto;
     height: auto;
   }
 `;
@@ -157,7 +156,7 @@ export const DropDownListContainer = styled("div")`
   overflow : hidden;
   margin-top: 3px;
   margin-right : 5em;
-  max-width : 11.7em;
+  width : 11.7em;
   z-index: 100;
   height: auto;
 `;
@@ -181,7 +180,6 @@ export const ListItem = styled("div")`
   text-align: flex-start;
   margin-left: 0.5em;
   margin-bottom: 5px;
-  width: auto;
   &:hover {
     color: #fd9e46;
     border : 1px solid;
@@ -197,11 +195,10 @@ export const ListItemTitle = styled.p`
 export const ListItemTexte = styled.p`
   color : #e1e8ed;
   max-width : 11.7em;
+  word-wrap : break-word;
   &:hover {
     color: #fd9e46;
-    height : auto;
-    overflow : auto;
-
+    height : auto; 
   }
 `;
 

@@ -119,7 +119,7 @@ function DropdownMenu(){
                                 <DropDownList>
                                     <ListItem> <ListItemTitle>Name :</ListItemTitle> <ListItemTexte>{name} (@{username})</ListItemTexte></ListItem>
                                     <ListItem> <ListItemTitle>URL :</ListItemTitle> <ListItemTexte>{url}</ListItemTexte></ListItem>
-                                    <ListItem> <ListItemTitle>Status :</ListItemTitle> <ListItemTexte>{status}</ListItemTexte></ListItem>
+                                    <ListItem> <ListItemTitle>Status :</ListItemTitle> <ListItemTexte>{status}J'écris une description exemple pour voir car c'est chiant</ListItemTexte></ListItem>
                                     <TwitterLoggerLogOutButtonContainer>
                                       <TwitterLoggerLogOutButton className='signout-btn' onClick={logout}>Sign Out</TwitterLoggerLogOutButton>
                                     </TwitterLoggerLogOutButtonContainer>
