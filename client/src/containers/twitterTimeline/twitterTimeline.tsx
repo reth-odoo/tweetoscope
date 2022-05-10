@@ -45,16 +45,22 @@ function TwitterTimeline(props: TimelineProps) {
 
     const [selected, setSelected]: [DisplayTweet|null, any] = useState(null);
 
-    function select(dp: DisplayTweet){
+    /**
+     * Unselects previous tweet and selects new one if not null
+     * @param dp the new selected tweet, or null if none
+     */
+    function select(dp: DisplayTweet|null){
       if(selected){
         selected.unSelect()
       }
       setSelected(dp);
-      dp.select();
-
-      centerTweet(dp);
-
-      props.SelectTweet(dp.referencedTweet);
+      if(dp){
+        dp.select();
+        centerTweet(dp);
+        props.SelectTweet(dp.referencedTweet);
+      }else{
+        props.SelectTweet(null);
+      }
     }
 
 
@@ -65,30 +71,33 @@ function TwitterTimeline(props: TimelineProps) {
       };
 
     async function handleKeyPress(event: React.KeyboardEvent){
-      //if no tweet selected, select one
-      if(!selected){
-        selectFirst();
+      //if no tweet selected and not unselecting, select one
+      if(!selected && event.key!=="Escape"){
+        selectClosest();
         return;
       }
 
       const s = selected!;
 
       switch(event.key){
+        case("Escape"):
+          select(null);
+        break;
         case("ArrowLeft"):
-          const left = await getNextDT(true, selected, null, selected, 0);
+          const left = await getNextDT(true, s, null, s, 0);
           if(left){
             select(left);
           }
         break;
         case("ArrowRight"):
-          const right = await getNextDT(false, selected, null, selected, 0);
+          const right = await getNextDT(false, s, null, s, 0);
           if(right){
             select(right);
           }
         break;
         case("ArrowUp"):
           if(s.displayParent){
-            select(selected!.displayParent!)
+            select(s.displayParent!)
           }
         break;
         case("ArrowDown"):
@@ -108,8 +117,16 @@ function TwitterTimeline(props: TimelineProps) {
 
         case("SpaceBar"):
         case(" "):
-          setHideTweet(selected, !selected.isHiding);
+          setHideTweet(s, !s.isHiding);
         break;
+      }
+    }
+
+    function handleClick(dp: DisplayTweet){
+      if(selected && selected.id === dp.id){
+        select(null);
+      }else{
+        select(dp);
       }
     }
 
@@ -154,6 +171,32 @@ function TwitterTimeline(props: TimelineProps) {
       if(renderedTweets.length>0){
          select(renderedTweets[0][renderedTweets[0].length-1]);
       }
+    }
+
+    /**
+     * Selects the closest root to the container center
+     */
+    function selectClosest(): void{
+      const roots = getRoots();
+      const pos = -offsets.x+containerRef.current.offsetWidth/2
+      let prev = null;
+      //iterating over increasing offset
+      for(const root of roots){
+        //when between two roots, select the closest one
+        if(prev && pos>prev.position.x && pos<root.position.x){
+          if(pos-prev.position.x < root.position.x-pos){
+            select(prev);
+          }else{
+            select(root);
+          }
+          return;
+        }
+
+        prev=root;
+      }
+
+      //select the last root or null
+      select(prev);
     }
 
     /**
@@ -220,12 +263,12 @@ function TwitterTimeline(props: TimelineProps) {
               })}
             </SVGContainer>
             {renderedTweets.length===0?<span>loading...</span>:<></>}
-            {renderedTweets.map(tweetList => <TweetTree clickNotifier={select} key={tweetList[tweetList.length-1]!.displayRoot.id} tweets={tweetList}></TweetTree>)}
+            {renderedTweets.map(tweetList => <TweetTree clickNotifier={handleClick} key={tweetList[tweetList.length-1]!.displayRoot.id} tweets={tweetList}></TweetTree>)}
           </Container>);
 }
 
 interface TimelineProps{
-  SelectTweet: (tweet: Tweet) => void
+  SelectTweet: (tweet: Tweet|null) => void
   SetRefreshHandle: (f: ()=>void) => void
 }
 
