@@ -2,7 +2,7 @@ import serverRequest from './requestHandling/serverRequest';
 import {RawTweet} from '../commons/models/rawTweet';
 import {tweetParse, userParse} from './requestHandling/dataParsing';
 
-async function searchTweet(search: string, p_token: string): Promise<Object>{
+async function searchTweet(search: string, p_token: string = ""): Promise<any>{
 
   // Server Request
 
