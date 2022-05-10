@@ -7,11 +7,11 @@ import { genTestTweets } from "src/AppParameters";
 class TwitterService{
 
 
-    private _last_request: Date|null= null;
+    private _last_request: Map<string, Date> = new Map();
 
-    async getTimeline(){
+    async getTimeline(id: string){
 
-        let tl_handle = await getUserTimeline("813286").catch(err => {
+        let tl_handle = await getUserTimeline(id).catch(err => {
             console.error(`${err}. Loading example data`)
             let tl = new RawUserTimeline("1");
             for(const tweet of genTestTweets()){
