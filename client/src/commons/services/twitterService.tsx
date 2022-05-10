@@ -8,8 +8,9 @@ import getSelf from "../../apiRequests/getSelf";
 class TwitterService{
 
 
-    private _last_request: Date|null= null;
+    private _last_request: Map<string, Date> = new Map();
 
+<<<<<<< HEAD
     async getTimeline(id: string = "813286"){
 
       // default id is Barack Obama's Twitter
@@ -32,6 +33,21 @@ class TwitterService{
           return tl;
       });
       return tl_handle.tweets;
+=======
+    async getTimeline(id: string){
+
+        let tl_handle = await getUserTimeline(id).catch(err => {
+            console.error(`${err}. Loading example data`)
+            let tl = new RawUserTimeline("1");
+            for(const tweet of genTestTweets()){
+                tl.addTweet(tweet);
+            }
+            setTimeout(()=>{},500);
+            return tl;
+        }
+        );
+        return tl_handle.tweets;
+>>>>>>> 16d9974ebf64afe9b4d570824bf98410a86e2b53
     }
 }
 
