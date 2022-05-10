@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, Outlet } from "react-router-dom";
 import "./assets/style.css";
-import { BaseContainer, NavContainer, TlContainer, WglContainer } from "./baseStyle";
+import { BaseContainer, MainContainer, NavContainer, EditorButton } from "./baseStyle";
 // import logo from "./logo.svg";
 
 import TwitterTimeline from "./containers/twitterTimeline/twitterTimeline";
@@ -30,6 +30,18 @@ function App() {
   const [selectedTweet, setSelectedTweet]: [null|Tweet, any] = useState(null);
   const [requestDisplayRefresh, setRefreshRequestFn]: [() => void, any] = useState(()=>{return ()=>{}})
 
+  const showEditor = () => {
+    const editorDiv = document.getElementById("editor-div");
+    const timelineDiv = document.getElementById("timeline-div");
+    const editorButton = document.getElementById("editor-button");
+
+    if(editorDiv && timelineDiv && editorButton) {
+      editorButton.style.visibility = "hidden";
+      editorDiv.style.width = "30vw";
+      timelineDiv.style.marginLeft = "30vw";
+    }
+  };
+
   /* End of shared state */
 
   return (
@@ -38,12 +50,11 @@ function App() {
         <NavBar></NavBar>
         {/*<TwitterLogger></TwitterLogger>*/}
       </NavContainer>
-      <WglContainer>
+      <MainContainer>
         <Editor SelectedTweet={selectedTweet}></Editor>
-      </WglContainer>
-      <TlContainer>
+        <EditorButton id={"editor-button"} onClick={showEditor}>⇦ Editor</EditorButton>
         <TwitterTimeline SelectTweet={setSelectedTweet} SetRefreshHandle={setRefreshRequestFn}></TwitterTimeline>
-      </TlContainer>
+      </MainContainer>
     </BaseContainer>
   );
 }

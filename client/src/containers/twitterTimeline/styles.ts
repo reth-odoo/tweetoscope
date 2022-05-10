@@ -6,6 +6,7 @@ position: relative;
 width: 100%;
 height: 100%;
 overflow: hidden;
+transition: margin-left .5s;
 > div {transform: translate(${props => props.offsets.x}px,${props=>props.offsets.y}px);}
 path {transform: translate(${props => props.offsets.x}px,${props=>props.offsets.y}px);}
 `;

@@ -1,4 +1,4 @@
-import { EditorDiv, EditHeader, WriteArea, SubmitButton, ConfirmText, HelpButton } from "./styles";
+import { EditorDiv, EditTitle, WriteArea, SubmitButton, ConfirmText, HelpButton, EditInfo, EditPar, CloseButton } from "./styles";
 import sendTweetThread from "../../apiRequests/sendTweetThread";
 import getSelf from "../../apiRequests/getSelf";
 import { formatTweet } from "./services/tweetFormat";
@@ -8,84 +8,109 @@ import Tweet from "src/commons/models/tweet";
 
 function Editor(props: EditorProps) {
 
+  // editor references
+  const textArea = document.getElementById("editor-text-area") as HTMLInputElement; // cast because getElementById does not have value property by default in tsx
+  const confArea = document.getElementById("editor-send-confirmation");
+
+  // setup time
+  const [localTime, setLocalTime] = useState(dateToString(new Date()));
+
   // get user data
-  const [userData, setUserData] = useState("");
+  const [userData, setUserData] = useState({name: "", username: "", profile_image_url: ""});
 
   useEffect(() => {
-    if(!userData) {
+    if(userData.name === "") {
       getUserData();
     }
+    setInterval(() => {
+      setLocalTime(dateToString(new Date()));
+    }, 1000);
   }, []);
 
   const getUserData = async () => {
     const user: any = await getSelf();
     const data = user.data;
-    setUserData(`${data.name} @${data.username}`);
+    setUserData({name: data.name, username: data.username, profile_image_url: data.profile_image_url});
+  };
+
+  // editor autocompletion
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+
+    if(textArea) {
+      let text = textArea?.value;
+      // autocomplete parenthese
+      if(event.key === "(") {
+        text += ")";
+        textArea.value = text;
+        textArea.setSelectionRange(text.length-1, text.length-1);
+      }
+    }
   };
 
   // editor text submit handler
   const handleSubmit = () => {
-    const text_area = (document.getElementById("tweet-text-area") as HTMLInputElement); // cast because getElementById does not have value property by default in tsx
-    const conf_area = document.getElementById("tweet-send-confirmation");
 
-    if(text_area && conf_area) {
-      if(text_area.value) {
-        const formated_list: [string,string[]] = formatTweet(text_area.value);
+    if(textArea && confArea) {
+
+      if(textArea.value) {
+        const formated_list: [string,string[]] = formatTweet(textArea.value);
         const tweet_thread: string[] = formated_list[1];
-        console.log(formated_list);
-        console.log(tweet_thread);
+
         // sends the tweet thread which has been formatted for twitter
         sendTweetThread(tweet_thread);
 
         // clear text when tweet sent
-        text_area.value = "";
+        textArea.value = "";
         // set sent confirmation message
-        conf_area.innerHTML = "Tweet successfully sent!";
-        conf_area.style.color = "#42f5aa";
+        confArea.innerHTML = "Tweet successfully sent!";
+        confArea.style.color = "#42f5aa";
       }
+
       else {
         // set warning message if empty text
-        conf_area.innerHTML = "Cannot write an empty tweet!";
-        conf_area.style.color = "#f56342";
+        confArea.innerHTML = "Cannot write an empty tweet!";
+        confArea.style.color = "#f56342";
       }
-    }
-  }
-
-  // help display
-  const showHelp = () => {
-    const text_area = (document.getElementById("tweet-text-area") as HTMLInputElement); // cast because getElementById does not have value property by default in tsx
-
-    if(text_area) {
-      text_area.value = "#(This is a Title)\nTitles are used to indicate the start of a new thread.\n\n##(This is a Heading)\nHeadings are used to separate the thread into sections.\n\n###(This is a Subheading)\nSubheadings are used for subsections.\n\nYou can also write normal text, **(bold) text, and even *(italic) text!";
     }
   };
 
-  // date updater
-  setInterval(() => {
+  // help display
+  const showHelp = () => {
 
-    const time_area = document.getElementById("editor-time-area");
-
-    if(time_area) {
-      let time = new Date();
-      time_area.innerHTML = dateToString(time);
+    if(textArea) {
+      textArea.value = "#(This is a Title)\nTitles are used to indicate the start of a new thread.\n\n##(This is a Heading)\nHeadings are used to separate the thread into sections.\n\n###(This is a Subheading)\nSubheadings are used for subsections.\n\nYou can also write normal text, **(bold) text, and even *(italic) text!\n\nUse [img](link_to_image) to load an image.";
     }
+  };
 
-  }, 1000);
+  const hideEditor = () => {
+    const editorDiv = document.getElementById("editor-div");
+    const timelineDiv = document.getElementById("timeline-div");
+    const editorButton = document.getElementById("editor-button");
+
+    if(editorDiv && timelineDiv && editorButton) {
+      editorDiv.style.width = "0";
+      timelineDiv.style.marginLeft = "0";
+      editorButton.style.visibility = "visible";
+    }
+  };
 
   return(
-    <EditorDiv>
-      <EditHeader>TwittoWrite Editor</EditHeader>
-      <span>{props.SelectedTweet?("Responding to " + props.SelectedTweet.username):""}</span>
+    <EditorDiv id={"editor-div"}>
+      <EditTitle>TwittoWrite Editor</EditTitle>
+      <CloseButton onClick={hideEditor}>✖</CloseButton>
       <br/>
-      <p style={{ color: "#55acee"}}>
-        <span id={"editor-user-area"}>{userData} -&nbsp;</span>
-        <span id={"editor-time-area"}></span>
-      </p>
+      <EditInfo>
+        <img src={userData.profile_image_url} style={{ width:"30px", borderRadius:"50%" }}/>
+        <span style={{color: "#55acee"}}>&nbsp;&nbsp;&nbsp;{userData.name} @{userData.username} - {localTime}</span>
+      </EditInfo>
       <br/>
-      <WriteArea id={"tweet-text-area"} name={"tweet-text-area"} rows={20} cols={40} placeholder={"Type in your text here..."}></WriteArea>
-      <SubmitButton id={"tweet-text-button"} onClick={handleSubmit}>Write Tweet</SubmitButton>
-      <HelpButton id={"tweet-help-button"} onClick={showHelp}>Need Help?</HelpButton>
-      <ConfirmText id={"tweet-send-confirmation"}></ConfirmText>
+      <EditPar>{props.SelectedTweet ? ("Replying to @" + props.SelectedTweet.username) : ""}</EditPar>
+      <br/>
+      <WriteArea id={"editor-text-area"} name={"editor-text-area"} rows={18} cols={50} placeholder={"Type in your text here..."} onKeyDown={handleKeyDown}></WriteArea>
+      <br/>
+      <SubmitButton id={"editor-text-button"} onClick={handleSubmit}>Write Tweet</SubmitButton>
+      <HelpButton id={"editor-help-button"} onClick={showHelp}>Need Help?</HelpButton>
+      <ConfirmText id={"editor-send-confirmation"}></ConfirmText>
       <br/>
     </EditorDiv>
   );
