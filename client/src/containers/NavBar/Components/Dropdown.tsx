@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
 import {Main, DropDownContainer, DropDownHeader, DropDownList, DropDownListContainer, ListItem, 
     TwitterLoggerLogOutButtonContainer, TwitterLoggerLogOutButton,TwitterLoggerSignInImg,
-    TwitterLoggerUserImg, TwitterLoggerUserImgContainer, DropDownHeaderUsrName} from '../styles';
+    TwitterLoggerUserImg, TwitterLoggerUserImgContainer, 
+    DropDownHeaderUsrNameContainer, DropDownHeaderUsrName, ListItemTexte, ListItemTitle} from '../styles';
 import onClickOustide, { HandleClickOutside } from "react-onclickoutside"; //à implem
 import axios from 'axios'
 import queryString from 'query-string'
@@ -106,16 +107,19 @@ function DropdownMenu(){
                 {cookies["auth-cookie"] &&
                     <DropDownContainer>
                         <DropDownHeader onClick={toggling}>
+                            <DropDownHeaderUsrNameContainer>
+                                <DropDownHeaderUsrName>{name}</DropDownHeaderUsrName>
+                            </DropDownHeaderUsrNameContainer>
                             <TwitterLoggerUserImgContainer>
-                            <DropDownHeaderUsrName>{name}</DropDownHeaderUsrName> <TwitterLoggerUserImg alt='User profile' src={imageUrl} style={{ width : "30px", borderRadius:"50%" }}/> 
+                                <TwitterLoggerUserImg alt='User profile' src={imageUrl} style={{ width : "30px", borderRadius:"50%" }}/> 
                             </TwitterLoggerUserImgContainer>
                         </DropDownHeader>
                         {  isOpen && (
                             <DropDownListContainer>
                                 <DropDownList>
-                                    <ListItem>Name: {name} (@{username})</ListItem>
-                                    <ListItem>URL: {url}</ListItem>
-                                    <ListItem>Status: {status}</ListItem>
+                                    <ListItem> <ListItemTitle>Name :</ListItemTitle> <ListItemTexte>{name} (@{username})</ListItemTexte></ListItem>
+                                    <ListItem> <ListItemTitle>URL :</ListItemTitle> <ListItemTexte>{url}</ListItemTexte></ListItem>
+                                    <ListItem> <ListItemTitle>Status :</ListItemTitle> <ListItemTexte>{status}</ListItemTexte></ListItem>
                                     <TwitterLoggerLogOutButtonContainer>
                                       <TwitterLoggerLogOutButton className='signout-btn' onClick={logout}>Sign Out</TwitterLoggerLogOutButton>
                                     </TwitterLoggerLogOutButtonContainer>
