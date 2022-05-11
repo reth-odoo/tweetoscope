@@ -6,11 +6,17 @@ import TweetTree from "../tweetTree/tweetTree";
 import {regenTrees, genTrees} from "./services/tweetTreeGenerator";
 import {Container, SVGContainer} from "./styles";
 import DisplayTweet from "src/commons/models/displayTweet";
+import { CookiesProvider, useCookies } from "react-cookie";
 
 
 function TwitterTimeline(props: TimelineProps) {
 
     const twitter = props.twitterService;
+
+    const [cookies, setCookie, removeCookie] = useCookies();
+    if(!cookies["auth-cookie"]){
+      props.timelineId = "783214"; // Twitter account ID
+    }
 
     //handle scrolling
 
@@ -235,7 +241,7 @@ function TwitterTimeline(props: TimelineProps) {
       setRenderedTweets([]);
       updateTl();
     },
-    [props.timelineId])
+    [props.timelineId]);
 
 
     //would filter to only a few tweets that can actually be displayed

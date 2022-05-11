@@ -6,7 +6,6 @@ import { genTestTweets } from "src/AppParameters";
 
 class TwitterService{
 
-
     private _last_request: Map<string, Date> = new Map();
 
     async getTimeline(id: string){
@@ -17,7 +16,7 @@ class TwitterService{
             for(const tweet of genTestTweets()){
                 tl.addTweet(tweet);
             }
-            setTimeout(()=>{},500);
+            setTimeout(()=>{}, 500);
             return tl;
         }
         );
