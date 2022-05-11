@@ -93,5 +93,7 @@ export function formatTweet(text: string) {
 
   const format_list: [string, string[]] = [twittoText, twitter_threads];
 
+  console.log(format_list);
+
   return format_list;
 }

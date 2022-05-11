@@ -21,39 +21,39 @@ function TwitterLogger() {
         (async () => {
 
             try {
-                
+
                 window.open(`${request_token_route}`);
 
-            } 
-            
+            }
+
             catch (error) {
 
-                console.error(error); 
+                console.error(error);
 
             }
-            
+
         })();
     }
-        
+
     const logout = () => {
 
         try {
 
             removeCookie('auth-cookie');
 
-        } 
-            
+        }
+
         catch (error) {
 
-            console.error(error); 
+            console.error(error);
 
         }
 
     }
-        
+
     React.useEffect(() => {
         (async() => {
-            
+
             try {
 
                 if (!cookies["auth-cookie"]){
@@ -70,19 +70,18 @@ function TwitterLogger() {
                     setImageUrl(user.profile_image_url);
                     setStatus(user.description);
                     setUrl(user.url);
-
                 }
 
-            } 
-                
+            }
+
             catch (error) {
 
-                console.error(error); 
+                console.error(error);
 
             }
-        
+
         })();
-        
+
     },[]);
 
     return  <header className="App-header">
@@ -90,10 +89,10 @@ function TwitterLogger() {
                     { !cookies["auth-cookie"] &&
                     <img className='signin-btn' onClick={login} alt='Twitter login button' src='https://assets.klaudsol.com/twitter.png' />
                     }
-                    
+
                     { cookies["auth-cookie"] &&
                     <div>
-                        <div><img alt='User profile' src={imageUrl}/></div> 
+                        <div><img alt='User profile' src={imageUrl}/></div>
                         <div>Name: {name} ({username})</div>
                         <div>URL: {url}</div>
                         <div>Description: {status}</div>

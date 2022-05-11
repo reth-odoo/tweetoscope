@@ -5,12 +5,27 @@ import searchTweet from "src/apiRequests/searchTweets";
 import getSelf from "../../../apiRequests/getSelf";
 import { getRelevantUsers } from "./services/getRelevantUsers";
 
-function SearchBar() {
+function SearchBar(props: SearchBarProps) {
     const [filteredData, setFilteredData] = useState([]);
     const [wordEntered, setWordEntered] = useState("");
     const [dataTweet, setDataTweet] = useState([]);
 
     const inputArea = document.getElementById("searchbar") as HTMLInputElement;
+
+    const changeTimeline = () => {
+      if(inputArea) {
+        if(inputArea.value) {
+          props.SetTimelineId(inputArea.value);
+        }
+      }
+    };
+
+    /*
+    let followers = [];
+
+    const getFollowers = async () => {
+      followers = await getFollowers()
+    };
 
     // searchbar text autocomletion
     const autocompleteText = async (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -21,14 +36,15 @@ function SearchBar() {
         const relevantUsers = await getRelevantUsers(text);
       }
     };
+    */
 
+    /*
     const handleFilter = async (event : any) => {
 
-      //let tweets = await twitter.getTimeline(data);
-      //console.log(tweets);
-      //let tree = await genTrees(tweets);
-      //setRenderedTweets(tree);
-        /*
+      let tweets = await twitter.getTimeline(data);
+      console.log(tweets);
+      let tree = await genTrees(tweets);
+      setRenderedTweets(tree);
         (async () => {
             const searchWord = event.target.value;
             const data = await searchTweet(searchWord);
@@ -41,16 +57,16 @@ function SearchBar() {
             }
 
         })()
-        */
-  };
+      };
+      */
 
     return(
         <SearchBarContainer>
             <SearchBarInputContainer>
-                <SearchBarForm autoComplete="off" id="searchbarinput" action="/" method="get">
-                  <SearBarInput onKeyDown={autocompleteText} type="search" name="searchbar" id="searchbar" placeholder="Search for a username or id..."/>
-                </SearchBarForm>
-                <SearchBarButton type="submit" form="searchbarinput" onClick={handleFilter}>Search</SearchBarButton>
+
+                <SearBarInput name="searchbar" id="searchbar" placeholder="Search for a username or id..."/>
+
+                <SearchBarButton onClick={changeTimeline}>Search Timeline</SearchBarButton>
             </SearchBarInputContainer>
                 {/*
                 <DataListContainer>
@@ -68,6 +84,10 @@ function SearchBar() {
     </SearchBarContainer>
 
     );
+}
+
+interface SearchBarProps{
+    SetTimelineId: (id: string) => void
 }
 
 export default SearchBar
