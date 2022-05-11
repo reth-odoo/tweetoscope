@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Main, DropDownContainer, DropDownHeader, DropDownList, DropDownListContainer, ListItem,
     TwitterLoggerLogOutButtonContainer, TwitterLoggerLogOutButton,TwitterLoggerSignInImg,
-    TwitterLoggerUserImg, TwitterLoggerUserImgContainer, 
+    TwitterLoggerUserImg, TwitterLoggerUserImgContainer,
     DropDownHeaderUsrNameContainer, DropDownHeaderUsrName, ListItemTexte, ListItemTitle} from '../styles';
 import onClickOustide, { HandleClickOutside } from "react-onclickoutside"; //à implem
 import axios from 'axios'
@@ -74,7 +74,7 @@ function DropdownMenu(){
                 const data: any = await getSelf();
                 const user = data.data;
 
-                console.log("Data: ", data);
+                //console.log("Data: ", data);
 
                 setName(user.name);
                 setUserName(user.username);
@@ -107,7 +107,7 @@ function DropdownMenu(){
                                 <DropDownHeaderUsrName>{name}</DropDownHeaderUsrName>
                             </DropDownHeaderUsrNameContainer>
                             <TwitterLoggerUserImgContainer>
-                                <TwitterLoggerUserImg alt='User profile' src={imageUrl} style={{ width : "30px", borderRadius:"50%" }}/> 
+                                <TwitterLoggerUserImg alt='User profile' src={imageUrl} style={{ width : "30px", borderRadius:"50%" }}/>
                             </TwitterLoggerUserImgContainer>
                         </DropDownHeader>
                         {  isOpen && (

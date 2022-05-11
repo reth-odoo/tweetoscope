@@ -52,23 +52,31 @@ function Editor(props: EditorProps) {
 
     if(textArea && confArea) {
 
-      if(textArea.value) {
-        const formated_list: [string,string[]] = formatTweet(textArea.value);
-        const tweet_thread: string[] = formated_list[1];
+      if(userData.name !== "") {
+        if(textArea.value) {
+          const formated_list: [string,string[]] = formatTweet(textArea.value);
+          const tweet_thread: string[] = formated_list[1];
 
-        // sends the tweet thread which has been formatted for twitter
-        sendTweetThread(tweet_thread);
+          // sends the tweet thread which has been formatted for twitter
+          let response = props.SelectedTweet ? props.SelectedTweet.id : "";
+          sendTweetThread(tweet_thread, response);
 
-        // clear text when tweet sent
-        textArea.value = "";
-        // set sent confirmation message
-        confArea.innerHTML = "Tweet successfully sent!";
-        confArea.style.color = "#42f5aa";
+          // clear text when tweet sent
+          textArea.value = "";
+          // set sent confirmation message
+          confArea.innerHTML = "Tweet successfully sent!";
+          confArea.style.color = "#42f5aa";
+        }
+
+        else {
+          // set warning message if empty text
+          confArea.innerHTML = "Cannot write an empty tweet!";
+          confArea.style.color = "#f56342";
+        }
       }
-
       else {
-        // set warning message if empty text
-        confArea.innerHTML = "Cannot write an empty tweet!";
+        // set warning message if not logged in
+        confArea.innerHTML = "Login first to write a tweet!";
         confArea.style.color = "#f56342";
       }
     }
@@ -78,7 +86,7 @@ function Editor(props: EditorProps) {
   const showHelp = () => {
 
     if(textArea) {
-      textArea.value = "#(This is a Title)\nTitles are used to indicate the start of a new thread.\n\n##(This is a Heading)\nHeadings are used to separate the thread into sections.\n\n###(This is a Subheading)\nSubheadings are used for subsections.\n\nYou can also write normal text, **(bold) text, and even *(italic) text!\n\nUse [img](link_to_image) to load an image.";
+      textArea.value = "#(This is a Title)\nTitles are used to indicate the start of a new thread.\n\n##(This is a Heading)\nHeadings are used to separate the thread into sections.\n\n###(This is a Subheading)\nSubheadings are used for subsections.\n\nYou can also write normal text, **(bold) text, and even *(italic) text!";
     }
   };
 
@@ -104,7 +112,7 @@ function Editor(props: EditorProps) {
         <span style={{color: "#55acee"}}>&nbsp;&nbsp;&nbsp;{userData.name} @{userData.username} - {localTime}</span>
       </EditInfo>
       <br/>
-      <EditPar>{props.SelectedTweet ? ("Replying to @" + props.SelectedTweet.username) : ""}</EditPar>
+      <EditPar id={"editor-reply"}>{props.SelectedTweet ? ("Replying to @" + props.SelectedTweet.username) : ""}</EditPar>
       <br/>
       <WriteArea id={"editor-text-area"} name={"editor-text-area"} rows={18} cols={50} placeholder={"Type in your text here..."} onKeyDown={handleKeyDown}></WriteArea>
       <br/>

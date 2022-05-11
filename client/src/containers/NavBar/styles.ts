@@ -13,7 +13,7 @@ export const NavLogoContainer = styled.div`
   display: flex
   justify-content: center;
   height: 85%;
-  width: auto;  
+  width: auto;
   margin: 5px;
   margin-bottom: 20px;
 `;
@@ -27,7 +27,7 @@ export const NavLogo = styled.img`
 `;
 
 export const SearchBarContainer = styled.div`
-  diplay: flex; 
+  diplay: flex;
   justify-self: center;
   border: 1px solid #55ACEE;
   border-radius: 100vh;
@@ -51,7 +51,7 @@ export const SearchBarForm = styled.form`
 `;
 
 export const SearBarInput = styled.input`
-  diplay: flex;  
+  diplay: flex;
   border: 1px solid #55ACEE;
   border-radius: 100vh 0vh 0vh 100vh;
   height: 100%;
@@ -60,7 +60,7 @@ export const SearBarInput = styled.input`
 `;
 
 export const SearchBarButton = styled.button`
-  diplay: flex;  
+  diplay: flex;
   justify-content: center;
   align-items:center;
   border: 1px solid #55ACEE;
@@ -74,20 +74,6 @@ export const SearchBarButton = styled.button`
     border : 1px solid;
     color: #fd9e46;
   }
-`;
-
-// Styled component pour les data result du search (searchbar)
-
-export const DataListContainer = styled.div`
-
-`;
-
-export const DataList = styled.div`
-
-`;
-
-export const DataListItem = styled.a`
-
 `;
 
 
@@ -148,7 +134,7 @@ export const DropDownHeaderUsrNameContainer = styled.div`
 `;
 
 export const DropDownHeaderUsrName = styled.p`
-  
+
 `;
 
 export const DropDownListContainer = styled("div")`
@@ -196,7 +182,7 @@ export const ListItemTexte = styled.p`
   word-wrap : break-word;
   &:hover {
     color: #fd9e46;
-    height : auto; 
+    height : auto;
   }
 `;
 
@@ -225,7 +211,7 @@ export const TwitterLoggerLogOutButtonContainer = styled.div`
 
 export const TwitterLoggerLogOutButton = styled.button`
   dispaly: flex;
-  cursor: pointer; 
+  cursor: pointer;
   background: none;
   color: #55acee;
   border: 1px solid rgb(255,255,255);

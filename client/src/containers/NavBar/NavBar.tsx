@@ -13,11 +13,10 @@ export default function NavBar (props: NavBarProps)  {
                     <NavLogoContainer>
                         <NavLogo src={logo} alt="bird logo"/>
                     </NavLogoContainer>
-                    <SearchBar/>
+                    <SearchBar SetTimelineId={props.SetTimelineId}/>
                     <DropdownMenu/>
-                </NavBarS>  
+                </NavBarS>
             </nav>
-        
     );
 }
 

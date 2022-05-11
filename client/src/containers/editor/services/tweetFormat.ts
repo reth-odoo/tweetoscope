@@ -1,3 +1,5 @@
+import translateUnicode from "src/commons/utils/unicodeTranslator";
+
 export function formatTweet(text: string) {
 
   const prefixDict: { [key: string]: string } = {"#": "heading1", "##": "heading2", "###": "heading3", "**": "bold", "*": "italic", "[link]": "link", "[img]": "image", "[gif]": "gif"};
@@ -7,6 +9,7 @@ export function formatTweet(text: string) {
   let twitter_threads: string[] = [];
   let heading_number = 1;
   let heading_number_below = 1;
+  let styleType = "";
 
   let lineArray = text.split("\n");
 
@@ -19,17 +22,17 @@ export function formatTweet(text: string) {
 
       write.current = true;
 
-      if("#*[".includes(char) && write.span === false) prefix.reading = true;
+      if("#*[".includes(char) && !write.span) prefix.reading = true;
 
       if(prefix.reading && char === " ") {
-        twittoText +=  prefix.name;
+        twittoText += prefix.name;
         twitterText += prefix.name;
         prefix.name = "";
         prefix.reading = false;
       }
 
       // if we stumble upon a ( and we are reading the prefix, it means the prefix is over
-      else if(char === "(" && prefix.reading) {
+      else if(char === "(" && prefix.reading && !write.span) {
         if(prefixDict[prefix.name] !== undefined) {
           // add a span for the twittoscope text
           twittoText += `<span class=${prefixDict[prefix.name]}>`;
@@ -51,6 +54,12 @@ export function formatTweet(text: string) {
             twitterText += `${heading_number - 1}.${heading_number_below}. `;
             heading_number_below += 1;
           }
+          else if(prefix.name === "**") {
+            styleType = "bold";
+          }
+          else if(prefix.name === "*") {
+            styleType = "italic";
+          }
           // text to be set in the <span> tag relative to the prefix is the text until the next )
           write.span = true;
           write.current = false;
@@ -69,13 +78,20 @@ export function formatTweet(text: string) {
         twittoText += "</span>";
         write.span = false;
         write.current = false;
+        styleType = "";
       }
 
       if(prefix.reading) prefix.name += char;
 
       else if(write.current) {
-        twittoText += char;
-        twitterText += char;
+        if(styleType !== "") {
+          twittoText += translateUnicode(char, styleType);
+          twitterText += translateUnicode(char, styleType);
+        }
+        else {
+          twittoText += char;
+          twitterText += char;
+        }
       }
     }
 
@@ -92,6 +108,8 @@ export function formatTweet(text: string) {
   }
 
   const format_list: [string, string[]] = [twittoText, twitter_threads];
+
+  console.log(format_list);
 
   return format_list;
 }
