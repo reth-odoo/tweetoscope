@@ -113,8 +113,8 @@ function DropdownMenu(){
                         {  isOpen && (
                             <DropDownListContainer>
                                 <DropDownList>
-                                    <ListItem> <ListItemTitle>Name :</ListItemTitle> <ListItemTexte>{name} (@{username})</ListItemTexte></ListItem>
-                                    <ListItem> <ListItemTitle>URL :</ListItemTitle> <ListItemTexte>{url}</ListItemTexte></ListItem>
+                                    <ListItem> <ListItemTitle>Name :</ListItemTitle> <ListItemTexte>{name} @{username}</ListItemTexte></ListItem>
+                                    {/*<ListItem> <ListItemTitle>URL :</ListItemTitle> <ListItemTexte>twitter.com/{username}</ListItemTexte></ListItem>*/}
                                     <ListItem> <ListItemTitle>Status :</ListItemTitle> <ListItemTexte>{status}</ListItemTexte></ListItem>
                                     <TwitterLoggerLogOutButtonContainer>
                                       <TwitterLoggerLogOutButton className='signout-btn' onClick={logout}>Sign Out</TwitterLoggerLogOutButton>
