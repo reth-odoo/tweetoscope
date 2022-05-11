@@ -247,6 +247,9 @@ function TwitterTimeline(props: TimelineProps) {
     //would filter to only a few tweets that can actually be displayed
     const [renderedTweets, setRenderedTweets]: [DisplayTweet[][], any] = useState([]);
 
+
+    // REMOVED TO AVOID SELECTING A TWEET BY DEFAULT, AND THUS AVOID AN UNWANTED RESPONSE TO A TWEET
+    /*
     //update selected if no selected tweet
     useEffect(()=>{
       //should only trigger if tweet was unloaded
@@ -255,6 +258,7 @@ function TwitterTimeline(props: TimelineProps) {
         selectFirst()
       }
     },[renderedTweets]);
+    */
 
     //assume getTimeline is "free" and can be called multiple times
     return(
@@ -269,7 +273,7 @@ function TwitterTimeline(props: TimelineProps) {
             </SVGContainer>
             {renderedTweets.length===0?<span>loading...</span>:<></>}
             {renderedTweets.map(tweetList => <TweetTree clickNotifier={handleClick} key={tweetList[tweetList.length-1]!.displayRoot.id} tweets={tweetList}></TweetTree>)}
-            <span style = {{ marginLeft: "15px" }}>Timeline ID: {props.timelineId}</span>
+            {/*<span style = {{ marginLeft: "15px" }}>Timeline ID: {props.timelineId}</span>*/}
           </Container>);
 }
 
