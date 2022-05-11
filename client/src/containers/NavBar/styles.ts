@@ -220,6 +220,5 @@ export const TwitterLoggerLogOutButton = styled.button`
   &:hover {
     color: #fd9e46;
     border-color: #fd9e46;
-
   }
 `;

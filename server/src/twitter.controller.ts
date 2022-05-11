@@ -39,8 +39,8 @@ export class TwitterController {
 
     return getRequest(fullURL, auth_token);
 
-  }; 
-    
+  };
+
   /*
   Get from the API 1 User Timeline
   */
@@ -222,7 +222,7 @@ export class TwitterController {
     const auth_token = this.appService.decryptTokens(req);
 
     const baseURL = `https://api.twitter.com/2/users/${req.body.id}/followers`;
-    
+
     var params: string = "?"; //Do not remove
     params += "max_results=50";
 
@@ -233,7 +233,7 @@ export class TwitterController {
 
     const fullURL = baseURL+params;
 
-    return getRequest(fullURL,auth_token);
+    return getRequest(fullURL, auth_token);
 
   }
 
@@ -245,7 +245,7 @@ export class TwitterController {
     const baseURL = `api route with some parameter ${req.body.something1} and ${req.body.something2}`;
     var params: string = "?"; //Do not remove
     params += "relevant parameter 1";
-    params += "&"; 
+    params += "&";
     params += "relevant parameter 2"
 
     const fullURL = baseURL+params;
