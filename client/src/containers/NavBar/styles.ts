@@ -57,15 +57,17 @@ export const SearBarInput = styled.input`
 export const SearchBarButton = styled.button`
   diplay: flex;
   align-items:center;
-  border: 1px solid #55ACEE;
+  border: 1px solid #55acee;
   border-radius: 0vh 100vh 100vh 0vh;
   color: rgb(255,255,255);
-  background-color: #55ACEE;
+  background-color: #292f33;
   cursor: pointer;
   witdh : 20%;
+  transition-duration: 0.5s;
   &:hover {
-    border : 1px solid;
-    color: #fd9e46;
+    background-color: #55acee;
+    cursor: pointer;
+    border : 1px solid #55acee;
   }
 `;
 
@@ -108,8 +110,9 @@ export const DropDownHeader = styled("div")`
   max-width : 25vh;
   align-items: center;
   cursor: pointer;
+  transition-duration: 0.5s;
   &:hover {
-    color: #fd9e46;
+    color: #e6ebeb;
   }
 `;
 

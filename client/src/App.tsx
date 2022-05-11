@@ -18,6 +18,8 @@ import getSelf from "src/apiRequests/getSelf";
 
 function App() {
 
+  document.title = "Twittoscope";
+
   /* Start of shared state */
 
   //assumed read-only state except for TwitterTimeline
