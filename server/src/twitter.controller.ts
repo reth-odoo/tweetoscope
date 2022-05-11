@@ -186,6 +186,19 @@ export class TwitterController {
 
   }
 
+  @Post('getUserByName')
+  getUserByName(@Req() req: Request): Promise<any>{
+
+    const auth_token = this.appService.decryptTokens(req);
+
+    const baseURL = `https://api.twitter.com/2/users/by/username/${req.body.username}`;
+
+    const fullURL = baseURL;
+
+    return getRequest(fullURL,auth_token);
+
+  }
+
   @Post('sendTweet')
   sendTweet(@Req() req: Request): Promise<any>{
 
