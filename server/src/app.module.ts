@@ -3,7 +3,6 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TwitterStrategy } from './twitter.strategy';
 import { ConfigModule } from '@nestjs/config';
-import { TscpModule } from './tscp/tscp.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { TwitterController } from './twitter.controller';
@@ -16,7 +15,6 @@ import { TwitterController } from './twitter.controller';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    TscpModule,
   ],
   controllers: [AppController, TwitterController],
   providers: [AppService, TwitterStrategy],

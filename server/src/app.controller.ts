@@ -15,7 +15,6 @@ export class AppController {
   @Get()
   @UseGuards(AuthGuard('twitter'))
   getHello(): string {
-    //console.log('Start Token Reception');
     return 'Hello World!';
   }
 
