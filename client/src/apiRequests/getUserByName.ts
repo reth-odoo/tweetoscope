@@ -14,11 +14,13 @@ async function getUserByName(username: string): Promise<any>{
 
   const res_data = await serverRequest(route, body);
 
+  /*
   if(!res_data.data){
     throw new Error("Could not find user");
   }
-  
-  return res_data;
+  */
+
+  return res_data.data;
 }
 
 export default getUserByName;

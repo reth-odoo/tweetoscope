@@ -20,7 +20,7 @@ export const TweetDiv = styled.div<TweetDivProps>`
   left: ${props => props.pos.x}px;
   top: ${props => props.pos.y}px;
   overflow: hidden;
-  ${props => props.selected?"border: 1px solid red":""};
+  ${props => props.selected?"border: 3px solid #55acee":""};
 
   &:hover {
     overflow: visible;
