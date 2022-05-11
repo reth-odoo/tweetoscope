@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Link, Outlet } from "react-router-dom";
 import "./assets/style.css";
 import { BaseContainer, MainContainer, NavContainer, EditorButton } from "./baseStyle";
-// import logo from "./logo.svg";
 
 import TwitterTimeline from "./containers/twitterTimeline/twitterTimeline";
 import TwitterLogger from "./containers/twitterLogger";
@@ -48,7 +47,6 @@ function App() {
     <BaseContainer>
       <NavContainer>
         <NavBar></NavBar>
-        {/*<TwitterLogger></TwitterLogger>*/}
       </NavContainer>
       <MainContainer>
         <Editor SelectedTweet={selectedTweet}></Editor>

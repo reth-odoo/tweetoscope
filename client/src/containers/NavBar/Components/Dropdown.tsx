@@ -72,19 +72,15 @@ function DropdownMenu(){
 
                 //Authenticated Resource Access
                 const data: any = await getSelf();
-
-                //console.log("Data: ", data);
-
                 const user = data.data;
 
+                console.log("Data: ", data);
 
                 setName(user.name);
                 setUserName(user.username);
                 setImageUrl(user.profile_image_url);
                 setStatus(user.description);
                 setUrl(user.url);
-
-
 
             }
 
@@ -119,7 +115,7 @@ function DropdownMenu(){
                                 <DropDownList>
                                     <ListItem> <ListItemTitle>Name :</ListItemTitle> <ListItemTexte>{name} (@{username})</ListItemTexte></ListItem>
                                     <ListItem> <ListItemTitle>URL :</ListItemTitle> <ListItemTexte>{url}</ListItemTexte></ListItem>
-                                    <ListItem> <ListItemTitle>Status :</ListItemTitle> <ListItemTexte>{status}J'écris une description exemple pour voir car c'est chiant</ListItemTexte></ListItem>
+                                    <ListItem> <ListItemTitle>Status :</ListItemTitle> <ListItemTexte>{status}</ListItemTexte></ListItem>
                                     <TwitterLoggerLogOutButtonContainer>
                                       <TwitterLoggerLogOutButton className='signout-btn' onClick={logout}>Sign Out</TwitterLoggerLogOutButton>
                                     </TwitterLoggerLogOutButtonContainer>
