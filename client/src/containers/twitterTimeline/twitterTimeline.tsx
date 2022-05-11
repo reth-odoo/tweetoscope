@@ -10,8 +10,7 @@ import DisplayTweet from "src/commons/models/displayTweet";
 
 function TwitterTimeline(props: TimelineProps) {
 
-    const twitter = new TwitterService();
-
+    const twitter = props.twitterService;
 
     //handle scrolling
 
@@ -223,20 +222,20 @@ function TwitterTimeline(props: TimelineProps) {
     useEffect(()=>props.SetRefreshHandle(updateDisplay),[])
 
 
-    //assumes getTimeline returns a different object when timeline is updated
 
+    
+ 
     useEffect(()=>{
-      //apparently the only way to get async useEffect?
-      async function getTl(){
+      async function updateTl(){
         let tweets = await twitter.getTimeline(props.timelineId)
         let tree = await genTrees(tweets)
         setRenderedTweets(tree);
+        console.log(tree);
       }
-      getTl();
+      setRenderedTweets([]);
+      updateTl();
     },
-    [])
-    //NOTE: DO NOT REMOVE THE EMPTY DEPENDENCY ARRAY
-    //reason: this should only run when the page is loaded
+    [props.timelineId])
 
 
     //would filter to only a few tweets that can actually be displayed
@@ -254,6 +253,7 @@ function TwitterTimeline(props: TimelineProps) {
     //assume getTimeline is "free" and can be called multiple times
     return(
           <Container id={"timeline-div"} onKeyDown={handleKeyPress} tabIndex={0} ref={containerRef} offsets={offsets}>
+            <span>{props.timelineId}</span>
             <SVGContainer>
               {renderedTweets.flat().map(dTweet => {
                 if(dTweet.displayParent!=null){
@@ -268,7 +268,8 @@ function TwitterTimeline(props: TimelineProps) {
 }
 
 interface TimelineProps{
-  timelineId: string,
+  twitterService: TwitterService
+  timelineId: string
   SelectTweet: (tweet: Tweet|null) => void
   SetRefreshHandle: (f: ()=>void) => void
 }
