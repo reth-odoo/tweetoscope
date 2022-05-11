@@ -183,8 +183,6 @@ export const ListItem = styled("div")`
   &:hover {
     color: #fd9e46;
     border : 1px solid;
-    height : auto;
-    oferflow : auto;
   }
 `;
 
