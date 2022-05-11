@@ -1,13 +1,8 @@
-import React, {useState} from "react";// le useState est là pour quand on va le rattacher au vrai donnée.
-import {SearchBarForm, SearchBarButton, SearBarInput, SearchBarContainer,
+import React from "react";// le useState est là pour quand on va le rattacher au vrai donnée.
+import {SearchBarButton, SearBarInput, SearchBarContainer,
     SearchBarInputContainer } from "../styles";
-import searchTweet from "src/apiRequests/searchTweets";
 
 function SearchBar(props: SearchBarProps) {
-    const [filteredData, setFilteredData] = useState([]);
-    const [wordEntered, setWordEntered] = useState("");
-    const [dataTweet, setDataTweet] = useState([]);
-
     const inputArea = document.getElementById("searchbar") as HTMLInputElement;
 
     const changeTimeline = () => {
@@ -22,9 +17,9 @@ function SearchBar(props: SearchBarProps) {
         <SearchBarContainer>
             <SearchBarInputContainer>
                 <SearBarInput name="searchbar" id="searchbar" placeholder="Search for a username or id..."/>
-                <SearchBarButton onClick={changeTimeline}>Search Timeline</SearchBarButton>
+                <SearchBarButton onClick={changeTimeline}>Search Timeline</SearchBarButton>    
             </SearchBarInputContainer>
-    </SearchBarContainer>
+        </SearchBarContainer>
     );
 }
 
