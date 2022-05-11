@@ -52,24 +52,31 @@ function Editor(props: EditorProps) {
 
     if(textArea && confArea) {
 
-      if(textArea.value) {
-        const formated_list: [string,string[]] = formatTweet(textArea.value);
-        const tweet_thread: string[] = formated_list[1];
+      if(userData.name !== "") {
+        if(textArea.value) {
+          const formated_list: [string,string[]] = formatTweet(textArea.value);
+          const tweet_thread: string[] = formated_list[1];
 
-        // sends the tweet thread which has been formatted for twitter
-        let response = props.SelectedTweet ? props.SelectedTweet.id : "";
-        sendTweetThread(tweet_thread, response);
+          // sends the tweet thread which has been formatted for twitter
+          let response = props.SelectedTweet ? props.SelectedTweet.id : "";
+          sendTweetThread(tweet_thread, response);
 
-        // clear text when tweet sent
-        textArea.value = "";
-        // set sent confirmation message
-        confArea.innerHTML = "Tweet successfully sent!";
-        confArea.style.color = "#42f5aa";
+          // clear text when tweet sent
+          textArea.value = "";
+          // set sent confirmation message
+          confArea.innerHTML = "Tweet successfully sent!";
+          confArea.style.color = "#42f5aa";
+        }
+
+        else {
+          // set warning message if empty text
+          confArea.innerHTML = "Cannot write an empty tweet!";
+          confArea.style.color = "#f56342";
+        }
       }
-
       else {
-        // set warning message if empty text
-        confArea.innerHTML = "Cannot write an empty tweet!";
+        // set warning message if not logged in
+        confArea.innerHTML = "Login first to write a tweet!";
         confArea.style.color = "#f56342";
       }
     }

@@ -8,6 +8,8 @@ import NavBar from "./containers/NavBar/NavBar";
 import Editor from "./containers/editor/editor";
 import Tweet from "./commons/models/tweet";
 import TwitterService from "./commons/services/twitterService";
+import getSelf from "src/apiRequests/getSelf";
+
 /**
  * Entry point for the app
  * Initialize app-wide systems (request service)
@@ -23,9 +25,25 @@ function App() {
   const [twitter, setTwitterQuerrier] = useState(new TwitterService());
   const [selectedTweet, setSelectedTweet]: [null|Tweet, any] = useState(null);
   const [requestDisplayRefresh, setRefreshRequestFn]: [() => void, any] = useState(()=>{return ()=>{}});
-  const [timelineId, setTimelineId] = useState("813286");
+  const [timelineId, setTimelineId] = useState("783214");
 
   /* End of shared state */
+
+  useEffect(() => {
+    getUserId();
+  }, []);
+
+  const getUserId = async () => {
+    const user: any = await getSelf();
+
+    if(user) {
+      if(user.data) {
+        if(user.data.id) {
+          setTimelineId(user.data.id);
+        }
+      }
+    }
+  };
 
   const showEditor = () => {
     const editorDiv = document.getElementById("editor-div");

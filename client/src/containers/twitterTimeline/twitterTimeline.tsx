@@ -223,14 +223,14 @@ function TwitterTimeline(props: TimelineProps) {
 
 
 
-    
- 
+
+
     useEffect(()=>{
       async function updateTl(){
         let tweets = await twitter.getTimeline(props.timelineId)
         let tree = await genTrees(tweets)
         setRenderedTweets(tree);
-        console.log(tree);
+        //console.log(tree);
       }
       setRenderedTweets([]);
       updateTl();
@@ -253,7 +253,6 @@ function TwitterTimeline(props: TimelineProps) {
     //assume getTimeline is "free" and can be called multiple times
     return(
           <Container id={"timeline-div"} onKeyDown={handleKeyPress} tabIndex={0} ref={containerRef} offsets={offsets}>
-            <span>{props.timelineId}</span>
             <SVGContainer>
               {renderedTweets.flat().map(dTweet => {
                 if(dTweet.displayParent!=null){
@@ -264,6 +263,7 @@ function TwitterTimeline(props: TimelineProps) {
             </SVGContainer>
             {renderedTweets.length===0?<span>loading...</span>:<></>}
             {renderedTweets.map(tweetList => <TweetTree clickNotifier={handleClick} key={tweetList[tweetList.length-1]!.displayRoot.id} tweets={tweetList}></TweetTree>)}
+            <span style = {{ marginLeft: "15px" }}>Timeline ID: {props.timelineId}</span>
           </Container>);
 }
 

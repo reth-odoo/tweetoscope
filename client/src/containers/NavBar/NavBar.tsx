@@ -17,7 +17,6 @@ export default function NavBar (props: NavBarProps)  {
                     <DropdownMenu/>
                 </NavBarS>
             </nav>
-
     );
 }
 
