@@ -1,11 +1,10 @@
 import axios, { AxiosResponse } from 'axios'
-import { DEFAULT_SERVER_URL } from 'src/AppParameters';
 
 /*
 This module makes the call to the server of the application
 */
 
-const serverURL = DEFAULT_SERVER_URL;
+const serverURL = "http://127.0.0.1:3000";
 
 async function serverRequest(route: string, body: any): Promise<any>{
 

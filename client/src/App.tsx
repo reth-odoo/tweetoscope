@@ -1,19 +1,13 @@
-import React, { useState } from "react";
-import { Link, Outlet } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import "./assets/style.css";
 import { BaseContainer, MainContainer, NavContainer, EditorButton } from "./baseStyle";
 
 import TwitterTimeline from "./containers/twitterTimeline/twitterTimeline";
-import TwitterLogger from "./containers/twitterLogger";
 import NavBar from "./containers/NavBar/NavBar";
-import getUserTimeline from "./apiRequests/getUserTimeline";
-import getTweet from "./apiRequests/getTweet";
-import getTweetReplies from "./apiRequests/getTweetReplies";
-import sendTweet from "./apiRequests/sendTweet";
-import sendBigTweet from "./apiRequests/sendBigTweet";
 
 import Editor from "./containers/editor/editor";
 import Tweet from "./commons/models/tweet";
+import TwitterService from "./commons/services/twitterService";
 /**
  * Entry point for the app
  * Initialize app-wide systems (request service)
@@ -26,6 +20,7 @@ function App() {
 
   //assumed read-only state except for TwitterTimeline
 
+  const [twitter, setTwitterQuerrier] = useState(new TwitterService());
   const [selectedTweet, setSelectedTweet]: [null|Tweet, any] = useState(null);
   const [requestDisplayRefresh, setRefreshRequestFn]: [() => void, any] = useState(()=>{return ()=>{}});
   const [timelineId, setTimelineId] = useState("813286");
@@ -53,7 +48,7 @@ function App() {
       <MainContainer>
         <Editor SelectedTweet={selectedTweet}></Editor>
         <EditorButton id={"editor-button"} onClick={showEditor}>⇦ Editor</EditorButton>
-        <TwitterTimeline timelineId={timelineId} SelectTweet={setSelectedTweet} SetRefreshHandle={setRefreshRequestFn}></TwitterTimeline>
+        <TwitterTimeline timelineId={timelineId} twitterService={twitter} SelectTweet={setSelectedTweet} SetRefreshHandle={setRefreshRequestFn}></TwitterTimeline>
       </MainContainer>
     </BaseContainer>
   );
