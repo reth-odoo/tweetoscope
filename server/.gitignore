@@ -2,6 +2,12 @@
 /dist
 /node_modules
 
+#Static website
+/build
+
+# Env
+.env
+
 # Logs
 logs
 *.log
